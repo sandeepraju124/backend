@@ -1,6 +1,10 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'dart:convert';
+import 'package:backendapp/provider/registrationdata.dart';
+import 'package:backendapp/register/location_search_screen.dart';
 import 'package:backendapp/screens/processing.dart';
-import 'package:backendapp/screens/select_location.dart';
+import 'package:backendapp/register/select_location.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
@@ -10,18 +14,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
+import 'package:provider/provider.dart';
 
 class AddService extends StatefulWidget {
-  String lat;
-  String lang;
-  AddService({required this.lat, required this.lang});
+  // String lat;
+  // String lang;
+  // AddService({required this.lat, required this.lang});
 
   @override
   State<AddService> createState() => _AddServiceState();
 }
 
 class _AddServiceState extends State<AddService> {
-  final _mapScreen = MapScreen() ;
+  final _mapScreen = MapScreen();
   List<File> _images = [];
 
   Future<void> multiImagePick() async {
@@ -29,7 +34,6 @@ class _AddServiceState extends State<AddService> {
     setState(() {
       _images = pickedFiles.map((file) => File(file.path)).toList();
     });
-    
   }
 
   Future<void> pickImageExtra() async {
@@ -39,7 +43,6 @@ class _AddServiceState extends State<AddService> {
       List<File> _extraImages =
           pickedFiles.map((file) => File(file.path)).toList();
       _images.addAll(_extraImages);
-      
     });
   }
 
@@ -52,13 +55,12 @@ class _AddServiceState extends State<AddService> {
   TextEditingController _businessName = TextEditingController();
   TextEditingController _businessEmail = TextEditingController();
   TextEditingController _contactInfo = TextEditingController();
-  TextEditingController _price = TextEditingController();
+  TextEditingController _address = TextEditingController();
   TextEditingController pincode = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
 
-  
   Future<String?> postServices() async {
     print("before try");
     try {
@@ -66,11 +68,10 @@ class _AddServiceState extends State<AddService> {
       List<String?> cat = _selectedField.split(">");
       String? category = cat[0];
       String? sub_category = cat[1];
-      
 
-      final url = Uri.parse('https://revolution.azurewebsites.net/services');
+      final url = Uri.parse("$baseUrl/pg/business");
+      // final url = Uri.parse('https://revolution.azurewebsites.net/services');
       // final headers = {'Content-Type': 'application/json'};
-
 
       Map<String, String> body = {
         'business_name': _businessName.text,
@@ -79,17 +80,17 @@ class _AddServiceState extends State<AddService> {
         'country': "india",
         'catagory': category.toString(),
         'sub_catagory': sub_category.toString(),
-        'latitude':widget.lat.toString(),
-        'langitude' : widget.lang.toString()
+        // 'latitude':widget.lat.toString(),
+        // 'langitude' : widget.lang.toString()
         // 'image' : _ffsaiImage
-
       };
       print(" try");
 
       // final response = await http.post(url, body: body);
       final request = http.MultipartRequest('POST', url)
-      .. files.add(await http.MultipartFile.fromPath('profile_image', _profileimage!.path))
-      ..fields.addAll(body);
+        ..files.add(await http.MultipartFile.fromPath(
+            'profile_image', _profileimage!.path))
+        ..fields.addAll(body);
       final response = await request.send();
       print(response.statusCode);
       print(response);
@@ -117,7 +118,7 @@ class _AddServiceState extends State<AddService> {
     'Beauty & Spas > Acne Treatment',
     'Education > Adult Education',
     'Home Services > Plumbers',
-    'Home Services > Electricians', 
+    'Home Services > Electricians',
     'Home Services > Carpenters',
     'Home Services > Gardeners',
     'Home Services > Home Cleaning',
@@ -129,10 +130,10 @@ class _AddServiceState extends State<AddService> {
     'Nightlife > Club Crawl',
     'Nightlife > Jazz & Blues'
   ];
-  
+
   TextEditingController _serviceEditingController = TextEditingController();
 
-  String _selectedField =  "";
+  String _selectedField = "";
 
   Future pickImage(ImageSource source, String file) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
@@ -182,7 +183,7 @@ class _AddServiceState extends State<AddService> {
                   border: OutlineInputBorder(),
                   labelStyle: TextStyle(),
                   contentPadding: EdgeInsets.all(10),
-                  labelText: 'Business Name',
+                  labelText: 'Business Name or Owner Name',
                 ),
               ),
               const SizedBox(
@@ -232,11 +233,11 @@ class _AddServiceState extends State<AddService> {
                 height: 16,
               ),
               TextField(
-                controller: _price,
+                controller: _address,
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.all(10),
                   border: OutlineInputBorder(),
-                  labelText: 'price',
+                  labelText: 'Address',
                 ),
                 autofocus: false,
                 // focusNode: _focusnode,
@@ -510,19 +511,27 @@ class _AddServiceState extends State<AddService> {
                           : SizedBox(
                               height: 75,
                               width: 75,
-                              child: Image.file(_profileimage!, fit: BoxFit.fill),
+                              child:
+                                  Image.file(_profileimage!, fit: BoxFit.fill),
                             ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 // const Text("ugudsewedu"),
-                const Divider(thickness: 2,height: 2,),
-               const SizedBox(height: 30,),
+                const Divider(
+                  thickness: 2,
+                  height: 2,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
                 const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Upload service images (Max 10)",
+                      "Upload Business images (Max 10)",
                       style: TextStyle(fontSize: 23),
                     )),
                 const SizedBox(
@@ -657,8 +666,8 @@ class _AddServiceState extends State<AddService> {
                   Text('Contact Info: ${_contactInfo.text}'),
                   const Text('Password: *****'),
                   Text('Address : ${name.text}'),
-                  Text('Latitude: ${widget.lat }',),
-                  Text('Langitude: ${widget.lang }'),
+                  // Text('Latitude: ${widget.lat }',),
+                  // Text('Langitude: ${widget.lang }'),
                   // Text('image name : ${fileName}'),
                   // Text(' : ${.text}'),
                 ],
@@ -668,6 +677,7 @@ class _AddServiceState extends State<AddService> {
 
   @override
   Widget build(BuildContext context) {
+    var data = Provider.of<RegistrationProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Stepper(
@@ -682,8 +692,20 @@ class _AddServiceState extends State<AddService> {
               });
             } else {
               print('Submited');
-              postServices();
-              navigatorPush(context, processing());
+              // postServices();
+
+              Map<String, dynamic> businessdata = {
+                'business_name': _businessName.text,
+                'business_description': _businessEmail.text,
+                'contact_information': _contactInfo.text,
+                'country': "india",
+                // 'latitude':widget.lat.toString(),
+                // 'langitude' : widget.lang.toString()
+                // 'image' : _ffsaiImage
+              };
+              data.updateBusinessData(businessdata);
+              navigatorPush(context, SearchLocationScreen());
+              // navigatorPush(context, processing());
             }
           },
           onStepCancel: () {
@@ -721,8 +743,10 @@ class _AddServiceState extends State<AddService> {
                     ),
                     onPressed: ControlsDetails.onStepContinue,
                     child: (isLastStep)
-                        ? const Text('Submit')
-                        : const Text('Next'),
+                        ? const Text('Submit',
+                            style: TextStyle(color: Colors.white))
+                        : const Text('Next',
+                            style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],

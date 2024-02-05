@@ -22,3 +22,6 @@ const Color tgDividerColor = Color(0xFFBDBDBD);
 
 
 const defaultPadding = 16.0;
+
+
+String baseUrl = "https://supernova1137.azurewebsites.net";

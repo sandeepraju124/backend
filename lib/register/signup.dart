@@ -1,4 +1,4 @@
-import 'package:backendapp/signin/register.dart';
+import 'package:backendapp/register/register.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:flutter/material.dart';

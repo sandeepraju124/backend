@@ -1,5 +1,5 @@
-import 'package:backendapp/screens/add_service_screens/addService.dart';
-import 'package:backendapp/screens/location_search_screen.dart';
+import 'package:backendapp/register/addService.dart';
+import 'package:backendapp/register/location_search_screen.dart';
 // import 'package:backendapp/screens/map.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
@@ -135,7 +135,8 @@ class _LogInState extends State<LogIn> {
       )),
       bottomNavigationBar: InkWell(
         onTap: (){
-          navigatorPush(context,SearchLocationScreen() );
+          navigatorPush(context,AddService() );
+          // navigatorPush(context,SearchLocationScreen() );
         },
         child: Container(
           height: 55,

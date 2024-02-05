@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
 
-import 'package:backendapp/screens/select_location.dart';
+import 'package:backendapp/register/select_location.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:backendapp/widgets/linechart.dart';
 import 'package:flutter/material.dart';

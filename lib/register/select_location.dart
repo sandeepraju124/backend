@@ -1,4 +1,4 @@
-import 'package:backendapp/screens/add_service_screens/addService.dart';
+import 'package:backendapp/register/addService.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -93,7 +93,7 @@ class _MapScreenState extends State<MapScreen> {
       ),
       bottomNavigationBar: InkWell(
         onTap: (){
-          navigatorPush(context,AddService(lat: _selectedLocation.latitude.toString(),lang: _selectedLocation.longitude.toString(),) );
+          // navigatorPush(context,AddService(lat: _selectedLocation.latitude.toString(),lang: _selectedLocation.longitude.toString(),) );
         },
         child: Container(
           height: 55,

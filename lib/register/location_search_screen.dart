@@ -1,14 +1,18 @@
 import 'dart:convert';
 
+import 'package:backendapp/http.dart';
 import 'package:backendapp/models/autocomplete_prediction_model.dart';
-import 'package:backendapp/screens/add_service_screens/addService.dart';
+import 'package:backendapp/provider/registrationdata.dart';
+import 'package:backendapp/register/addService.dart';
 import 'package:backendapp/screens/dialoge.dart';
 import 'package:backendapp/screens/location_list_tile.dart';
 import 'package:backendapp/screens/network_utility.dart';
-import 'package:backendapp/screens/select_location.dart';
+import 'package:backendapp/register/select_location.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 // import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
 import '../utils/constants.dart';
 // import 'package:flutter_google_places/flutter_google_places.dart';
@@ -26,6 +30,62 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
   List<AutoCompletePrediction> placePredictions = [];
   var selectedPlace;
   var st = "jh";
+  double? latitude;
+  double? longitude;
+  String? locationName;
+
+  void getCurrentLocation() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    print("serviceEnabled");
+    // Location services are disabled, show a dialog or prompt to enable them
+    // You can use a package like 'fluttertoast' or 'flutter_dialogs' to display a message
+    // to the user indicating that location services need to be enabled.
+    // Example using 'fluttertoast':
+    // Fluttertoast.showToast(msg: 'Please enable location services.');
+
+    // Handle the scenario where location services are not enabled
+    
+    return;
+  }
+
+  permission = await Geolocator.checkPermission();
+  print(permission);
+  print("permission");
+  if (permission == LocationPermission.denied) {
+    
+    permission = await Geolocator.requestPermission();
+    if (permission != LocationPermission.whileInUse &&
+        permission != LocationPermission.always) {
+      // Handle the scenario where the user denies permission
+      return;
+    }
+  }
+
+  if (permission == LocationPermission.deniedForever) {
+    // Handle the scenario where the user has permanently denied permission
+    return;
+  }
+
+  Position position = await Geolocator.getCurrentPosition(
+    desiredAccuracy: LocationAccuracy.high,
+  );
+
+ latitude = position.latitude;
+ longitude = position.longitude;
+ locationName = await NetworkCalling().getLocationName(latitude!,longitude!,"AIzaSyBIp8U5x3b2GVj1cjNU3N6funOz_tEUAdk");
+ showConfirmationDialog(context,locationName,latitude: latitude,longitude: longitude);
+
+
+  print(latitude);
+  print(longitude);
+  print(position);
+
+  // Use the latitude and longitude in your application as needed
+}
 
   Future placeSearch({query}) async {
     Uri uri = Uri.https(
@@ -55,6 +115,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var data = Provider.of<RegistrationProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
@@ -66,8 +127,8 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
             ),
           ),
           title: const Text(
-            "Clam your Business",
-            style: TextStyle(color: textColorLightTheme),
+            "Provide your Location",
+            style: TextStyle(color: textColorLightTheme,fontSize: 16 ),
           ),
           actions: const [
             Padding(
@@ -78,7 +139,10 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
               ),
             )
           ]),
-      body: Column(children: [
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+        
         Form(
             child: Padding(
                 padding: const EdgeInsets.all(defaultPadding),
@@ -117,11 +181,17 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
               // print("pressed");
               // placeSearch();
               // navigatorPush(context, AddService());
-              navigatorPush(context, MapScreen());
-
+              
+              // navigatorPush(context, MapScreen());
+              getCurrentLocation();
+              // setState(() {
+              //   getCurrentLocation();
+              //   showConfirmationDialog(context,locationName);
+              // });
+            
             },
             icon: const Icon(Icons.edit_location),
-            label: const Text("Not listed ? click here"),
+            label: const Text("Current Location ? click here",style: TextStyle(color: Colors.white)),
             style: ElevatedButton.styleFrom(
                 backgroundColor: secondaryColor20LightTheme,
                 elevation: 0,
@@ -136,6 +206,10 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
           thickness: 3,
           color: secondaryColor10LightTheme,
         ),
+        // Visibility(
+        //   visible: locationName != null,
+        //   child: Text(locationName.toString())
+        //   ),
         Expanded(
           child: ListView.builder(
               itemCount: placePredictions.length,
@@ -158,6 +232,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                     // location: placePredictions[index]!
                   )),
         ),
+        
 
         Visibility(
           visible: selectedPlace != null,
@@ -176,6 +251,9 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
             onPressed: () {
               setState(() {
                 print(placePredictions);
+                print(data.registrationData.keys);
+                print(data.registrationData.values);
+                print(data.registrationData["latitude"]);
               });
             },
             child: Text("press"))
