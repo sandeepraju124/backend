@@ -60,6 +60,8 @@ class _AddServiceState extends State<AddService> {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
+  String category = "";
+  String sub_category = "";
 
   Future<String?> postServices() async {
     print("before try");
@@ -271,10 +273,17 @@ class _AddServiceState extends State<AddService> {
                 },
                 onSuggestionSelected: (service) {
                   _serviceEditingController.text = service;
+                  List<String> cat = service.split(">");
+                    category = cat[0].trim();
+                    sub_category = cat[1].trim();
+
                   setState(() {
                     _selectedField = service;
+                    
                   });
                   print("this is $_selectedField");
+                  print(cat[0]);
+                  print(cat[1]);
                 },
               ),
               _selectedField != null
@@ -293,65 +302,134 @@ class _AddServiceState extends State<AddService> {
                 const SizedBox(
                   height: 8,
                 ),
-                const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "FFSAI Image",
-                      style: TextStyle(fontSize: 23),
-                    )),
-                const SizedBox(
-                  height: 4,
-                ),
-                const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "please upload a govt issued ffsai document for us to varify",
-                      style: TextStyle(color: Colors.grey),
-                    )),
-                const SizedBox(
-                  height: 8,
-                ),
-                Stack(
-                  alignment: AlignmentDirectional.center,
-                  children: [
-                    DottedBorder(
-                        // dashPattern: [1,3],
-                        strokeWidth: 1,
-                        color: Colors.grey,
-                        child: Container(
-                          height: 120,
-                          // color: Colors.grey,
-                        )),
-                    InkWell(
-                      onTap: () {
-                        pickImage(ImageSource.gallery, "_ffsaiImage");
-                      },
-                      child: _ffsaiImage == null
-                          ? DottedBorder(
-                              strokeWidth: 1,
-                              color: Colors.grey,
-                              child: Container(
-                                color: Colors.blue[50],
-                                height: 75,
-                                width: 75,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    // crossAxisAlignment:CrossAxisAlignment.stretch ,
-                                    children: const [
-                                      Icon(Icons.camera_alt),
-                                      Text("Add Photo"),
-                                    ]),
-                              ),
-                            )
-                          : SizedBox(
-                              height: 75,
-                              width: 75,
-                              child: Image.file(_ffsaiImage!, fit: BoxFit.fill),
+                // ............
+                Visibility(
+                    visible: sub_category == "Bars",
+                    // false,
+                    child: Column(
+                      children: [
+                        const Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "FFSAI Image",
+                              style: TextStyle(fontSize: 23),
+                            )),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        const Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "please upload a govt issued ffsai document for us to varify",
+                              style: TextStyle(color: Colors.grey),
+                            )),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: [
+                            DottedBorder(
+                                // dashPattern: [1,3],
+                                strokeWidth: 1,
+                                color: Colors.grey,
+                                child: Container(
+                                  height: 120,
+                                  // color: Colors.grey,
+                                )),
+                            InkWell(
+                              onTap: () {
+                                pickImage(ImageSource.gallery, "_ffsaiImage");
+                              },
+                              child: _ffsaiImage == null
+                                  ? DottedBorder(
+                                      strokeWidth: 1,
+                                      color: Colors.grey,
+                                      child: Container(
+                                        color: Colors.blue[50],
+                                        height: 75,
+                                        width: 75,
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            // crossAxisAlignment:CrossAxisAlignment.stretch ,
+                                            children: const [
+                                              Icon(Icons.camera_alt),
+                                              Text("Add Photo"),
+                                            ]),
+                                      ),
+                                    )
+                                  : SizedBox(
+                                      height: 75,
+                                      width: 75,
+                                      child: Image.file(_ffsaiImage!,
+                                          fit: BoxFit.fill),
+                                    ),
                             ),
-                    ),
-                  ],
-                ),
+                          ],
+                        ),
+                      ],
+                    )),
+                // const Align(
+                //     alignment: Alignment.topLeft,
+                //     child: Text(
+                //       "FFSAI Image",
+                //       style: TextStyle(fontSize: 23),
+                //     )),
+                // const SizedBox(
+                //   height: 4,
+                // ),
+                // const Align(
+                //     alignment: Alignment.topLeft,
+                //     child: Text(
+                //       "please upload a govt issued ffsai document for us to varify",
+                //       style: TextStyle(color: Colors.grey),
+                //     )),
+                // const SizedBox(
+                //   height: 8,
+                // ),
+                // Stack(
+                //   alignment: AlignmentDirectional.center,
+                //   children: [
+                //     DottedBorder(
+                //         // dashPattern: [1,3],
+                //         strokeWidth: 1,
+                //         color: Colors.grey,
+                //         child: Container(
+                //           height: 120,
+                //           // color: Colors.grey,
+                //         )),
+                //     InkWell(
+                //       onTap: () {
+                //         pickImage(ImageSource.gallery, "_ffsaiImage");
+                //       },
+                //       child: _ffsaiImage == null
+                //           ? DottedBorder(
+                //               strokeWidth: 1,
+                //               color: Colors.grey,
+                //               child: Container(
+                //                 color: Colors.blue[50],
+                //                 height: 75,
+                //                 width: 75,
+                //                 child: Column(
+                //                     mainAxisAlignment:
+                //                         MainAxisAlignment.spaceEvenly,
+                //                     // crossAxisAlignment:CrossAxisAlignment.stretch ,
+                //                     children: const [
+                //                       Icon(Icons.camera_alt),
+                //                       Text("Add Photo"),
+                //                     ]),
+                //               ),
+                //             )
+                //           : SizedBox(
+                //               height: 75,
+                //               width: 75,
+                //               child: Image.file(_ffsaiImage!, fit: BoxFit.fill),
+                //             ),
+                //     ),
+                //   ],
+                // ),
+                // ...................
                 const SizedBox(
                   height: 13,
                 ),

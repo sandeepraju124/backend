@@ -25,3 +25,18 @@ const defaultPadding = 16.0;
 
 
 String baseUrl = "https://supernova1137.azurewebsites.net";
+
+
+Widget RetangularBorderBox(TextMsg) {
+  return Container(
+    height: 30,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color: tgDarkPrimaryColor,
+      border: Border.all(color: secondaryColor20LightTheme),
+    ),
+    alignment: Alignment.center,
+    margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+    child: Text(TextMsg, style: TextStyle(color: Colors.white),),
+  );
+}
