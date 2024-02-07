@@ -10,10 +10,15 @@ class RegistrationProvider extends ChangeNotifier{
   Map<String, dynamic> _registrationData =  {
     'businessName' : '',
     'businessEmail':'',
+    'business_description':'',
     'contactInfo' : '',
     'address':'',
+    'country':'',
     'latitude': '',
-    'longitude': ''
+    'longitude': '',
+    'profile_image_url':'',
+    'category':'',
+    'sub_category':'',
 
   };
 

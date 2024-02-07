@@ -1,6 +1,8 @@
 import "dart:convert";
 
+import "package:backendapp/provider/registrationdata.dart";
 import "package:http/http.dart"as http;
+import "package:provider/provider.dart";
 
 class NetworkCalling{
 
@@ -45,5 +47,50 @@ Future<String> getLocationName(double latitude, double longitude, String apiKey)
   }
 
 }
+
+
+
+// Future<String?> postBusiness() async {
+//   // var data = Provider.of<RegistrationProvider>;
+//     print("before try");
+//     try {
+//       print("inside try");
+//       final url = Uri.parse("https://supernova1137.azurewebsites.net/testingdataimageupdate");
+//       // final url = Uri.parse('https://revolution.azurewebsites.net/services');
+//       // final headers = {'Content-Type': 'application/json'};
+
+//       Map<String, String> body = {
+//         'business_name': _businessName.text,
+//         'business_description': _businessEmail.text,
+//         'contact_information': _contactInfo.text,
+//         'country': "india",
+//         'catagory': category.toString(),
+//         'sub_catagory': sub_category.toString(),
+//         // 'latitude':widget.lat.toString(),
+//         // 'langitude' : widget.lang.toString()
+//         // 'image' : _ffsaiImage
+//       };
+//       print(" try");
+
+//       // final response = await http.post(url, body: body);
+//       final request = http.MultipartRequest('POST', url)
+//         ..files.add(await http.MultipartFile.fromPath(
+//             'profile_image', _profileimage!.path))
+//         ..fields.addAll(body);
+//       final response = await request.send();
+//       print(response.statusCode);
+//       print(response);
+//       if (response.statusCode == 200) {
+//         final responseBody = await response.stream.bytesToString();
+//         print(responseBody);
+//         return 'Service created successfully';
+//       } else {
+//         throw Exception('Failed to create service');
+//       }
+//     } catch (e) {
+//       print(e.toString());
+//       throw Exception('Failed to create service: $e');
+//     }
+//   }
 
 }

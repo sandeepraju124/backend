@@ -1,4 +1,6 @@
 import 'package:backendapp/provider/registrationdata.dart';
+import 'package:backendapp/register/postbusinessdata.dart';
+import 'package:backendapp/utils/navigators.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +36,8 @@ Future<void> showConfirmationDialog(context, description,{double? latitude, doub
               };
               data.updateBusinessData(latlong);
               // Perform actions on location confirmation
-              Navigator.of(context).pop();
+              // Navigator.of(context).pop();
+              navigatorPush(context, PostBusiness());
             },
           ),
         ],

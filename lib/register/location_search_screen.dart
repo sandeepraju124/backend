@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_declarations, use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:backendapp/http.dart';
@@ -99,6 +101,8 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
 
     final response = await http.get(uri);
     if (response.statusCode == 200) {
+      print(response);
+      print("response");
       final jsonResponse = json.decode(response.body)["predictions"] as List;
 
       List<AutoCompletePrediction> placePreds = [];
@@ -110,6 +114,28 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
       });
     }
     return null;
+  }
+
+  Future<Map<String, dynamic>> getPlaceId(String placeId) async{
+    final apiKey = 'AIzaSyBIp8U5x3b2GVj1cjNU3N6funOz_tEUAdk';
+    final uri = 'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=geometry&key=$apiKey';
+    try{
+      final response = await http.get(Uri.parse(uri));
+      if (response.statusCode == 200){
+        final body = json.decode(response.body);
+        final lat = body['result']['geometry']['location']['lat'];
+        final lng = body['result']['geometry']['location']['lng'];
+        print('Latitude: $lat, Longitude: $lng');
+        return {'latitude':lat, 'longitude': lng};
+      }else{
+        throw Exception('Failed to get place details. Error ${response.statusCode}: ${response.reasonPhrase}');
+      }
+      
+    }catch (e){
+      throw Exception('Error: $e');
+
+    }
+
   }
 
 
@@ -215,10 +241,14 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
               itemCount: placePredictions.length,
               // itemCount: 1,
               itemBuilder: (context, index) => LocationListTile(
-                    press: () {
+                    press: () async {
                       print(placePredictions[index].placeId);
                       selectedPlace = placePredictions[index];
-                      showConfirmationDialog(context,placePredictions[index].description);
+                      final latlag = await getPlaceId(placePredictions[index].placeId);
+                      print(latlag);
+                      print("latlag");
+                      showConfirmationDialog(context,placePredictions[index].description,latitude: latlag['latitude'],longitude:latlag['longitude'] );
+                      //  showConfirmationDialog(context,locationName,latitude: latitude,longitude: longitude);
                       // Navigator.push(
                       //   context,
                       //   MaterialPageRoute(

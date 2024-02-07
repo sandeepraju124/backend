@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_declarations
 
 import 'dart:convert';
 import 'package:backendapp/provider/registrationdata.dart';
@@ -56,12 +56,13 @@ class _AddServiceState extends State<AddService> {
   TextEditingController _businessEmail = TextEditingController();
   TextEditingController _contactInfo = TextEditingController();
   TextEditingController _address = TextEditingController();
+  TextEditingController _description = TextEditingController();
   TextEditingController pincode = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
-  String category = "";
-  String sub_category = "";
+  String _category = "";
+  String _sub_category = "";
 
   Future<String?> postServices() async {
     print("before try");
@@ -108,6 +109,8 @@ class _AddServiceState extends State<AddService> {
       throw Exception('Failed to create service: $e');
     }
   }
+
+
 
   int _activeStepIndex = 0;
   File? _ffsaiImage;
@@ -205,7 +208,8 @@ class _AddServiceState extends State<AddService> {
               const SizedBox(
                 height: 10,
               ),
-              const TextField(
+               TextField(
+                controller: _description,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(10),
                   border: OutlineInputBorder(),
@@ -274,8 +278,8 @@ class _AddServiceState extends State<AddService> {
                 onSuggestionSelected: (service) {
                   _serviceEditingController.text = service;
                   List<String> cat = service.split(">");
-                    category = cat[0].trim();
-                    sub_category = cat[1].trim();
+                    _category = cat[0].trim();
+                    _sub_category = cat[1].trim();
 
                   setState(() {
                     _selectedField = service;
@@ -304,7 +308,7 @@ class _AddServiceState extends State<AddService> {
                 ),
                 // ............
                 Visibility(
-                    visible: sub_category == "Bars",
+                    visible: _sub_category == "Bars",
                     // false,
                     child: Column(
                       children: [
@@ -433,6 +437,11 @@ class _AddServiceState extends State<AddService> {
                 const SizedBox(
                   height: 13,
                 ),
+                GestureDetector(
+                  onTap: (){
+                    // _uploadImages();
+                  },
+                  child: Text("click")),
                 const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -770,13 +779,20 @@ class _AddServiceState extends State<AddService> {
               });
             } else {
               print('Submited');
+              print(_profileimage!.path);
+               print("_profileimage");
               // postServices();
 
+
               Map<String, dynamic> businessdata = {
-                'business_name': _businessName.text,
-                'business_description': _businessEmail.text,
-                'contact_information': _contactInfo.text,
+                'businessName': _businessName.text,
+                'businessEmail': _businessEmail.text,
+                'contactInfo': _contactInfo.text,
+                'address':_address.text,
                 'country': "india",
+                'profile_image_url': _profileimage!.path,
+                'category': _category,
+                'sub_category': _sub_category
                 // 'latitude':widget.lat.toString(),
                 // 'langitude' : widget.lang.toString()
                 // 'image' : _ffsaiImage
