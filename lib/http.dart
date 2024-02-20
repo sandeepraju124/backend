@@ -1,5 +1,6 @@
 import "dart:convert";
 
+import "package:backendapp/models/askcommunitymodel.dart";
 import "package:backendapp/provider/registrationdata.dart";
 import "package:http/http.dart"as http;
 import "package:provider/provider.dart";
@@ -48,7 +49,18 @@ Future<String> getLocationName(double latitude, double longitude, String apiKey)
 
 }
 
-
+Future<AskTheCommunityModels> fetchAskCommunity(String uri) async {
+    var url = Uri.parse(uri);
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var decodedJson = json.decode(response.body);
+      // print('Decoded JSON: $decodedJson'); // Debug print
+      var askCommunity = AskTheCommunityModels.fromJson(decodedJson);
+      return askCommunity;
+    } else {
+      throw Exception('Failed to load business profile');
+    }
+  }
 
 // Future<String?> postBusiness() async {
 //   // var data = Provider.of<RegistrationProvider>;

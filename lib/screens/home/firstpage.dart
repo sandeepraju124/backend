@@ -1,11 +1,30 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:backendapp/provider/askcommunityprovider.dart';
+import 'package:backendapp/screens/askcommunity.dart';
+import 'package:backendapp/screens/testing.dart';
 import 'package:backendapp/utils/constants.dart';
+import 'package:backendapp/utils/navigators.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Firstpage extends StatelessWidget {
+class Firstpage extends StatefulWidget {
   const Firstpage({super.key});
 
+  @override
+  State<Firstpage> createState() => _FirstpageState();
+}
+
+class _FirstpageState extends State<Firstpage> {
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 2), () {
+      var dataAsk = Provider.of<AskCommunityProvider>(context, listen: false);
+      dataAsk.fetchAskCommunityData("NEX1O16051534921137");
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,32 +120,65 @@ class Firstpage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
-                        child: Text("Start with a Headline", style: TextStyle(fontSize: 16,)),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        child: Text("Start with a Headline",
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         margin: EdgeInsets.symmetric(horizontal: 20),
-                // decoration: BoxDecoration(
-                //   border: Border.all(color: Colors.grey),
-                //   // borderRadius: BorderRadius.circular(5.0),
-                // ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintStyle: TextStyle(color: Colors.grey),
-                    hintText: 'Add a discription',
-                    
-                    contentPadding: EdgeInsets.all(10.0),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
+                        // decoration: BoxDecoration(
+                        //   border: Border.all(color: Colors.grey),
+                        //   // borderRadius: BorderRadius.circular(5.0),
+                        // ),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(color: Colors.grey),
+                            hintText: 'Add a discription',
+                            contentPadding: EdgeInsets.all(10.0),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
                       RetangularBorderBox("POST"),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                     ],
                   ),
                 ),
-              )
+              ),
+              GestureDetector(
+                  onTap: () {
+                    navigatorPush(
+                        context,
+                        AskForCommunityWidget(
+                          uid: '',
+                          Questionid: "",
+                        ));
+                  },
+                  child: Text("click")),
+                //   SliverToBoxAdapter(
+                //   child: Padding(
+                //     padding: const EdgeInsets.symmetric(vertical: 16),
+                //     child: Container(
+                //         height: 600,
+                //         color: secondaryColor5LightTheme,
+                //         child: AskForCommunityWidget(
+                //           uid: '',
+                //           Questionid: "",
+                //         )),
+                //   ),
+                // ),
+                // AskForCommunityWidget(
+                //           uid: '',
+                //           Questionid: "",
+                //         ),
+                        Text("enough space")
+
             ],
           ),
         ));

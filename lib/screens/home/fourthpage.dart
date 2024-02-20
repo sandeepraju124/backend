@@ -1,3 +1,8 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+import 'package:backendapp/screens/askcommunity.dart';
+import 'package:backendapp/screens/home/s1.dart';
+import 'package:backendapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -42,27 +47,75 @@ class _PaymentGatewayState extends State<PaymentGateway> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Payment Gateway"),
-        elevation: 10,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Color(0xFFEFF0F7),
+        appBar: AppBar(
+          title: Text("Payment Gateway"),
+          elevation: 10,
+        ),
+        body: Column(
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  var options = {
+                    'key': 'rzp_test_mtmrHL6yjG7sVJ',
+                    'amount': 1 * 100,
+                    'name': 'SSSV1',
+                    'description': 'Fine T-Shirt',
+                    // 'prefill': {
+                    //   'contact': '8888888888',
+                    //   'email': 'test@razorpay.com'
+                    // }
+                  };
+                  _razorpay.open(options);
+                },
+                child: Text("Pay Me")),
+            Container(
+              margin: EdgeInsets.all(10),
+              height: 55,
+              decoration: BoxDecoration(
+                  color: Color(0xFF292639),
+                  borderRadius: BorderRadius.circular(8)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TabBar(
+                    // isScrollable: true,
+                    dividerColor: Colors.transparent,
+
+                    // isScrollable: true,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorPadding: EdgeInsets.symmetric(horizontal: 12),
+                    // indicatorWeight: 4,
+                    indicator: BoxDecoration(
+                        color: Colors.blueAccent,
+                        borderRadius: BorderRadius.circular(8)),
+                    tabs: [
+                      Text(
+                        "Ask Community",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text("Comments", style: TextStyle(color: Colors.white)),
+                    ]),
+              ),
+            ),
+            Expanded(
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+              children: [
+                AskForCommunityWidget(
+                          uid: '',
+                          Questionid: "",
+                        ),
+                // Text("first"),
+                // Text("second"),
+                PaymentPage(),
+              ],
+            ))
+          ],
+        ),
       ),
-      body: Center(
-          child: ElevatedButton(
-              onPressed: () {
-                var options = {
-                  'key': 'rzp_test_mtmrHL6yjG7sVJ',
-                  'amount': 1*100,
-                  'name': 'SSSV1',
-                  'description': 'Fine T-Shirt',
-                  // 'prefill': {
-                  //   'contact': '8888888888',
-                  //   'email': 'test@razorpay.com'
-                  // }
-                };
-                _razorpay.open(options);
-              },
-              child: Text("Pay Me"))),
     );
   }
 }

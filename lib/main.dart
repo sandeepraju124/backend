@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:backendapp/graphs/datamodel.dart';
+import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/registrationdata.dart';
 import 'package:backendapp/widgets/linechart.dart';
 import 'package:backendapp/screens/home/homepage.dart';
@@ -25,6 +26,9 @@ void main() {
     providers: [
       ChangeNotifierProvider<RegistrationProvider>(
       create: (_) => RegistrationProvider() ,
+    ),
+    ChangeNotifierProvider<AskCommunityProvider>(
+      create: (_) => AskCommunityProvider() ,
     )
     ],
     
@@ -44,8 +48,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: BusinessLineChart(yaxis: "reviews"),
-      home: SignUp(),
-      // home: Homepage(),
+      // home: SignUp(),
+      home: Homepage(),
       // home:line(),
     );
   } 
