@@ -235,10 +235,11 @@ class AskCommunityProvider with ChangeNotifier {
     String answer,
   ) async {
     String url = "$baseUrl/post_answer";
-    final user = FirebaseAuth.instance.currentUser;
+    // final user = FirebaseAuth.instance.currentUser;
 
-    final userid = user!.uid;
-
+    // final userid = user!.uid;
+    final userid = "business admin";
+    
     final Map<String, dynamic> data = {
       "answer": answer,
       "questionid": questionId,

@@ -41,6 +41,7 @@ class _AskForCommunityWidgetState extends State<AskForCommunityWidget> {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return Questionpage(
           id: '',
+          // id: '9703fe5727',
         );
       }));
     });
@@ -148,6 +149,8 @@ class _AskForCommunityWidgetState extends State<AskForCommunityWidget> {
                           !showRemainingAnswers.containsKey(int);
                       return GestureDetector(
                         onTap: () {
+                          print(question.qdetails.questionid);
+                          print("questionid");
                           navigatorPush(
                               context,
                               Answerpage(
