@@ -1,122 +1,108 @@
-// import 'package:backendapp/utils/constants.dart';
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
+class DisplaySelected extends StatefulWidget {
+  const DisplaySelected({Key? key});
 
-// class InProgressScreen extends StatefulWidget {
-//   final String searchQuery;
+  @override
+  State<DisplaySelected> createState() => _DisplaySelectedState();
+}
 
-//   const InProgressScreen({Key? key, required this.searchQuery})
-//       : super(key: key);
+class _DisplaySelectedState extends State<DisplaySelected> {
+  String businessType = "restaurent";
+  bool isYesSelected = true;
 
-//   @override
-//   State<InProgressScreen> createState() => _InProgressScreenState();
-// }
+  void updateSelection(bool isSelected) {
+    setState(() {
+      isYesSelected = isSelected;
+    });
+  }
 
-// class _InProgressScreenState extends State<InProgressScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(height: 100),
+            Visibility(
+              visible: businessType == "restaurent",
+              child: Column(
+                children: [
+                  Restaurent(
+                    isSelected: isYesSelected,
+                    onTap: updateSelection,
+                  ),
+                  Restaurent2(),
+                ],
+              ),
+            ),
+            Visibility(
+              visible: businessType == "barber",
+              child: Column(
+                children: [
+                  Barber(),
+                  Barber2(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
+class Restaurent extends StatelessWidget {
+  final bool isSelected;
+  final Function(bool) onTap;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: FutureBuilder<List<RentalsModel>>(
-//         future: localJsonServices.getAllData(context, widget.searchQuery),
-//         builder: (BuildContext context, AsyncSnapshot snapshot) {
-//           if (snapshot.hasData) {
-//             List<RentalsModel> data = snapshot.data;
-//             return ListView.builder(
-//                 itemCount: data.length,
-//                 itemBuilder: (context, index) {
-//                   var myData = data[index];
-//                   return Row(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Container(
-//                         padding: const EdgeInsets.only(left: 12),
-//                         width: MediaQuery.of(context).size.width * 0.2,
-//                         child: CircleAvatar(
-//                           radius: 50,
-//                           backgroundImage: NetworkImage(myData.image),
-//                         ),
-//                       ),
-//                       SizedBox(
-//                         width: MediaQuery.of(context).size.width * 0.03,
-//                       ),
-//                       Container(
-//                         padding: const EdgeInsets.symmetric(
-//                             horizontal: 6, vertical: 10),
-//                         width: MediaQuery.of(context).size.width * 0.77,
-//                         child: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             Text(
-//                               myData.name,
-//                               style: const TextStyle(
-//                                   fontSize: 16, fontWeight: FontWeight.bold),
-//                             ),
-//                             sizedBox5,
-//                             Row(
-//                               children: [
-//                                 Text(myData.sDate),
-//                                 const SizedBox(width: 8),
-//                                 const Icon(Icons.arrow_forward),
-//                                 const SizedBox(
-//                                   width: 5,
-//                                 ),
-//                                 Text(myData.eDate),
-//                                 const Spacer(),
-//                                 const Icon(Icons.arrow_forward_ios),
-//                                 const SizedBox(
-//                                   width: 5,
-//                                 ),
-//                               ],
-//                             ),
-//                             sizedBox5,
-//                             Text(myData.carName),
-//                             sizedBox10,
-//                             Row(
-//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                               children: [
-//                                 Container(
-//                                   padding: const EdgeInsets.all(5),
-//                                   decoration: BoxDecoration(
-//                                       borderRadius: BorderRadius.circular(2),
-//                                       border:
-//                                           Border.all(color: gOffBlack)),
-//                                   child: Text(myData.lNumber),
-//                                 ),
-//                                 Container(
-//                                   margin: const EdgeInsets.only(right: 12),
-//                                   padding: const EdgeInsets.all(5),
-//                                   decoration: BoxDecoration(
-//                                     color: gOffWhite,
-//                                     borderRadius: BorderRadius.circular(2),
-//                                     border: Border.all(
-//                                       color: gOffWhite,
-//                                     ),
-//                                   ),
-//                                   child: Text(
-//                                     myData.status,
-//                                     style:
-//                                         const TextStyle(color: gOffBlack),
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                             sizedBox10,
-//                             const Divider(
-//                               color: gOffBlack,
-//                             )
-//                           ],
-//                         ),
-//                       ),
-//                     ],
-//                   );
-//                 });
-//           } else {
-//             return const Center(child: CircularProgressIndicator());
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
+  const Restaurent({
+    Key? key,
+    required this.isSelected,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => onTap(true),
+          child: Text(
+            "yes",
+            style: TextStyle(color: isSelected ? Colors.green : Colors.grey),
+          ),
+        ),
+        SizedBox(width: 10),
+        GestureDetector(
+          onTap: () => onTap(false),
+          child: Text(
+            "no",
+            style: TextStyle(color: isSelected ? Colors.grey : Colors.green),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class Restaurent2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text("restaurent2 widget");
+  }
+}
+
+class Barber extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text("barber widget");
+  }
+}
+
+class Barber2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text("barber2 widget");
+  }
+}

@@ -3,6 +3,7 @@
 import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/screens/askcommunity.dart';
 import 'package:backendapp/screens/testing.dart';
+import 'package:backendapp/screens/testing2.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:flutter/material.dart';
@@ -155,10 +156,12 @@ class _FirstpageState extends State<Firstpage> {
                   onTap: () {
                     navigatorPush(
                         context,
-                        AskForCommunityWidget(
-                          uid: '',
-                          Questionid: "",
-                        ));
+                        DisplaySelected()
+                        // AskForCommunityWidget(
+                        //   uid: '',
+                        //   Questionid: "",
+                        // )
+                        );
                   },
                   child: Text("click")),
                 //   SliverToBoxAdapter(

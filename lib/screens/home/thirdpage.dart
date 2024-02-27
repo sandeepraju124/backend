@@ -239,10 +239,39 @@ class _thirdpageState extends State<thirdpage> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                  "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results."),
+              
+              Row(children: [
+                Icon(Icons.car_crash),
+                SizedBox(width: 10,),
+                Text("Offer Delivery"),
+                SizedBox(width: 10,),
+                Text("Yes", style: TextStyle(fontWeight: FontWeight.bold,),),
+              ],),
+              Row(children: [
+                Icon(Icons.car_crash),
+                SizedBox(width: 10,),
+                Text("WheelChair Accessible"),
+                SizedBox(width: 10,),
+                Text("Yes", style: TextStyle(fontWeight: FontWeight.bold,),),
+              ],),
+              Row(children: [
+                Icon(Icons.car_crash),
+                SizedBox(width: 10,),
+                Text("Plastic Free packaing"),
+                SizedBox(width: 10,),
+                Text("Yes", style: TextStyle(fontWeight: FontWeight.bold,),),
+              ],),
+              Row(children: [
+                Icon(Icons.car_crash),
+                SizedBox(width: 10,),
+                Text("Bring your own containers allowed"),
+                SizedBox(width: 10,),
+                Text("Yes", style: TextStyle(fontWeight: FontWeight.bold,),),
+              ],),
+              // Text(
+              //     "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results."),
               SizedBox(
-                height: 14,
+                height: 16,
               ),
               Row(children: [
                 GestureDetector(
@@ -260,10 +289,13 @@ class _thirdpageState extends State<thirdpage> {
                           maxChildSize:
                               1.0, // Maximum height to stop at (same as initialChildSize)
                           builder: (context, scrollController) {
-                            return Container(
-                                padding: EdgeInsets.all(15),
-                                width: double.infinity,
-                                child: AmenitiesandMoreSheet());
+                            return 
+                            AmenitiesandMoreSheet();
+                            // Container(
+                            //     padding: EdgeInsets.all(15),
+                            //     width: double.infinity,
+                            //     child: AmenitiesandMoreSheet()
+                            //     );
                           },
                         );
                       },
@@ -283,7 +315,7 @@ class _thirdpageState extends State<thirdpage> {
                     ),
 
                     child: Text(
-                      'View and Edit All Attributes',
+                      'View and Edit All 9 Attributes',
                       style: TextStyle(color: Colors.teal),
                     ),
                   ),

@@ -122,8 +122,7 @@ class _AnswerpageState extends State<Answerpage> {
                               ),
                             ),
                             onPressed: () {
-                              data
-                                  .postAnswer(context, widget.questionid,
+                              data.postAnswer(context, widget.questionid,
                                       _answercontroller.text)
                                   .then((success) => {
                                         if (success)

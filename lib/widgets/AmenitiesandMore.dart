@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class AmenitiesandMoreSheet extends StatefulWidget {
   const AmenitiesandMoreSheet({
     super.key,
@@ -19,240 +18,165 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      // backgroundColor: Colors.grey[100],
       appBar: AppBar(title: Text("Amenities and more")),
-      body: Column(
-    
-          // padding: EdgeInsets.all(10),
-          children: [
-            // Text("Amenities and more",
-            //     style: TextStyle(
-            //       fontSize: 30,
-            //     )),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-                "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results."),
-            SizedBox(
-              height: 14,
-            ),
-            Row(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+          
+          
+              // padding: EdgeInsets.all(10),
               children: [
-                SvgPicture.asset("assets/svg/business-report-svgrepo-com.svg",
-                    height: 55),
+                // Text("Amenities and more",
+                //     style: TextStyle(
+                //       fontSize: 30,
+                //     )),
                 SizedBox(
-                  width: 10,
+                  height: 10,
                 ),
                 Text(
-                  "Show your customers",
-                  style: TextStyle(fontSize: 20),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: SizedBox(
-                child: SingleChildScrollView(
-                    child: Column(
+                    "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results."),
+                SizedBox(
+                  height: 14,
+                ),
+                Row(
                   children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      height: 90,
-                      width: double.infinity,
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              flex: 40,
-                              child: Container(
-                                // color: Colors.red,
-                                child: Text(
-                                  "Accessibility",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              )),
-                          Expanded(
-                              flex: 60,
-                              child: Container(
-                                // color: Colors.blueAccent,
-                                child: Row(children: [
-                                  Expanded(
-                                      child: Container(
-                                    // color: Colors.lightGreenAccent,
-                                    child: Text("Accepts Debit Cards"),
-                                  )),
-                                  Expanded(
-                                      child: Container(
-                                    // color: Colors.tealAccent,
-                                    child: Row(children: [
-                                      Radio(
-                                        value: 'Yes',
-                                        groupValue: _selected,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selected = value;
-                                            print(value);
-                                          });
-                                        },
-                                      ),
-                                      Text('Yes'),
-                                      Radio(
-                                        value: 'No',
-                                        groupValue: _selected,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selected = value;
-                                            print(value);
-                                          });
-                                        },
-                                      ),
-                                      Text('No'),
-                                    ]),
-                                  ))
-                                ]),
-                              )),
-                          // SizedBox(height: 300,)
-                        ],
-                      ),
-                    ),
+                    SvgPicture.asset("assets/svg/business-report-svgrepo-com.svg",
+                        height: 55),
                     SizedBox(
-                      height: 300,
+                      width: 10,
                     ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      height: 90,
-                      width: double.infinity,
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              flex: 40,
-                              child: Container(
-                                // color: Colors.red,
-                                child: Text(
-                                  "Accessibility",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              )),
-                          Expanded(
-                              flex: 60,
-                              child: Container(
-                                // color: Colors.blueAccent,
-                                child: Row(children: [
-                                  Expanded(
-                                      child: Container(
-                                    // color: Colors.lightGreenAccent,
-                                    child: Text("Accepts Debit Cards"),
-                                  )),
-                                  Expanded(
-                                      child: Container(
-                                    // color: Colors.tealAccent,
-                                    child: Row(children: [
-                                      Radio(
-                                        value: 'Yes',
-                                        groupValue: _selected,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selected = value;
-                                            print(value);
-                                          });
-                                        },
-                                      ),
-                                      Text('Yes'),
-                                      Radio(
-                                        value: 'No',
-                                        groupValue: _selected,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selected = value;
-                                            print(value);
-                                          });
-                                        },
-                                      ),
-                                      Text('No'),
-                                    ]),
-                                  ))
-                                ]),
-                              )),
-                          // SizedBox(height: 300,)
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 300,
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      height: 90,
-                      width: double.infinity,
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              flex: 40,
-                              child: Container(
-                                // color: Colors.red,
-                                child: Text(
-                                  "Accessibility",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              )),
-                          Expanded(
-                              flex: 60,
-                              child: Container(
-                                // color: Colors.blueAccent,
-                                child: Row(children: [
-                                  Expanded(
-                                      child: Container(
-                                    // color: Colors.lightGreenAccent,
-                                    child: Text("Accepts Debit Cards"),
-                                  )),
-                                  Expanded(
-                                      child: Container(
-                                    // color: Colors.tealAccent,
-                                    child: Row(children: [
-                                      Radio(
-                                        value: 'Yes',
-                                        groupValue: _selected,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selected = value;
-                                            print(value);
-                                          });
-                                        },
-                                      ),
-                                      Text('Yes'),
-                                      Radio(
-                                        value: 'No',
-                                        groupValue: _selected,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selected = value;
-                                            print(value);
-                                          });
-                                        },
-                                      ),
-                                      Text('No'),
-                                    ]),
-                                  ))
-                                ]),
-                              )),
-                          // SizedBox(height: 300,)
-                        ],
-                      ),
-                    ),
-                    
+                    Text(
+                      "Show your customers",
+                      style: TextStyle(fontSize: 20),
+                    )
                   ],
-                )),
-              ),
-            )
-          ]),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: SizedBox(
+                    child: SingleChildScrollView(
+                        child: Column(
+                      children: [
+                        // SizedBox(
+                        //   height: 300,
+                        // ),
+          
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(6)
+                          ),
+                          padding: EdgeInsets.all(10),
+                          height: 90,
+                          width: double.infinity,
+                          // color: Colors.white,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 40,
+                                child: Container(
+                                  child: Text(
+                                    "Accessibility",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 60,
+                                child: Container(
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          child: Text("Accepts Debit Cards"),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              OutlinedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _selected = 'Yes';
+                                                    print(_selected);
+                                                  });
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: _selected == 'Yes'
+                                                      ? Colors.teal
+                                                      : Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: _selected == "Yes"
+                                                          ? Colors.white
+                                                          : Colors.black),
+                                                ),
+                                              ),
+                                              SizedBox(width: 10),
+                                              OutlinedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _selected = 'No';
+                                                    print(_selected);
+                                                  });
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: _selected == 'No'
+                                                      // ? Colors.red
+                                                      // : Colors.grey[150],
+                                                      ? Colors.teal
+                                                      : Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                  ),
+                                                ),
+                                                child: Text('No',
+                                                    style: TextStyle(
+                                                        color: _selected == "No"
+                                                            ? Colors.white
+                                                            : Colors.black)),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 300,
+                        ),
+                        Container(),
+                        Container(),
+                        Container(),
+                      ],
+                    )),
+                  ),
+                )
+              ]),
+        ),
+      ),
     );
   }
 }
