@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:backendapp/provider/registrationdata.dart';
+import 'package:backendapp/register/postbusinessuitest.dart';
+import 'package:backendapp/utils/navigators.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -96,11 +98,17 @@ class _PostBusinessState extends State<PostBusiness> {
 
                   postBusiness();
                 },
-                child: Text("register business"))
+                child: Text("register business")),
+
             // Text('Latitude: ${widget.lat }',),
             // Text('Langitude: ${widget.lang }'),
             // Text('image name : ${fileName}'),
             // Text(' : ${.text}'),
+            GestureDetector(
+              onTap: (){
+                navigatorPush(context, postbusinesstest());
+              },
+              child: Text("click")),
           ],
         ),
       ),

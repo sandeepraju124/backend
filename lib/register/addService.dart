@@ -16,16 +16,18 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
-class AddService extends StatefulWidget {
+class OnboardingService extends StatefulWidget {
+  const OnboardingService({super.key});
+
   // String lat;
   // String lang;
   // AddService({required this.lat, required this.lang});
 
   @override
-  State<AddService> createState() => _AddServiceState();
+  State<OnboardingService> createState() => _OnboardingServiceState();
 }
 
-class _AddServiceState extends State<AddService> {
+class _OnboardingServiceState extends State<OnboardingService> {
   final _mapScreen = MapScreen();
   List<File> _images = [];
 
@@ -792,7 +794,8 @@ class _AddServiceState extends State<AddService> {
                 'country': "india",
                 'profile_image_url': _profileimage!.path,
                 'category': _category,
-                'sub_category': _sub_category
+                'sub_category': _sub_category,
+                'business_description': _description.text
                 // 'latitude':widget.lat.toString(),
                 // 'langitude' : widget.lang.toString()
                 // 'image' : _ffsaiImage

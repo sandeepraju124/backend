@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import, prefer_const_constructors
 import 'package:backendapp/firebase_options.dart';
+import 'package:backendapp/register/postbusinessuitest.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:backendapp/graphs/datamodel.dart';
 import 'package:backendapp/provider/askcommunityprovider.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
       // home: SignUp(),
       // home: Homepage(),
       home:redirection(),
+      // home:postbusinesstest(),
     );
   } 
 }
