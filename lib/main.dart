@@ -1,8 +1,10 @@
-// ignore_for_file: unused_import
-
+// ignore_for_file: unused_import, prefer_const_constructors
+import 'package:backendapp/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:backendapp/graphs/datamodel.dart';
 import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/registrationdata.dart';
+import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/widgets/linechart.dart';
 import 'package:backendapp/screens/home/homepage.dart';
 import 'package:backendapp/register/select_location.dart';
@@ -21,7 +23,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-void main() {
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp( MultiProvider(
     providers: [
       ChangeNotifierProvider<RegistrationProvider>(
@@ -49,8 +55,8 @@ class MyApp extends StatelessWidget {
       ),
       // home: BusinessLineChart(yaxis: "reviews"),
       // home: SignUp(),
-      home: Homepage(),
-      // home:line(),
+      // home: Homepage(),
+      home:redirection(),
     );
   } 
 }

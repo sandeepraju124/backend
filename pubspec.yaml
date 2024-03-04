@@ -59,6 +59,7 @@ dependencies:
   firebase_auth: ^4.17.4
   line_awesome_flutter: ^2.0.0
   lottie: ^2.3.2
+  firebase_core: ^2.25.5
 
 
 dev_dependencies:

@@ -6,6 +6,7 @@ import 'package:backendapp/screens/testing.dart';
 import 'package:backendapp/screens/testing2.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,9 +35,14 @@ class _FirstpageState extends State<Firstpage> {
           title:
               Container(width: 65, child: Image.asset("assets/Yelp_Logo.png")),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Icon(Icons.notification_important_outlined),
+            GestureDetector(
+              onTap: (){
+                FirebaseAuth.instance.signOut();
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Icon(Icons.notification_important_outlined),
+              ),
             )
           ],
         ),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "771612701805",
+    "project_id": "sssbiz",
+    "storage_bucket": "sssbiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771612701805:android:ca5001e0e76895362fbb64",
+        "android_client_info": {
+          "package_name": "com.example.backendapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG8K-uqruzvJRUg3kxJQSSxTM2zXVdRxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

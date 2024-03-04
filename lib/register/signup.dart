@@ -1,3 +1,4 @@
+import 'package:backendapp/register/login.dart';
 import 'package:backendapp/register/register.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
@@ -19,24 +20,29 @@ class _SignUpState extends State<SignUp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             
-      Container(
-              height: 40,
-              margin: const EdgeInsets.symmetric(horizontal: 22),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border.all(color: tgDividerColor),
-                // borderRadius: BorderRadius.circular(16), 
-                // color: tgDarkPrimaryColor
-                ),
-            child: Align(
-            alignment: Alignment.center,
-              child: Text("Log in to your business account", style: TextStyle(color: tgPrimaryText))),
-
+      GestureDetector(
+        onTap: () {
+          navigatorPush(context, Login());
+        },
+        child: Container(
+                height: 40,
+                margin: const EdgeInsets.symmetric(horizontal: 22),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(color: tgDividerColor),
+                  // borderRadius: BorderRadius.circular(16), 
+                  // color: tgDarkPrimaryColor
+                  ),
+              child: Align(
+              alignment: Alignment.center,
+                child: Text("Log in to your business account", style: TextStyle(color: tgPrimaryText))),
+        
+        ),
       ),
       SizedBox(height: 10,),
       GestureDetector(
         onTap: (){
-          navigatorPush(context,LogIn());
+          navigatorPush(context,Register());
         },
         child: Container(
                 height: 40,
