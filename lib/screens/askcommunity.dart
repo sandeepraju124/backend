@@ -212,31 +212,18 @@ class _AskForCommunityWidgetState extends State<AskForCommunityWidget> {
                                 },
                               ),
                               if (hasRemainingAnswers)
-                                GestureDetector(
-                                  onTap: () {
-                                    // setState(() {
-                                    //   showRemainingAnswers[int] = true;
-                                    // });
-
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return Answerpage(
-                                          questionid: widget.Questionid);
-                                    }));
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 30, vertical: 5),
-                                    height: 30,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: secondaryColor20LightTheme),
-                                    ),
-                                    child: Text(
-                                        "Show ${answers.length - 2} more answers"),
+                                Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 30, vertical: 5),
+                                  height: 30,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: secondaryColor20LightTheme),
                                   ),
+                                  child: Text(
+                                      "Show ${answers.length - 2} more answers"),
                                 )
                               else if (int == displayQuestionCount - 1 &&
                                   displayQuestionCount <

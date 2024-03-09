@@ -49,3 +49,16 @@ const SizedBox sizedBox15 = SizedBox(height: 15,);
 const SizedBox sizedBox20 = SizedBox(height: 20,);
 const SizedBox sizedBox40 = SizedBox(height: 40,);
 const SizedBox sizedBoxWidth20 = SizedBox(width: 20,);
+
+
+
+void showSnackBar(BuildContext context, String message){
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      duration: Duration(seconds: 2),
+    ),
+  );
+}
+
+        

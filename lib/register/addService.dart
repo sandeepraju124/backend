@@ -112,8 +112,6 @@ class _OnboardingServiceState extends State<OnboardingService> {
     }
   }
 
-
-
   int _activeStepIndex = 0;
   File? _ffsaiImage;
   File? _profileimage;
@@ -210,7 +208,7 @@ class _OnboardingServiceState extends State<OnboardingService> {
               const SizedBox(
                 height: 10,
               ),
-               TextField(
+              TextField(
                 controller: _description,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(10),
@@ -280,12 +278,11 @@ class _OnboardingServiceState extends State<OnboardingService> {
                 onSuggestionSelected: (service) {
                   _serviceEditingController.text = service;
                   List<String> cat = service.split(">");
-                    _category = cat[0].trim();
-                    _sub_category = cat[1].trim();
+                  _category = cat[0].trim();
+                  _sub_category = cat[1].trim();
 
                   setState(() {
                     _selectedField = service;
-                    
                   });
                   print("this is $_selectedField");
                   print(cat[0]);
@@ -440,10 +437,12 @@ class _OnboardingServiceState extends State<OnboardingService> {
                   height: 13,
                 ),
                 GestureDetector(
-                  onTap: (){
-                    // _uploadImages();
-                  },
-                  child: Text("click")),
+                    onTap: () {
+                      // _uploadImages();
+                      print(_images);
+                      print(_profileimage!.path);
+                    },
+                    child: Text("click")),
                 const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -782,15 +781,14 @@ class _OnboardingServiceState extends State<OnboardingService> {
             } else {
               print('Submited');
               print(_profileimage!.path);
-               print("_profileimage");
+              print("_profileimage");
               // postServices();
-
 
               Map<String, dynamic> businessdata = {
                 'businessName': _businessName.text,
                 'businessEmail': _businessEmail.text,
                 'contactInfo': _contactInfo.text,
-                'address':_address.text,
+                'address': _address.text,
                 'country': "india",
                 'profile_image_url': _profileimage!.path,
                 'category': _category,
@@ -800,6 +798,13 @@ class _OnboardingServiceState extends State<OnboardingService> {
                 // 'langitude' : widget.lang.toString()
                 // 'image' : _ffsaiImage
               };
+              if (_images.isNotEmpty) {
+                businessdata['images'] = _images;
+              }
+              if (_aadharfront != null && _aadharback != null) {
+                businessdata['aadhar_front'] = _aadharfront;
+                businessdata['aadhar_back'] = _aadharback;
+              }
               data.updateBusinessData(businessdata);
               navigatorPush(context, SearchLocationScreen());
               // navigatorPush(context, processing());

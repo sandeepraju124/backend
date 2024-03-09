@@ -1,6 +1,7 @@
 import "dart:convert";
 
 import "package:backendapp/models/askcommunitymodel.dart";
+import "package:backendapp/models/commentsection_models.dart";
 import "package:backendapp/provider/registrationdata.dart";
 import "package:http/http.dart"as http;
 import "package:provider/provider.dart";
@@ -57,6 +58,21 @@ Future<AskTheCommunityModels> fetchAskCommunity(String uri) async {
       // print('Decoded JSON: $decodedJson'); // Debug print
       var askCommunity = AskTheCommunityModels.fromJson(decodedJson);
       return askCommunity;
+    } else {
+      throw Exception('Failed to load business profile');
+    }
+  }
+
+
+
+  Future<CommentSectionModels> fetchComments(String uri) async {
+    var url = Uri.parse(uri);
+    var response = await http.get(url);
+    // print('Response status: ${response.statusCode}');
+    // print('Response body: ${response.body}');
+    if (response.statusCode == 200) {
+      var comments = CommentSectionModels.fromJson(json.decode(response.body));
+      return comments;
     } else {
       throw Exception('Failed to load business profile');
     }

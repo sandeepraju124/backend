@@ -19,6 +19,9 @@ class RegistrationProvider extends ChangeNotifier{
     'profile_image_url':'',
     'category':'',
     'sub_category':'',
+    'images': [],
+    'aadhar_front':'',
+    'aadhar_back':'',
 
   };
 

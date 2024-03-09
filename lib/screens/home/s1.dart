@@ -1,13 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class PaymentPage extends StatefulWidget {
+
   @override
   _PaymentPageState createState() => _PaymentPageState();
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+  final Razorpay _razorpay = Razorpay();
   bool isPremium = false;
 
   void _togglePremium() {
@@ -21,6 +24,47 @@ class _PaymentPageState extends State<PaymentPage> {
     // This could involve integrating with a payment gateway
     // and handling the response accordingly.
     print('Processing payment...');
+    var options = {
+      'key': 'rzp_test_mtmrHL6yjG7sVJ',
+      'amount': 1 * 100,
+      'name': 'SSSV1',
+      'description': 'Fine T-Shirt',
+      // 'prefill': {
+      //   'contact': '8888888888',
+      //   'email': 'test@razorpay.com'
+      // }
+    };
+    _razorpay.open(options);
+  }
+
+   @override
+  void initState() {
+    super.initState();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
+  }
+
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Do something when payment succeeds
+    print("succeeds");
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+    print("fails");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet was selected
+    print("external wallet");
   }
 
   @override
@@ -45,7 +89,8 @@ class _PaymentPageState extends State<PaymentPage> {
                 title: Text('Premium Account'),
                 subtitle: isPremium
                     ? Text('You currently have a premium account.')
-                    : Text('Upgrade to a premium account for additional benefits.'),
+                    : Text(
+                        'Upgrade to a premium account for additional benefits.'),
                 trailing: ElevatedButton(
                   onPressed: _togglePremium,
                   child: isPremium ? Text('Downgrade') : Text('Upgrade'),

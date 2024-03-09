@@ -1,7 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:math';
 
 import 'package:backendapp/provider/registrationdata.dart';
-import 'package:backendapp/register/postbusinessuitest.dart';
+import 'package:backendapp/register/postbusiness.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,9 +44,6 @@ class _PostBusinessState extends State<PostBusiness> {
             ),
             ElevatedButton(
                 onPressed: () {
-// "business_uid","business_name","business_description","contact_information","country",
-// "category","sub_category","profile_image_url","longitude","latitude","address"
-
                   Future<void> postBusiness() async {
                     // var data = Provider.of<RegistrationProvider>;
                     print("before try");
@@ -57,7 +56,7 @@ class _PostBusinessState extends State<PostBusiness> {
                       // final headers = {'Content-Type': 'application/json'};
 
                       Map<String, String> body = {
-                        'business_uid': "dodntknowbutsearch",
+                        'business_uid': "dodntknowbutsearchjj",
                         'business_name': data.registrationData['businessName'],
                         'business_description':
                             data.registrationData['business_description'],
@@ -66,15 +65,20 @@ class _PostBusinessState extends State<PostBusiness> {
                         'country': "india",
                         'category': data.registrationData['category'],
                         'sub_category': data.registrationData['sub_category'],
-                        'latitude': data.registrationData['latitude'].toString(),
-                        'longitude': data.registrationData['longitude'].toString()
+                        'latitude':
+                            data.registrationData['latitude'].toString(),
+                        'longitude':
+                            data.registrationData['longitude'].toString()
                         // 'image' : _ffsaiImage
                       };
                       print(" try");
                       print(Random(5).nextInt(5));
 
                       // final response = await http.post(url, body: body);
-                      final request = http.MultipartRequest('POST', url,)
+                      final request = http.MultipartRequest(
+                        'POST',
+                        url,
+                      )
                         ..files.add(await http.MultipartFile.fromPath(
                             'profile_image_url',
                             data.registrationData['profile_image_url']))
@@ -105,10 +109,10 @@ class _PostBusinessState extends State<PostBusiness> {
             // Text('image name : ${fileName}'),
             // Text(' : ${.text}'),
             GestureDetector(
-              onTap: (){
-                navigatorPush(context, postbusinesstest());
-              },
-              child: Text("click")),
+                onTap: () {
+                  navigatorPush(context, PostBusinessPage());
+                },
+                child: Text("click")),
           ],
         ),
       ),

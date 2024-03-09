@@ -1,6 +1,8 @@
 // ignore_for_file: unused_import, prefer_const_constructors
 import 'package:backendapp/firebase_options.dart';
-import 'package:backendapp/register/postbusinessuitest.dart';
+import 'package:backendapp/provider/commentprovider.dart';
+import 'package:backendapp/register/postbusiness.dart';
+import 'package:backendapp/register/waiting.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:backendapp/graphs/datamodel.dart';
 import 'package:backendapp/provider/askcommunityprovider.dart';
@@ -29,13 +31,17 @@ void main()async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp( MultiProvider(
+  runApp( 
+    MultiProvider(
     providers: [
       ChangeNotifierProvider<RegistrationProvider>(
       create: (_) => RegistrationProvider() ,
     ),
     ChangeNotifierProvider<AskCommunityProvider>(
       create: (_) => AskCommunityProvider() ,
+    ),
+    ChangeNotifierProvider<CommentSectionProvider>(
+      create: (_) => CommentSectionProvider() ,
     )
     ],
     
@@ -56,9 +62,9 @@ class MyApp extends StatelessWidget {
       ),
       // home: BusinessLineChart(yaxis: "reviews"),
       // home: SignUp(),
-      // home: Homepage(),
-      home:redirection(),
-      // home:postbusinesstest(),
+      home: Homepage(),
+      // home:redirection(),
+      // home:WaitingScreen(),
     );
   } 
 }

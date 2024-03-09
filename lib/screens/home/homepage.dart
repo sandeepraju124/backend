@@ -2,7 +2,7 @@
 
 
 import 'package:backendapp/screens/home/firstpage.dart';
-import 'package:backendapp/screens/home/fourthpage.dart';
+import 'package:backendapp/screens/home/Community.dart';
 import 'package:backendapp/screens/home/s1.dart';
 import 'package:backendapp/screens/home/secondpage.dart';
 import 'package:backendapp/screens/home/thirdpage.dart';
@@ -24,7 +24,7 @@ class _HomepageState extends State<Homepage> {
     Firstpage(),
     Insights(),
     thirdpage(),
-    PaymentGateway(),
+    Community(),
     // OperatingHoursScreen(),
     // BasicInfoForm(),
     PaymentPage()
