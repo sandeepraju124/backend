@@ -53,6 +53,7 @@ class WaitingScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: (){
                     navigatorPush(context, Homepage());
+                    // navigatorReplace(context, Homepage());
                   },
                   child: Text("click"))
               ],

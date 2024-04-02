@@ -1,18 +1,28 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/widgets/AmenitiesandMore.dart';
 import 'package:backendapp/widgets/Businessinfo.dart';
 import 'package:backendapp/widgets/HoursofOperations.dart';
 import 'package:flutter/material.dart';
 
-class thirdpage extends StatefulWidget {
+class BusinessInfoHub extends StatefulWidget {
   @override
-  State<thirdpage> createState() => _thirdpageState();
+  State<BusinessInfoHub> createState() => _BusinessInfoHubState();
 }
 
-class _thirdpageState extends State<thirdpage> {
+class _BusinessInfoHubState extends State<BusinessInfoHub> {
+  final Map<String, String> openingHours = {
+    'Monday': '9:00 AM - 5:00 PM',
+    'Tuesday': '9:00 AM - 5:00 PM',
+    'Wednesday': 'Closed',
+    'Thursday': 'Closed',
+    'Friday': 'Closed',
+    'Saturday': 'Closed',
+    'Sunday': 'Closed',
+  };
+  String _operatingHoursMsg = "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,14 +32,14 @@ class _thirdpageState extends State<thirdpage> {
         padding: EdgeInsets.all(10),
         children: [
           Stack(clipBehavior: Clip.none, children: [
-            Container( 
+            Container(
                 height: 140,
                 width: double.infinity,
                 color: Colors.blue,
                 child: Image(
                   image: NetworkImage(
                       "https://images.unsplash.com/photo-1501862700950-18382cd41497?auto=format&fit=crop&q=80&w=2019&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-                      fit: BoxFit.cover,
+                  fit: BoxFit.cover,
                 )),
             Positioned(
               bottom: -70,
@@ -122,7 +132,7 @@ class _thirdpageState extends State<thirdpage> {
                               height: 40,
                               // color: Colors.red,
                               decoration: BoxDecoration(
-                                color: Colors.white, 
+                                color: Colors.white,
                                 border: Border.all(
                                   color: Colors
                                       .grey, // You can customize the border color
@@ -155,78 +165,70 @@ class _thirdpageState extends State<thirdpage> {
 
           Text("***********"),
           Row(
-              children: [
-                // star 1
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color:  Colors.white,
-                      borderRadius: BorderRadius.circular(3)),
-                  padding: EdgeInsets.all(5),
-                  child: Icon(Icons.star,
-                      color:  tgDarkPrimaryColor ,
-                      size: 24),
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                // star 2
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color:  Colors.white,
-                      borderRadius: BorderRadius.circular(3)),
-                  padding: EdgeInsets.all(5),
-                  child: Icon( Icons.star,
-                      color: tgDarkPrimaryColor ,
-                      size: 24),
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                // star 3
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(3)),
-                  padding: EdgeInsets.all(5),
-                  child: Icon( Icons.star,
-                      color:  tgDarkPrimaryColor,
-                      size: 24),
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                // star 4
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      // color: tgDarkPrimaryColor,
-                      color:  Colors.white,
-                      borderRadius: BorderRadius.circular(3)),
-                  padding: EdgeInsets.all(5),
-                  child: Icon( Icons.star,
-                      color: tgDarkPrimaryColor ,
-                      size: 24),
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                // sar 5
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(3)),
-                  padding: EdgeInsets.all(5),
-                  child: Icon(Icons.star,
-                      color:  tgDarkPrimaryColor,
-                      size: 24),
-                )
-              ],
-            ),
-            SizedBox(height: 10,),
+            children: [
+              // star 1
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3)),
+                padding: EdgeInsets.all(5),
+                child: Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+              ),
+              SizedBox(
+                width: 4,
+              ),
+              // star 2
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3)),
+                padding: EdgeInsets.all(5),
+                child: Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+              ),
+              SizedBox(
+                width: 4,
+              ),
+              // star 3
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3)),
+                padding: EdgeInsets.all(5),
+                child: Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+              ),
+              SizedBox(
+                width: 4,
+              ),
+              // star 4
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    // color: tgDarkPrimaryColor,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3)),
+                padding: EdgeInsets.all(5),
+                child: Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+              ),
+              SizedBox(
+                width: 4,
+              ),
+              // sar 5
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(3)),
+                padding: EdgeInsets.all(5),
+                child: Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
           Container(
             padding: EdgeInsets.all(10),
             color: Colors.white,
@@ -239,35 +241,79 @@ class _thirdpageState extends State<thirdpage> {
               SizedBox(
                 height: 10,
               ),
-              
-              Row(children: [
-                Icon(Icons.car_crash),
-                SizedBox(width: 10,),
-                Text("Offer Delivery"),
-                SizedBox(width: 10,),
-                Text("Yes", style: TextStyle(fontWeight: FontWeight.bold,),),
-              ],),
-              Row(children: [
-                Icon(Icons.car_crash),
-                SizedBox(width: 10,),
-                Text("WheelChair Accessible"),
-                SizedBox(width: 10,),
-                Text("Yes", style: TextStyle(fontWeight: FontWeight.bold,),),
-              ],),
-              Row(children: [
-                Icon(Icons.car_crash),
-                SizedBox(width: 10,),
-                Text("Plastic Free packaing"),
-                SizedBox(width: 10,),
-                Text("Yes", style: TextStyle(fontWeight: FontWeight.bold,),),
-              ],),
-              Row(children: [
-                Icon(Icons.car_crash),
-                SizedBox(width: 10,),
-                Text("Bring your own containers allowed"),
-                SizedBox(width: 10,),
-                Text("Yes", style: TextStyle(fontWeight: FontWeight.bold,),),
-              ],),
+
+              Row(
+                children: [
+                  Icon(Icons.car_crash),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("Offer Delivery"),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Yes",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.car_crash),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("WheelChair Accessible"),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Yes",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.car_crash),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("Plastic Free packaing"),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Yes",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.car_crash),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("Bring your own containers allowed"),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Yes",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
               // Text(
               //     "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results."),
               SizedBox(
@@ -289,8 +335,7 @@ class _thirdpageState extends State<thirdpage> {
                           maxChildSize:
                               1.0, // Maximum height to stop at (same as initialChildSize)
                           builder: (context, scrollController) {
-                            return 
-                            AmenitiesandMoreSheet();
+                            return AmenitiesandMoreSheet();
                             // Container(
                             //     padding: EdgeInsets.all(15),
                             //     width: double.infinity,
@@ -331,15 +376,46 @@ class _thirdpageState extends State<thirdpage> {
             color: Colors.white,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text("Operating hours",
-                  style: TextStyle(
-                    fontSize: 30,
-                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Operating hours",
+                      style: TextStyle(
+                        fontSize: 30,
+                      )),
+                  GestureDetector(
+                    onTap: (){
+                      showSnackBar(context, _operatingHoursMsg);
+                    },
+                    child: Icon(Icons.mode_comment_outlined))
+                ],
+              ),
               SizedBox(
                 height: 10,
               ),
-              Text(
-                  "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results."),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: openingHours.entries.map((entry) {
+                    final day = entry.key;
+                    final hours = entry.value;
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          day,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 8.0),
+                        Text(hours),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+              // Text(
+              //     "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results."),
               SizedBox(
                 height: 14,
               ),

@@ -1,12 +1,14 @@
 // ignore_for_file: unused_import, prefer_const_constructors
 import 'package:backendapp/firebase_options.dart';
+import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/register/postbusiness.dart';
 import 'package:backendapp/register/waiting.dart';
+import 'package:backendapp/screens/testingchat.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:backendapp/graphs/datamodel.dart';
 import 'package:backendapp/provider/askcommunityprovider.dart';
-import 'package:backendapp/provider/registrationdata.dart';
+import 'package:backendapp/provider/registrationdata_provider.dart';
 import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/widgets/linechart.dart';
 import 'package:backendapp/screens/home/homepage.dart';
@@ -42,7 +44,10 @@ void main()async {
     ),
     ChangeNotifierProvider<CommentSectionProvider>(
       create: (_) => CommentSectionProvider() ,
-    )
+    ),
+    ChangeNotifierProvider<BusinessDataProvider>(
+      create: (_) => BusinessDataProvider() ,
+    ),
     ],
     
     child: const MyApp()));
@@ -62,9 +67,9 @@ class MyApp extends StatelessWidget {
       ),
       // home: BusinessLineChart(yaxis: "reviews"),
       // home: SignUp(),
-      home: Homepage(),
-      // home:redirection(),
-      // home:WaitingScreen(),
+      // home: Homepage(),
+      home:redirection(),
+      // home:MyAppp(),
     );
   } 
 }

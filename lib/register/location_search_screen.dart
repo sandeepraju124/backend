@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:backendapp/http.dart';
 import 'package:backendapp/models/autocomplete_prediction_model.dart';
-import 'package:backendapp/provider/registrationdata.dart';
+import 'package:backendapp/provider/registrationdata_provider.dart';
 import 'package:backendapp/register/addService.dart';
 import 'package:backendapp/screens/dialoge.dart';
 import 'package:backendapp/screens/location_list_tile.dart';

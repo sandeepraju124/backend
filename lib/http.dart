@@ -1,8 +1,9 @@
 import "dart:convert";
 
 import "package:backendapp/models/askcommunitymodel.dart";
+import "package:backendapp/models/businessdata_models.dart";
 import "package:backendapp/models/commentsection_models.dart";
-import "package:backendapp/provider/registrationdata.dart";
+import 'package:backendapp/provider/registrationdata_provider.dart';
 import "package:http/http.dart"as http;
 import "package:provider/provider.dart";
 
@@ -77,6 +78,24 @@ Future<AskTheCommunityModels> fetchAskCommunity(String uri) async {
       throw Exception('Failed to load business profile');
     }
   }
+
+  // this is for getting business data from pg admin database business table
+Future<List<BusinessDataModels>> fetchBusinessData(String uri) async {
+  var url = Uri.parse(uri);
+  var response = await http.get(url);
+  print(response.body);
+  if (response.statusCode == 200) {
+    // Parse the response JSON into a list of BusinessDataModels
+    List<dynamic> data = json.decode(response.body);
+    List<BusinessDataModels> businessDataList = data
+        .map((json) => BusinessDataModels.fromJson(json))
+        .toList();
+    return businessDataList;
+  } else {
+    throw Exception('Failed to fetch business data');
+  }
+}
+
 
 // Future<String?> postBusiness() async {
 //   // var data = Provider.of<RegistrationProvider>;

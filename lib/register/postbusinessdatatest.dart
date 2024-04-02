@@ -2,7 +2,7 @@
 
 import 'dart:math';
 
-import 'package:backendapp/provider/registrationdata.dart';
+import 'package:backendapp/provider/registrationdata_provider.dart';
 import 'package:backendapp/register/postbusiness.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:flutter/material.dart';

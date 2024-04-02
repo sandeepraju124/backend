@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:backendapp/register/waiting.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:http/http.dart' as http;
-import 'package:backendapp/provider/registrationdata.dart';
+import 'package:backendapp/provider/registrationdata_provider.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

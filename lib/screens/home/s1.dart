@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class PaymentPage extends StatefulWidget {
-
   @override
   _PaymentPageState createState() => _PaymentPageState();
 }
@@ -37,7 +36,7 @@ class _PaymentPageState extends State<PaymentPage> {
     _razorpay.open(options);
   }
 
-   @override
+  @override
   void initState() {
     super.initState();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -50,7 +49,6 @@ class _PaymentPageState extends State<PaymentPage> {
     _razorpay.clear();
     super.dispose();
   }
-
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
@@ -72,6 +70,13 @@ class _PaymentPageState extends State<PaymentPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Premium Account'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: Icon(Icons.menu))
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -123,6 +128,9 @@ class _PaymentPageState extends State<PaymentPage> {
           ),
         ),
       ),
+      drawer: Drawer(
+        width: double.infinity,
+        child: Text("hdhdh")),
     );
   }
 

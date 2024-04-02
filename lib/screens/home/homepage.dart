@@ -1,17 +1,23 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 
+import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/screens/home/firstpage.dart';
 import 'package:backendapp/screens/home/Community.dart';
 import 'package:backendapp/screens/home/s1.dart';
 import 'package:backendapp/screens/home/secondpage.dart';
-import 'package:backendapp/screens/home/thirdpage.dart';
+import 'package:backendapp/screens/home/business_info_hub.dart';
 import 'package:backendapp/widgets/Businessinfo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+  // String businessuid;
+  
+  // Homepage(String s, {required this.businessuid});
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -23,7 +29,7 @@ class _HomepageState extends State<Homepage> {
   final List<Widget> _pages = [
     Firstpage(),
     Insights(),
-    thirdpage(),
+    BusinessInfoHub(),
     Community(),
     // OperatingHoursScreen(),
     // BasicInfoForm(),
@@ -31,9 +37,29 @@ class _HomepageState extends State<Homepage> {
 
   ];
 
+  @override
+  void initState() {
+    getBusinessData();
+    
+    // var dataBusiness = Provider.of<BusinessDataProvider>(context, listen: false);
+    //   dataBusiness.getBusinessData("business_uid", widget.businessuid);
+    // final user = FirebaseAuth.instance.currentUser;
+    // print(user);
+    // print("current user");
+
+    // super.initState();
+  }
+
+  void getBusinessData() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? businessUid = prefs.getString('businessUid');
+    var dataBusiness = Provider.of<BusinessDataProvider>(context, listen: false);
+    dataBusiness.getBusinessData("business_uid",businessUid!);
+  }
 
   @override
   Widget build(BuildContext context) {
+    var data = Provider.of<BusinessDataProvider>(context);
     return Scaffold(
       backgroundColor: Colors.cyan,
       body: _pages[_selectedIndex],

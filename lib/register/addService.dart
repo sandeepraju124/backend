@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_declarations
 
 import 'dart:convert';
-import 'package:backendapp/provider/registrationdata.dart';
+import 'package:backendapp/provider/registrationdata_provider.dart';
 import 'package:backendapp/register/location_search_screen.dart';
 import 'package:backendapp/screens/processing.dart';
 import 'package:backendapp/register/select_location.dart';

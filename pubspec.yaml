@@ -61,6 +61,8 @@ dependencies:
   lottie: ^2.3.2
   firebase_core: ^2.25.5
   flutter_rating_bar: ^4.0.1
+  web_socket_channel: ^2.4.0
+  shared_preferences: ^2.2.2
 
 
 dev_dependencies:

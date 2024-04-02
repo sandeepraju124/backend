@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types, avoid_print
 
 import 'package:backendapp/register/addService.dart';
+import 'package:backendapp/register/profile_screen.dart';
+import 'package:backendapp/register/profile_redirect.dart';
 import 'package:backendapp/register/register.dart';
 import 'package:backendapp/register/signup.dart';
 import 'package:backendapp/screens/home/homepage.dart';
@@ -27,8 +29,10 @@ class redirection extends StatelessWidget {
             );
           } else if (snapshot.hasData) {
             // if user already login this screen shows
-            return OnboardingService();
+            // return OnboardingService();
             // return Homepage();
+            // return ProfileRedirect();
+            return ProfileRedirect();
           } else if (snapshot.hasError) {
             print("something went worng");
           } else {
