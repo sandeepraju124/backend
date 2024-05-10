@@ -2,6 +2,7 @@ import "dart:convert";
 
 import "package:backendapp/models/askcommunitymodel.dart";
 import "package:backendapp/models/businessdata_models.dart";
+import "package:backendapp/models/businessmongo_model.dart";
 import "package:backendapp/models/commentsection_models.dart";
 import 'package:backendapp/provider/registrationdata_provider.dart';
 import "package:http/http.dart"as http;
@@ -94,6 +95,22 @@ Future<List<BusinessDataModels>> fetchBusinessData(String uri) async {
   } else {
     throw Exception('Failed to fetch business data');
   }
+}
+
+
+// this is for getting business oprational data from mongodb database
+
+Future<BusinessMongoModels> fetchMongoBusinessData(String uri)async{
+  var url = Uri.parse(uri);
+  var response = await http.get(url);
+  if (response.statusCode == 200){
+    BusinessMongoModels data = BusinessMongoModels.fromJson(json.decode(response.body));
+    return data;
+    
+  }else{
+    throw Exception("Failed to load mongo business data");
+  }
+
 }
 
 

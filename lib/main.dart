@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import, prefer_const_constructors
 import 'package:backendapp/firebase_options.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
+import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/register/postbusiness.dart';
 import 'package:backendapp/register/waiting.dart';
@@ -13,7 +14,7 @@ import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/widgets/linechart.dart';
 import 'package:backendapp/screens/home/homepage.dart';
 import 'package:backendapp/register/select_location.dart';
-import 'package:backendapp/register/addService.dart';
+import 'package:backendapp/register/onboardingService.dart';
 import 'package:backendapp/screens/add_service_screens/amenities.dart';
 import 'package:backendapp/screens/add_service_screens/amenities_2.dart';
 import 'package:backendapp/screens/add_service_screens/multi_image_pick.dart';
@@ -48,6 +49,9 @@ void main()async {
     ChangeNotifierProvider<BusinessDataProvider>(
       create: (_) => BusinessDataProvider() ,
     ),
+    ChangeNotifierProvider<BusinessMongoProvider>(
+      create: (_) => BusinessMongoProvider(),
+    ),
     ],
     
     child: const MyApp()));
@@ -70,6 +74,8 @@ class MyApp extends StatelessWidget {
       // home: Homepage(),
       home:redirection(),
       // home:MyAppp(),
+      // home: OnboardingService(),
+
     );
   } 
 }

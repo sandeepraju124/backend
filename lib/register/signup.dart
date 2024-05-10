@@ -36,7 +36,6 @@ class _SignUpState extends State<SignUp> {
               child: Align(
               alignment: Alignment.center,
                 child: Text("Log in to your business account", style: TextStyle(color: tgPrimaryText))),
-        
         ),
       ),
       SizedBox(height: 10,),

@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:backendapp/provider/businessdata_provider.dart';
+import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/widgets/AmenitiesandMore.dart';
 import 'package:backendapp/widgets/Businessinfo.dart';
 import 'package:backendapp/widgets/HoursofOperations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BusinessInfoHub extends StatefulWidget {
   @override
@@ -21,10 +24,16 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
     'Saturday': 'Closed',
     'Sunday': 'Closed',
   };
+
+  
+
   String _operatingHoursMsg = "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results";
 
   @override
   Widget build(BuildContext context) {
+    var data = Provider.of<BusinessMongoProvider>(context);
+    var businessdata = Provider.of<BusinessDataProvider>(context);
+    // final List<Map<String, dynamic>> openingHours = data.BusinessData.openingHours;
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: SafeArea(
@@ -385,6 +394,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                       )),
                   GestureDetector(
                     onTap: (){
+                      data.getMongoBusinessData();
                       showSnackBar(context, _operatingHoursMsg);
                     },
                     child: Icon(Icons.mode_comment_outlined))
@@ -484,7 +494,10 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
               ListTile(
                   title: Text("Address"),
                   subtitle: Text(
-                      "National Packaging Consortium National Packaging Consortium Rome, Rome Italy"),
+                    businessdata.BusinessData![0].address == null ? "Please add address":
+                    businessdata.BusinessData![0].address.toString()
+                      // "National Packaging Consortium National Packaging Consortium Rome, Rome Italy"
+                      ),
                   trailing: Icon(Icons.arrow_forward_ios)),
               Divider(endIndent: 20, indent: 20),
               GestureDetector(
@@ -516,7 +529,8 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                   children: [
                     ListTile(
                         title: Text("Call"),
-                        subtitle: Text("9912277968"),
+                        // subtitle: Text("9912277968"),
+                        subtitle: Text(businessdata.BusinessData![0].contactInformation),
                         trailing: Icon(Icons.arrow_forward_ios)),
                     ListTile(
                         title: Text("Website"),

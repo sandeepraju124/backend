@@ -109,7 +109,7 @@ class _OnboardingServiceState extends State<OnboardingService> {
     } catch (e) {
       print(e.toString());
       throw Exception('Failed to create service: $e');
-    }
+    } 
   }
 
   int _activeStepIndex = 0;
@@ -753,7 +753,7 @@ class _OnboardingServiceState extends State<OnboardingService> {
                   Text('Business email: ${_businessEmail.text}'),
                   Text('Contact Info: ${_contactInfo.text}'),
                   const Text('Password: *****'),
-                  Text('Address : ${name.text}'),
+                  Text('Address : ${_address.text}'),
                   // Text('Latitude: ${widget.lat }',),
                   // Text('Langitude: ${widget.lang }'),
                   // Text('image name : ${fileName}'),

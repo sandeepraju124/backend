@@ -25,11 +25,11 @@ class NewShowRewviewPage extends StatefulWidget {
 
 class _NewShowRewviewPageState extends State<NewShowRewviewPage> {
   @override
-  void initState() {
-    super.initState();
-    Provider.of<CommentSectionProvider>(context, listen: false)
-        .commentSectionProvider("PIZFOO4357128905678");
-  }
+  // void initState() {
+  //   super.initState();
+  //   Provider.of<CommentSectionProvider>(context, listen: false)
+  //       .commentSectionProvider("PIZFOO4357128905678");
+  // }
 
   final bool _showAllReviews = false;
 
@@ -277,7 +277,8 @@ class _NewShowRewviewPageState extends State<NewShowRewviewPage> {
                   child: Column(
                     children: [
                       SizedBox(height: 30),
-                      Lottie.asset("images/reviews.json", height: 210),
+                      // Lottie.asset("images/reviews.json", height: 210),
+                      Image.asset("assets/pool.png", height: 100),
                       Text(
                         "Your opinion matters.\nPlease consider being the first to share your review",
                         style: TextStyle(

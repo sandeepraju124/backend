@@ -40,7 +40,6 @@ class _CommunityState extends State<Community> {
         ),
         body: Column(
           children: [
-
             Container(
               margin: EdgeInsets.all(10),
               height: 55,

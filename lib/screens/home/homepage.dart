@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 
+import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
+import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/screens/home/firstpage.dart';
 import 'package:backendapp/screens/home/Community.dart';
 import 'package:backendapp/screens/home/s1.dart';
@@ -40,6 +42,8 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     getBusinessData();
+    // Provider.of<CommentSectionProvider>(context, listen: false)
+    //     .commentSectionProvider("PIZFOO4357128905678");
     
     // var dataBusiness = Provider.of<BusinessDataProvider>(context, listen: false);
     //   dataBusiness.getBusinessData("business_uid", widget.businessuid);
@@ -54,7 +58,9 @@ class _HomepageState extends State<Homepage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? businessUid = prefs.getString('businessUid');
     var dataBusiness = Provider.of<BusinessDataProvider>(context, listen: false);
-    dataBusiness.getBusinessData("business_uid",businessUid!);
+    await dataBusiness.getBusinessData("business_uid",businessUid!);
+    var commentsData = Provider.of<CommentSectionProvider>(context, listen: false).commentSectionProvider(businessUid);
+    var askCommData = Provider.of<AskCommunityProvider>(context, listen: false).fetchAskCommunityData(businessUid);
   }
 
   @override

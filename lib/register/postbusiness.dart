@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:io';
 import 'package:backendapp/register/waiting.dart';
 import 'package:backendapp/utils/navigators.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:backendapp/provider/registrationdata_provider.dart';
 import 'package:backendapp/utils/constants.dart';
@@ -90,6 +91,9 @@ class _PostBusinessPageState extends State<PostBusinessPage> {
       setState(() {
         _isLoading = true;
       });
+      final user = FirebaseAuth.instance.currentUser;
+      final userid = user?.uid;
+      print(userid);
 
       // var data = Provider.of<RegistrationProvider>;
       print("before try");
@@ -108,7 +112,8 @@ class _PostBusinessPageState extends State<PostBusinessPage> {
           'category': data.registrationData['category'],
           'sub_category': data.registrationData['sub_category'],
           'latitude': data.registrationData['latitude'].toString(),
-          'longitude': data.registrationData['longitude'].toString()
+          'longitude': data.registrationData['longitude'].toString(),
+          'userid':userid.toString(),
           // 'image' : _ffsaiImage
         };
         print(" try");

@@ -1,4 +1,6 @@
+import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class BasicInfoForm extends StatefulWidget {
@@ -14,6 +16,7 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
 
   @override
   Widget build(BuildContext context) {
+    var data = Provider.of<BusinessDataProvider>(context);
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -24,7 +27,6 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
         child: Column(
           children: [
             Container(
-              
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.grey),
@@ -34,6 +36,23 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
                 controller: businessNameController,
                 decoration: InputDecoration(
                   labelText: "Business name",
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(8.0),
+                ),
+              ),
+            ),
+            SizedBox(height: 16.0),
+            Container(
+              
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: TextFormField(
+                controller: businessNameController,
+                decoration: InputDecoration(
+                  labelText: "Address",
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.all(8.0),
                 ),

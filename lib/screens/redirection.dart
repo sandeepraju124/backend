@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types, avoid_print
 
-import 'package:backendapp/register/addService.dart';
+import 'package:backendapp/register/onboardingService.dart';
 import 'package:backendapp/register/profile_screen.dart';
 import 'package:backendapp/register/profile_redirect.dart';
 import 'package:backendapp/register/register.dart';
