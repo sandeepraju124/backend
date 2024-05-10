@@ -97,14 +97,32 @@ Future<List<BusinessDataModels>> fetchBusinessData(String uri) async {
   }
 }
 
+// updating business data
+Future<http.Response> patchBusinessData(String uri, dynamic data) async {
+    var url = Uri.parse(uri);
+    final headers = {'Content-Type': 'application/json'};
+    var response = await http.patch(
+      url,
+      body: jsonEncode(data),
+      headers:headers
+    );
+    print(response.body);
+    print("response");
+    return response;
+  }
+
 
 // this is for getting business oprational data from mongodb database
 
 Future<BusinessMongoModels> fetchMongoBusinessData(String uri)async{
   var url = Uri.parse(uri);
   var response = await http.get(url);
+  print(response.body);
+  print(response.statusCode);
   if (response.statusCode == 200){
     BusinessMongoModels data = BusinessMongoModels.fromJson(json.decode(response.body));
+    // print(data);
+    // print("data");
     return data;
     
   }else{

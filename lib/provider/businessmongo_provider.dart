@@ -15,13 +15,13 @@ class BusinessMongoProvider extends ChangeNotifier{
   Future<void> getMongoBusinessData()async{
     _isLoading = true;
     try {
-      var uri = "https://supernova1137.azurewebsites.net/mongo/business?business_uid=BOORET54634567890121";
+      var uri = "https://supernova1137.azurewebsites.net/mongo/business?business_uid=BEACOS4QOTr0R4Tw";
       BusinessMongoModels data = await NetworkCalling().fetchMongoBusinessData(uri);
       print(data);
+      print("data");
       _businessdata = data;
     }catch (e) {
       print('Error fetching mongo business data: $e');
-
     }finally{
       _isLoading = false;
       notifyListeners();

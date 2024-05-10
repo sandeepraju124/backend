@@ -350,7 +350,6 @@ class _NewShowRewviewPageState extends State<NewShowRewviewPage> {
                                 stars(review.rating),
                               ],
                             ), // This will display the row of stars
-    
                             Text(
                               "Posted by: ${review.username}\nDate: ${formatDateTime(review.createdAt)}",
                               style: TextStyle(fontSize: 12.0),
@@ -360,8 +359,6 @@ class _NewShowRewviewPageState extends State<NewShowRewviewPage> {
                       ),
                     );
                   }),
-
-        
     ]);
   }
 }
