@@ -2,12 +2,15 @@
 
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
+import 'package:backendapp/screens/add_photos.dart';
 import 'package:backendapp/utils/constants.dart';
+import 'package:backendapp/utils/navigators.dart';
 import 'package:backendapp/widgets/AmenitiesandMore.dart';
 import 'package:backendapp/widgets/Businessinfo.dart';
 import 'package:backendapp/widgets/HoursofOperations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class BusinessInfoHub extends StatefulWidget {
   @override
@@ -24,6 +27,16 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
     'Saturday': 'Closed',
     'Sunday': 'Closed',
   };
+
+  String _formatTime(String time) {
+    final parts = time.split(':');
+    final hour = int.parse(parts[0]);
+    final minute = parts[1].substring(0, 2); // Extract minutes
+    final meridiem = hour >= 12 ? 'PM' : 'AM'; // Determine meridiem
+    final hour12 =
+        hour % 12 == 0 ? 12 : hour % 12; // Convert hour to 12-hour format
+    return '$hour12:$minute $meridiem'; // Construct formatted time string
+  }
 
   String _operatingHoursMsg =
       "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results";
@@ -121,23 +134,29 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                     ),
                                   ),
 
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    // width: 100,
-                                    height: 40,
-                                    // color: Colors.red,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: Colors
-                                            .grey, // You can customize the border color
-                                        // width: 2.0, // You can customize the border width
-                                      ),
-                                    ),
+                                  GestureDetector(
+                                    onTap: (){
+                                      navigatorPush(context, AddPhotos());
 
-                                    child: Text(
-                                      'Add photos',
-                                      style: TextStyle(color: Colors.teal),
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      // width: 100,
+                                      height: 40,
+                                      // color: Colors.red,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                          color: Colors
+                                              .grey, // You can customize the border color
+                                          // width: 2.0, // You can customize the border width
+                                        ),
+                                      ),
+                                    
+                                      child: Text(
+                                        'Add photos',
+                                        style: TextStyle(color: Colors.teal),
+                                      ),
                                     ),
                                   ),
                                   Container(
@@ -429,38 +448,21 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                         SizedBox(
                           height: 10,
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(16.0),
-                        //   child: Column(
-                        //     crossAxisAlignment: CrossAxisAlignment.start,
-                        //     children: openingHours.entries.map((entry) {
-                        //     // children: openingHours.entries.map((entry) {
-                        //       final day = entry.key;
-                        //       final hours = entry.value;
-                        //       return Row(
-                        //         mainAxisAlignment:
-                        //             MainAxisAlignment.spaceBetween,
-                        //         children: [
-                        //           Text(
-                        //             day,
-                        //             style: const TextStyle(
-                        //                 fontWeight: FontWeight.bold),
-                        //           ),
-                        //           const SizedBox(width: 8.0),
-                        //           Text(hours),
-                        //         ],
-                        //       );
-                        //     }).toList(),
-                        //   ),
-                        // ),
-
+                        data.BusinessData == null ? Text(""):
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: data.BusinessData!.openingHours.map((openingHour) {
+                            children: data.BusinessData!.openingHours
+                                .map((openingHour) {
                               final day = openingHour.day;
-                              final hours = openingHour.openingHours;
+                              final hoursList = openingHour.openingHours;
+                              final hours = hoursList.isNotEmpty
+                                  ? hoursList
+                                      .map((hour) =>
+                                          '${_formatTime(hour.startTime)} - ${_formatTime(hour.endTime)}')
+                                      .join(', ')
+                                  : 'Closed';
                               return Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -468,7 +470,8 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                   Text(
                                     day,
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   const SizedBox(width: 8.0),
                                   Text(hours),
@@ -477,6 +480,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                             }).toList(),
                           ),
                         ),
+
                         SizedBox(
                           height: 14,
                         ),

@@ -58,6 +58,7 @@ class _HomepageState extends State<Homepage> {
   void getBusinessData() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? businessUid = prefs.getString('businessUid');
+    print("Business_uid = $businessUid");
     var dataBusiness = Provider.of<BusinessDataProvider>(context, listen: false);
     await dataBusiness.getBusinessData("business_uid",businessUid!);
     var commentsData = Provider.of<CommentSectionProvider>(context, listen: false).commentSectionProvider(businessUid);

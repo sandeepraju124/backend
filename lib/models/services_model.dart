@@ -12,7 +12,7 @@ class ServicesModels {
     List<String> amenities;
     String businessUid;
     List<String> images;
-    List<OpeningHour> openingHours;
+    List<ServicesModelsOpeningHour> openingHours;
 
     ServicesModels({
         required this.amenities,
@@ -25,7 +25,7 @@ class ServicesModels {
         amenities: List<String>.from(json["amenities"].map((x) => x)),
         businessUid: json["business_uid"],
         images: List<String>.from(json["images"].map((x) => x)),
-        openingHours: List<OpeningHour>.from(json["opening_hours"].map((x) => OpeningHour.fromJson(x))),
+        openingHours: List<ServicesModelsOpeningHour>.from(json["opening_hours"].map((x) => ServicesModelsOpeningHour.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -36,22 +36,42 @@ class ServicesModels {
     };
 }
 
-class OpeningHour {
+class ServicesModelsOpeningHour {
     String day;
-    String openingHours;
+    List<OpeningHourOpeningHour> openingHours;
 
-    OpeningHour({
+    ServicesModelsOpeningHour({
         required this.day,
         required this.openingHours,
     });
 
-    factory OpeningHour.fromJson(Map<String, dynamic> json) => OpeningHour(
+    factory ServicesModelsOpeningHour.fromJson(Map<String, dynamic> json) => ServicesModelsOpeningHour(
         day: json["day"],
-        openingHours: json["openingHours"],
+        openingHours: List<OpeningHourOpeningHour>.from(json["opening_hours"].map((x) => OpeningHourOpeningHour.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "day": day,
-        "openingHours": openingHours,
+        "opening_hours": List<dynamic>.from(openingHours.map((x) => x.toJson())),
+    };
+}
+
+class OpeningHourOpeningHour {
+    String endTime;
+    String startTime;
+
+    OpeningHourOpeningHour({
+        required this.endTime,
+        required this.startTime,
+    });
+
+    factory OpeningHourOpeningHour.fromJson(Map<String, dynamic> json) => OpeningHourOpeningHour(
+        endTime: json["endTime"],
+        startTime: json["startTime"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "endTime": endTime,
+        "startTime": startTime,
     };
 }

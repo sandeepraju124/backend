@@ -19,11 +19,10 @@ class BusinessDataProvider extends ChangeNotifier {
     _businessdata = [];
     try {
       var uri = '$baseUrl/pg/business/where?$key=$value';
-      List<BusinessDataModels> businessdata =
-          await NetworkCalling().fetchBusinessData(uri);
+      List<BusinessDataModels> businessdata = await NetworkCalling().fetchBusinessData(uri);
       _businessdata = businessdata;
-      print(businessdata);
-      print("businessdata");
+      // print(businessdata);
+      // print("businessdata");
     } catch (e) {
       print('Error fetching business data: $e');
     } finally {
