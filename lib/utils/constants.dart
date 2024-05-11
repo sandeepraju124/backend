@@ -1,4 +1,7 @@
+import "package:backendapp/provider/businessdata_provider.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 const Color primaryColor = Color(0xFF006491);
 const Color textColorLightTheme= Color(0xFF0D0D0E);
@@ -61,4 +64,21 @@ void showSnackBar(BuildContext context, String message){
   );
 }
 
-        
+
+// await prefs.setString('businessUid', businessUid);
+// SharedPreferences prefs = await SharedPreferences.getInstance();
+// String? businessUid = prefs.getString('businessUid');
+
+Future<String> getBusinessUid(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? businessUid = prefs.getString('businessUid');
+
+  if (businessUid == null) {
+    var data = Provider.of<BusinessDataProvider>(context,listen: false);
+    String businessUid = data.BusinessData![0].businessUid;
+    await prefs.setString('businessUid', businessUid);
+    return businessUid;
+  }
+
+  return businessUid;
+}

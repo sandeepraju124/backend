@@ -157,6 +157,29 @@ Future<ServicesModels> fetchMongoBusinessData(String uri) async {
   }
 }
 
+// this is used to delete images from database and azure
+Future<Map<String, dynamic>> deleteImage(String uri) async {
+  try {
+    var url = Uri.parse(uri);
+    print(uri);
+    final response = await http.delete(url);
+    print(response.body);
+    print("response");
+
+    if (response.statusCode == 200) {
+      print("Image deleted successfully");
+       return {'success': true, 'statusCode': response.statusCode};
+    } else {
+      print("Image deletion failed");
+      return {'success': false, 'statusCode': response.statusCode};
+    }
+  } catch (e) {
+    // Error occurred during the HTTP request
+    print('Error deleting image: $e');
+    return {'success': false, 'statusCode': -1};
+  }
+}
+
 
 
 // Future<String?> postBusiness() async {
