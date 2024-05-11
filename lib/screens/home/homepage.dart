@@ -62,7 +62,7 @@ class _HomepageState extends State<Homepage> {
     await dataBusiness.getBusinessData("business_uid",businessUid!);
     var commentsData = Provider.of<CommentSectionProvider>(context, listen: false).commentSectionProvider(businessUid);
     var askCommData = Provider.of<AskCommunityProvider>(context, listen: false).fetchAskCommunityData(businessUid);
-    var servicesData = Provider.of<BusinessMongoProvider>(context).getMongoBusinessData();
+    var servicesData = Provider.of<ServicesProvider>(context,  listen: false).getMongoBusinessData(businessUid);
   }
 
   @override

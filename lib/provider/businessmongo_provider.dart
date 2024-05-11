@@ -1,24 +1,26 @@
 
 import 'package:backendapp/http.dart';
 import 'package:backendapp/models/businessmongo_model.dart';
+import 'package:backendapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class BusinessMongoProvider extends ChangeNotifier{
+class ServicesProvider extends ChangeNotifier{
 
-  BusinessMongoModels? _businessdata;
-  BusinessMongoModels? get BusinessData =>  _businessdata;
+  ServicesModels? _businessdata;
+  ServicesModels? get BusinessData =>  _businessdata;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
 
-  Future<void> getMongoBusinessData()async{
+  Future<void> getMongoBusinessData(String business_uid)async{
     _isLoading = true;
     try {
-      var uri = "https://supernova1137.azurewebsites.net/mongo/business?business_uid=BEACOS4QOTr0R4Tw";
-      BusinessMongoModels data = await NetworkCalling().fetchMongoBusinessData(uri);
-      print(data);
-      print("data");
+      // var uri = "https://supernova1137.azurewebsites.net/mongo/business?business_uid=BEACOS4QOTr0R4Tw";
+      var uri = "$baseUrl/mongo/business?business_uid=$business_uid";
+      ServicesModels data = await NetworkCalling().fetchMongoBusinessData(uri);
+      // print(data);
+      // print("data");
       _businessdata = data;
     }catch (e) {
       print('Error fetching mongo business data: $e');
@@ -27,5 +29,4 @@ class BusinessMongoProvider extends ChangeNotifier{
       notifyListeners();
     }
   }
-
 }

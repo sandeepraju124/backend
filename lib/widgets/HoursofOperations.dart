@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields
 
+import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+import 'package:provider/provider.dart';
 
 class HoursOfOperations extends StatefulWidget {
   const HoursOfOperations({super.key});
@@ -20,6 +22,55 @@ class _HoursOfOperationsState extends State<HoursOfOperations> {
     "Saturday",
     "Sunday",
   ];
+
+
+  // late Map<String, Map<String, dynamic>> operatingHours;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize operatingHours map with default values
+    var data = Provider.of<ServicesProvider>(context, listen: false);
+    print(data.BusinessData!.openingHours[0].day);
+    print('operating hours');
+    // operatingHours = {
+    //   "Monday": {
+    //     "startTime": data.BusinessData!.openingHours[0],
+    //     "endTime": data.openingHours[0].endTime,
+    //     "schedule": true
+    //   },
+    //   "Tuesday": {
+    //     "startTime": data.openingHours[1].startTime,
+    //     "endTime": data.openingHours[1].endTime,
+    //     "schedule": true
+    //   },
+    //   "Wednesday": {
+    //     "startTime": data.openingHours[2].startTime,
+    //     "endTime": data.openingHours[2].endTime,
+    //     "schedule": true
+    //   },
+    //   "Thursday": {
+    //     "startTime": data.openingHours[3].startTime,
+    //     "endTime": data.openingHours[3].endTime,
+    //     "schedule": true
+    //   },
+    //   "Friday": {
+    //     "startTime": data.openingHours[4].startTime,
+    //     "endTime": data.openingHours[4].endTime,
+    //     "schedule": true
+    //   },
+    //   "Saturday": {
+    //     "startTime": data.openingHours[5].startTime,
+    //     "endTime": data.openingHours[5].endTime,
+    //     "schedule": false
+    //   },
+    //   "Sunday": {
+    //     "startTime": data.openingHours[6].startTime,
+    //     "endTime": data.openingHours[6].endTime,
+    //     "schedule": false
+    //   },
+    // };
+  }
 
   Map<String, Map<String, dynamic>> operatingHours = {
     "Monday": {
@@ -77,6 +128,7 @@ class _HoursOfOperationsState extends State<HoursOfOperations> {
 
   @override
   Widget build(BuildContext context) {
+    // var data = Provider.of<ServicesProvider>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Hours of Operations")),
       backgroundColor: Colors.grey[100],

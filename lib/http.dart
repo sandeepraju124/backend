@@ -106,29 +106,29 @@ Future<http.Response> patchBusinessData(String uri, dynamic data) async {
       body: jsonEncode(data),
       headers:headers
     );
-    print(response.body);
-    print("response");
+    // print(response.body);
+    // print("response");
     return response;
   }
 
 
 // this is for getting business oprational data from mongodb database
 
-Future<BusinessMongoModels> fetchMongoBusinessData(String uri)async{
+Future<ServicesModels> fetchMongoBusinessData(String uri)async{
   var url = Uri.parse(uri);
   var response = await http.get(url);
   print(response.body);
   print(response.statusCode);
   if (response.statusCode == 200){
-    BusinessMongoModels data = BusinessMongoModels.fromJson(json.decode(response.body));
-    // print(data);
-    // print("data");
+    print("in to the if");
+    ServicesModels data = ServicesModels.fromJson(json.decode(response.body));
+    print(data);
+    print("http business mongo data");
     return data;
     
   }else{
     throw Exception("Failed to load mongo business data");
   }
-
 }
 
 

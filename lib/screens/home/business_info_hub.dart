@@ -30,8 +30,11 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
 
   @override
   Widget build(BuildContext context) {
-    var data = Provider.of<BusinessMongoProvider>(context);
+    var data = Provider.of<ServicesProvider>(context);
     var businessdata = Provider.of<BusinessDataProvider>(context);
+    print("hereeeeeeeee");
+    print(data.BusinessData?.openingHours);
+    print(data.BusinessData?.businessUid);
     // final List<Map<String, dynamic>> openingHours = data.BusinessData.openingHours;
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -426,38 +429,14 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                         SizedBox(
                           height: 10,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: openingHours.entries.map((entry) {
-                            // children: openingHours.entries.map((entry) {
-                              final day = entry.key;
-                              final hours = entry.value;
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    day,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  Text(hours),
-                                ],
-                              );
-                            }).toList(),
-                          ),
-                        ),
-
                         // Padding(
                         //   padding: const EdgeInsets.all(16.0),
                         //   child: Column(
                         //     crossAxisAlignment: CrossAxisAlignment.start,
-                        //     children: data.BusinessData!.openingHours.map((openingHour) {
-                        //       final day = openingHour.day;
-                        //       final hours = openingHour.openingHours;
+                        //     children: openingHours.entries.map((entry) {
+                        //     // children: openingHours.entries.map((entry) {
+                        //       final day = entry.key;
+                        //       final hours = entry.value;
                         //       return Row(
                         //         mainAxisAlignment:
                         //             MainAxisAlignment.spaceBetween,
@@ -475,6 +454,29 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                         //   ),
                         // ),
 
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: data.BusinessData!.openingHours.map((openingHour) {
+                              final day = openingHour.day;
+                              final hours = openingHour.openingHours;
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    day,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(width: 8.0),
+                                  Text(hours),
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                        ),
                         SizedBox(
                           height: 14,
                         ),
