@@ -317,24 +317,47 @@ class _HoursOfOperationsState extends State<HoursOfOperations> {
 
   TimeOfDay _timeOfDay = TimeOfDay(hour: 8, minute: 3);
 
-  @override
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Initialize operatingHours with data from the provider
+  //   var data = Provider.of<ServicesProvider>(context, listen: false);
+  //   operatingHours = {
+  //     for (var openingHour in data.BusinessData!.openingHours)
+  //       openingHour.day: {
+  //         "startTime": openingHour.openingHours.isNotEmpty
+  //             ? openingHour.openingHours[0].startTime
+  //             : TimeOfDay(hour: 0, minute: 0),
+  //         "endTime": openingHour.openingHours.isNotEmpty
+  //             ? openingHour.openingHours[0].endTime
+  //             : TimeOfDay(hour: 0, minute: 0),
+  //         "schedule": true,
+  //       }
+  //   };
+  // }
+
   void initState() {
-    super.initState();
-    // Initialize operatingHours with data from the provider
-    var data = Provider.of<ServicesProvider>(context, listen: false);
+  super.initState();
+  // Initialize operatingHours with data from the provider
+  var data = Provider.of<ServicesProvider>(context, listen: false);
+  
+  // Check if openingHours is not null before iterating over it
+  if (data.BusinessData != null && data.BusinessData!.openingHours != null) {
     operatingHours = {
-      for (var openingHour in data.BusinessData!.openingHours)
-        openingHour.day: {
-          "startTime": openingHour.openingHours.isNotEmpty
-              ? openingHour.openingHours[0].startTime
+      for (var openingHour in data.BusinessData!.openingHours!)
+        openingHour.day!: {
+          "startTime": openingHour.openingTime!.isNotEmpty
+              ? openingHour.openingTime![0].startTime
               : TimeOfDay(hour: 0, minute: 0),
-          "endTime": openingHour.openingHours.isNotEmpty
-              ? openingHour.openingHours[0].endTime
+          "endTime": openingHour.openingTime!.isNotEmpty
+              ? openingHour.openingTime![0].endTime
               : TimeOfDay(hour: 0, minute: 0),
           "schedule": true,
         }
     };
   }
+}
+
 
 // // Function to format TimeOfDay to a string in 12-hour format
 // String _formatTime(TimeOfDay time) {

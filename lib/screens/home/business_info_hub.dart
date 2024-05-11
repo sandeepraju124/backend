@@ -448,19 +448,19 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                         SizedBox(
                           height: 10,
                         ),
-                        data.BusinessData == null ? Text(""):
+                        data.BusinessData!.openingHours == null ? Text(""):
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: data.BusinessData!.openingHours
+                            children: data.BusinessData!.openingHours!
                                 .map((openingHour) {
                               final day = openingHour.day;
-                              final hoursList = openingHour.openingHours;
-                              final hours = hoursList.isNotEmpty
+                              final hoursList = openingHour.openingTime;
+                              final hours = hoursList!.isNotEmpty
                                   ? hoursList
                                       .map((hour) =>
-                                          '${_formatTime(hour.startTime)} - ${_formatTime(hour.endTime)}')
+                                          '${_formatTime(hour.startTime!)} - ${_formatTime(hour.endTime!)}')
                                       .join(', ')
                                   : 'Closed';
                               return Row(
@@ -468,7 +468,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    day,
+                                    day!,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),

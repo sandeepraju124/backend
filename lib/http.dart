@@ -7,6 +7,7 @@ import "package:backendapp/models/commentsection_models.dart";
 import 'package:backendapp/provider/registrationdata_provider.dart';
 import "package:http/http.dart"as http;
 import "package:provider/provider.dart";
+import 'dart:developer';
 
 class NetworkCalling{
 
@@ -117,23 +118,45 @@ Future<http.Response> patchBusinessData(String uri, dynamic data) async {
 
 
 // this is for getting business oprational data from mongodb database
-
-Future<ServicesModels> fetchMongoBusinessData(String uri)async{
-  var url = Uri.parse(uri);
-  var response = await http.get(url);
-  print(response.body);
-  print(response.statusCode);
-  if (response.statusCode == 200){
-    print("in to the if");
-    ServicesModels data = ServicesModels.fromJson(json.decode(response.body));
-    print(data);
-    print("http business mongo data");
-    return data;
+// services data
+// Future<ServicesModels> fetchMongoBusinessData(String uri)async{
+//   var url = Uri.parse(uri);
+//   var response = await http.get(url);
+//   // print(response.body);
+//   // print(response.body.toString());
+//   log(response.body);
+//   print("http business service data");
+//   print(response.statusCode);
+//   if (response.statusCode == 200){
+//     print("in to the if");
+//     ServicesModels data = ServicesModels.fromJson(json.decode(response.body));
+//     print(data);
+//     // print("http business mongo data");
+//     return data;
     
-  }else{
+//   }else{
+//     throw Exception("Failed to load mongo business data");
+//   }
+// }
+
+Future<ServicesModels> fetchMongoBusinessData(String uri) async {
+  try {
+    var url = Uri.parse(uri);
+    var response = await http.get(url);
+    log(response.body);
+
+    if (response.statusCode == 200) {
+      return ServicesModels.fromJson(json.decode(response.body));
+    } else {
+      throw Exception("Failed to load mongo business data");
+    }
+  } catch (e) {
+    // Handle any exceptions that occur during the HTTP request
+    print("Error fetching mongo business data: $e");
     throw Exception("Failed to load mongo business data");
   }
 }
+
 
 
 // Future<String?> postBusiness() async {
