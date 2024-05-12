@@ -79,11 +79,12 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                           color: Colors.white,
                         ),
                         child: ClipOval(
-                          child: Image.network(
-                            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            fit: BoxFit
-                                .cover, // Use BoxFit.cover to make the image cover the entire circular container
-                          ),
+                          child: Image.network(businessdata.BusinessData![0].profileImageUrl, fit: BoxFit.cover,)
+                          // Image.network(
+                          //   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                          //   fit: BoxFit
+                          //       .cover, // Use BoxFit.cover to make the image cover the entire circular container
+                          // ),
                         ),
                       ),
                     ),
@@ -448,7 +449,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                         SizedBox(
                           height: 10,
                         ),
-                        data.BusinessData!.openingHours == null ? Text(""):
+                        data.BusinessData?.openingHours == null ? Text(""):
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
