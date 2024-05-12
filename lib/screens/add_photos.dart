@@ -130,6 +130,20 @@ class _AddPhotosState extends State<AddPhotos> {
   List<File> _images = [];
   bool _isLoading = false;
 
+  void UploadImage() async {
+    String businessUid = await getBusinessUid(context);
+    print('Business UID: $businessUid');
+    bool isSuccess = await Provider.of<ServicesProvider>(context, listen: false)
+        .uploadImagesToServer(_images,businessUid );
+        print(isSuccess);
+        // print("dataaaaaaaaaaaaaaaaaaaaaa");
+        if (isSuccess){
+          _images.clear();
+          showSnackBar(context, "Images Uploaded successfully");
+        }
+    // Navigator.pop(context);
+  }
+
   Future<void> multiImagePick() async {
     List pickedFiles = await ImagePicker().pickMultiImage();
     setState(() {
@@ -154,29 +168,29 @@ class _AddPhotosState extends State<AddPhotos> {
   }
 
 
-  Future<void> uploadImagesToServer(List<File> images) async {
-  final url = Uri.parse('https://supernova1137.azurewebsites.net/post_multiple_images');
-  var request = http.MultipartRequest('POST', url);
-  String businessUid = await getBusinessUid(context);
-    print('Business UID from add_photos screen: $businessUid');
-  request.fields['business_uid'] = businessUid;
-  if (images.isNotEmpty) {
-      for (File image in images) {
-        request.files.add(await http.MultipartFile.fromPath('images', image.path));
-          }
-        }
+//   Future<void> uploadImagesToServer(List<File> images) async {
+//   final url = Uri.parse('https://supernova1137.azurewebsites.net/post_multiple_images');
+//   var request = http.MultipartRequest('POST', url);
+//   String businessUid = await getBusinessUid(context);
+//     print('Business UID from add_photos screen: $businessUid');
+//   request.fields['business_uid'] = businessUid;
+//   if (images.isNotEmpty) {
+//       for (File image in images) {
+//         request.files.add(await http.MultipartFile.fromPath('images', image.path));
+//           }
+//         }
 
-  // Send the request
-  var response = await request.send();
-  print(response);
+//   // Send the request
+//   var response = await request.send();
+//   print(response);
 
-  // Check the status code of the response
-  if (response.statusCode == 200) {
-    print('Images uploaded successfully');
-  } else {
-    print('Failed to upload images. Status code: ${response.statusCode}');
-  }  
-}
+//   // Check the status code of the response
+//   if (response.statusCode == 200) {
+//     print('Images uploaded successfully');
+//   } else {
+//     print('Failed to upload images. Status code: ${response.statusCode}');
+//   }  
+// }
 
   @override
   Widget build(BuildContext context) {
@@ -384,7 +398,7 @@ class _AddPhotosState extends State<AddPhotos> {
         visible: _images.isNotEmpty,
         child: InkWell(
           onTap: () {
-            uploadImagesToServer(_images);
+            UploadImage();
             // signup();
             // navigatorPush(context,AddService() );
             // navigatorPush(context,SearchLocationScreen() );
@@ -424,6 +438,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
         .deleteImage(businessUid, widget.imageUrl);
     Navigator.pop(context);
   }
+  
 
   @override
   Widget build(BuildContext context) {
