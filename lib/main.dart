@@ -5,6 +5,8 @@ import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/register/postbusiness.dart';
 import 'package:backendapp/register/waiting.dart';
+import 'package:backendapp/screens/testing.dart';
+import 'package:backendapp/screens/testing2.dart';
 import 'package:backendapp/screens/testingchat.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:backendapp/graphs/datamodel.dart';
@@ -72,8 +74,8 @@ class MyApp extends StatelessWidget {
       // home: BusinessLineChart(yaxis: "reviews"),
       // home: SignUp(),
       // home: Homepage(),
-      home:redirection(),
-      // home:MyAppp(),
+      // home:redirection(),
+      home:AmenitySelectorDemo(),
       // home: OnboardingService(),
 
     );

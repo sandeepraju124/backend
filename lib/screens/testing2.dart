@@ -1,49 +1,67 @@
+import 'package:backendapp/screens/testing.dart';
 import 'package:flutter/material.dart';
 
-class DisplaySelected extends StatefulWidget {
-  const DisplaySelected({Key? key});
-
-  @override
-  State<DisplaySelected> createState() => _DisplaySelectedState();
+void main() {
+  runApp(MyApp());
 }
 
-class _DisplaySelectedState extends State<DisplaySelected> {
-  String businessType = "restaurent";
-  bool isYesSelected = true;
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Amenity Selector Demo'),
+        ),
+        body: AmenitySelectorDemo(),
+      ),
+    );
+  }
+}
 
-  void updateSelection(bool isSelected) {
+class AmenitySelectorDemo extends StatefulWidget {
+  @override
+  _AmenitySelectorDemoState createState() => _AmenitySelectorDemoState();
+}
+
+class _AmenitySelectorDemoState extends State<AmenitySelectorDemo> {
+  List<String> selectedAmenities = [];
+
+  void handleAmenitiesChanged(List<String> amenities) {
     setState(() {
-      isYesSelected = isSelected;
+      selectedAmenities = amenities;
     });
+  }
+
+  void printSelectedAmenities() {
+    print(selectedAmenities);
   }
 
   @override
   Widget build(BuildContext context) {
+    List<String> amenities = [
+      'Outdoor seating',
+      'WiFi',
+      'Parking availability',
+      'Takeout',
+      'Delivery',
+      'Reservations',
+      // Add more amenities as needed...
+    ];
+
     return Scaffold(
-      body: SafeArea(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SizedBox(height: 100),
-            Visibility(
-              visible: businessType == "restaurent",
-              child: Column(
-                children: [
-                  Restaurent(
-                    isSelected: isYesSelected,
-                    onTap: updateSelection,
-                  ),
-                  Restaurent2(),
-                ],
-              ),
+            AmenitySelector(
+              amenities: amenities,
+              onChanged: handleAmenitiesChanged,
             ),
-            Visibility(
-              visible: businessType == "barber",
-              child: Column(
-                children: [
-                  Barber(),
-                  Barber2(),
-                ],
-              ),
+            SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: printSelectedAmenities,
+              child: Text('Print Selected Amenities'),
             ),
           ],
         ),
@@ -52,57 +70,3 @@ class _DisplaySelectedState extends State<DisplaySelected> {
   }
 }
 
-class Restaurent extends StatelessWidget {
-  final bool isSelected;
-  final Function(bool) onTap;
-
-  const Restaurent({
-    Key? key,
-    required this.isSelected,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () => onTap(true),
-          child: Text(
-            "yes",
-            style: TextStyle(color: isSelected ? Colors.green : Colors.grey),
-          ),
-        ),
-        SizedBox(width: 10),
-        GestureDetector(
-          onTap: () => onTap(false),
-          child: Text(
-            "no",
-            style: TextStyle(color: isSelected ? Colors.grey : Colors.green),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class Restaurent2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text("restaurent2 widget");
-  }
-}
-
-class Barber extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text("barber widget");
-  }
-}
-
-class Barber2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text("barber2 widget");
-  }
-}

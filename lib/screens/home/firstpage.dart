@@ -180,12 +180,6 @@ class _FirstpageState extends State<Firstpage> {
                     ),
                     GestureDetector(
                         onTap: () {
-                          navigatorPush(context, DisplaySelected()
-                              // AskForCommunityWidget(
-                              //   uid: '',
-                              //   Questionid: "",
-                              // )
-                              );
                         },
                         child: Text("click")),
                     //   SliverToBoxAdapter(
