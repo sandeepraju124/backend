@@ -6,7 +6,7 @@ import 'package:backendapp/screens/add_photos.dart';
 import 'package:backendapp/screens/amenites/diaplay_amenities.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
-import 'package:backendapp/widgets/AmenitiesandMore.dart';
+import 'package:backendapp/screens/amenites/AmenitiesandMore.dart';
 import 'package:backendapp/widgets/Businessinfo.dart';
 import 'package:backendapp/widgets/HoursofOperations.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +28,8 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
     'Saturday': 'Closed',
     'Sunday': 'Closed',
   };
+
+  String noAmenities = "No amenities added, add them to engage with customers";
 
   String _formatTime(String time) {
     final parts = time.split(':');
@@ -306,78 +308,97 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                           height: 10,
                         ),
 
-                        Row(
-                          children: [
-                            Icon(Icons.car_crash),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text("Offer Delivery"),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Yes",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.car_crash),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text("WheelChair Accessible"),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Yes",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.car_crash),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text("Plastic Free packaing"),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Yes",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.car_crash),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text("Bring your own containers allowed"),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Yes",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
+                        data.BusinessData!.amenities!.isNotEmpty ?
+                        
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: data.BusinessData!.amenities!.length <=3 ?data.BusinessData!.amenities!.length : 3 ,
+                          itemBuilder: (BuildContext, int) {
+                            return Column(children: [
+                              Row(children: [
+                                Text(data.BusinessData!.amenities![int]),
+                                SizedBox(width: 10,),
+                                Text("Yes",
+                                style: TextStyle(fontWeight: FontWeight.bold), )
+                                ],),
+                        
+                            ],);
+                          }
+                          ) :
+                          Text(noAmenities),
+
+                        // Row(
+                        //   children: [
+                        //     Icon(Icons.car_crash),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Text("Offer Delivery"),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Text(
+                        //       "Yes",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Icon(Icons.car_crash),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Text("WheelChair Accessible"),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Text(
+                        //       "Yes",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Icon(Icons.car_crash),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Text("Plastic Free packaing"),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Text(
+                        //       "Yes",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Icon(Icons.car_crash),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Text("Bring your own containers allowed"),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Text(
+                        //       "Yes",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         // Text(
                         //     "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results."),
                         SizedBox(

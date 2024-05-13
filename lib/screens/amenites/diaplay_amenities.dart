@@ -65,10 +65,10 @@ class AmenityTile extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
         title: Text(amenity),
-        trailing: IconButton(
-          icon: Icon(Icons.delete),
-          onPressed: onDelete,
-        ),
+        // trailing: IconButton(
+        //   icon: Icon(Icons.delete),
+        //   onPressed: onDelete,
+        // ),
       ),
     );
   }

@@ -3,7 +3,7 @@
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/screens/amenites/amenites_list.dart';
-import 'package:backendapp/screens/testing.dart';
+import 'package:backendapp/screens/amenites/amenity_selector.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,17 +28,6 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
     });
   }
 
-  // void postSelectedAmenities() async {
-  //   // print(selectedAmenities);
-  //   List<String> amenities = selectedAmenities.values.expand((list) => list).toList(); 
-  //   print(amenities);
-  //   String businessUid = await getBusinessUid(context);
-  //   print('Business UID: $businessUid');
-  //   bool isCheck = await Provider.of<ServicesProvider>(context, listen: false).postAmenities(businessUid, amenities);
-  //   if (isCheck){
-  //     showSnackBar(context, "Amenities posted successfully");
-  //   }
-  // }
 
   void postSelectedAmenities() async {
   // Extract business UID
@@ -121,7 +110,7 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
                     SizedBox(height: 20.0),
                     ElevatedButton(
                       onPressed: postSelectedAmenities,
-                      child: Text('Print Selected Amenities'),
+                      child: Text('Post Selected Amenities'),
                     ),
                   ],
                 ),

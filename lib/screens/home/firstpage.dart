@@ -4,7 +4,7 @@ import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/screens/askcommunity.dart';
 import 'package:backendapp/screens/redirection.dart';
-import 'package:backendapp/screens/testing.dart';
+import 'package:backendapp/screens/amenites/amenity_selector.dart';
 import 'package:backendapp/screens/testing2.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
