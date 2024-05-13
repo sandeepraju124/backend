@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:backendapp/http.dart';
@@ -68,6 +69,45 @@ class ServicesProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<bool> postAmenities(String businessUid, List<String> amenitiesToAddOrUpdate, List<String> amenitiesToRemove) async {
+  var url = Uri.parse('$baseUrl/mongo/business');
+
+  // var data = {
+  //   "business_uid": businessUid,
+  //   "amenities": amenities,
+  // };
+
+  var data = {
+    "business_uid": businessUid,
+    "amenitiesToAddOrUpdate": amenitiesToAddOrUpdate,
+    "amenitiesToRemove": amenitiesToRemove,
+  };
+
+  try {
+    var response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(data),
+    );
+
+    // Check if the request was successful (status code 200)
+    if (response.statusCode == 200) {
+      print('Amenities posted successfully');
+      getMongoBusinessData(businessUid);
+      return true;
+
+    } else {
+      // Handle other status codes (e.g., 404, 500)
+      print('Failed to post amenities. Status code: ${response.statusCode}');
+      return false;
+    }
+  } catch (error) {
+    // Handle any errors that occur during the HTTP request
+    print('Error occurred: $error');
+    return false;
+  }
+}
 
   Future<bool> uploadImagesToServer(
       List<File> images, String businessUid) async {

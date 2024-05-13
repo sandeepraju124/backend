@@ -3,6 +3,7 @@
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/screens/add_photos.dart';
+import 'package:backendapp/screens/amenites/diaplay_amenities.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:backendapp/widgets/AmenitiesandMore.dart';
@@ -287,10 +288,20 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Amenities and more",
-                            style: TextStyle(
-                              fontSize: 30,
-                            )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Amenities and more",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                )),
+                                GestureDetector(
+                                  onTap: (){
+                                    navigatorPush(context, AmenityScreen());
+                                  },
+                                  child: Text("view all", style: TextStyle(color:Colors.teal ),))
+                          ],
+                        ),
                         SizedBox(
                           height: 10,
                         ),

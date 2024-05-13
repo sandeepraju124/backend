@@ -74,8 +74,8 @@ class MyApp extends StatelessWidget {
       // home: BusinessLineChart(yaxis: "reviews"),
       // home: SignUp(),
       // home: Homepage(),
-      // home:redirection(),
-      home:AmenitySelectorDemo(),
+      home:redirection(),
+      // home:AmenitySelectorDemo(),
       // home: OnboardingService(),
 
     );
