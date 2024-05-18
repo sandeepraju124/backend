@@ -289,6 +289,8 @@
 //   }
 // }
 
+// ignore_for_file: prefer_final_fields
+
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
@@ -348,6 +350,7 @@ class _HoursOfOperationsState extends State<HoursOfOperations> {
         openingHour.day!: {
           "startTime": openingHour.openingTime!.isNotEmpty
               ? openingHour.openingTime![0].startTime
+              // ignore: prefer_const_constructors
               : TimeOfDay(hour: 0, minute: 0),
           "endTime": openingHour.openingTime!.isNotEmpty
               ? openingHour.openingTime![0].endTime

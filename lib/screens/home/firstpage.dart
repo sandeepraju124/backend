@@ -5,7 +5,7 @@ import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/screens/askcommunity.dart';
 import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/screens/amenites/amenity_selector.dart';
-import 'package:backendapp/screens/testing2.dart';
+import 'package:backendapp/screens/graphs/review_insight.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:firebase_auth/firebase_auth.dart';

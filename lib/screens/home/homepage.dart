@@ -5,10 +5,11 @@ import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
+import 'package:backendapp/provider/insights_provider.dart';
 import 'package:backendapp/screens/home/firstpage.dart';
 import 'package:backendapp/screens/home/Community.dart';
 import 'package:backendapp/screens/home/s1.dart';
-import 'package:backendapp/screens/home/secondpage.dart';
+import 'package:backendapp/screens/home/insights_page.dart';
 import 'package:backendapp/screens/home/business_info_hub.dart';
 import 'package:backendapp/widgets/Businessinfo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -64,6 +65,8 @@ class _HomepageState extends State<Homepage> {
     var commentsData = Provider.of<CommentSectionProvider>(context, listen: false).commentSectionProvider(businessUid);
     var askCommData = Provider.of<AskCommunityProvider>(context, listen: false).fetchAskCommunityData(businessUid);
     var servicesData = Provider.of<ServicesProvider>(context,  listen: false).getMongoBusinessData(businessUid);
+    var insightData = Provider.of<InsightsProvider>(context,  listen: false).fetchReviewData(businessUid);
+    var insightDataProvileVisit = Provider.of<InsightsProvider>(context,  listen: false).fetchprofileVisitData(businessUid);
   }
 
   @override

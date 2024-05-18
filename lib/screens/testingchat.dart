@@ -8,6 +8,7 @@ class MyAppp extends StatelessWidget {
   // final WebSocketChannel channel = IOWebSocketChannel.connect('wss://10.0.2.2:5000/');
   final WebSocketChannel channel = IOWebSocketChannel.connect('wss://192.168.1.10:5000/');
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

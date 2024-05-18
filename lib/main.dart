@@ -3,13 +3,14 @@ import 'package:backendapp/firebase_options.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
+import 'package:backendapp/provider/insights_provider.dart';
 import 'package:backendapp/register/postbusiness.dart';
 import 'package:backendapp/register/waiting.dart';
 import 'package:backendapp/screens/amenites/amenity_selector.dart';
-import 'package:backendapp/screens/testing2.dart';
+import 'package:backendapp/screens/graphs/review_insight.dart';
 import 'package:backendapp/screens/testingchat.dart';
+import 'package:backendapp/screens/graphs/profile_visit.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:backendapp/graphs/datamodel.dart';
 import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/registrationdata_provider.dart';
 import 'package:backendapp/screens/redirection.dart';
@@ -54,6 +55,9 @@ void main()async {
     ChangeNotifierProvider<ServicesProvider>(
       create: (_) => ServicesProvider(),
     ),
+    ChangeNotifierProvider<InsightsProvider>(
+      create: (_) => InsightsProvider(),
+    ),
     ],
     
     child: const MyApp()));
@@ -75,7 +79,8 @@ class MyApp extends StatelessWidget {
       // home: SignUp(),
       // home: Homepage(),
       home:redirection(),
-      // home:AmenitySelectorDemo(),
+      // home:MonthlyViewsChart(),
+      // home:ReviewInsightChart(),
       // home: OnboardingService(),
 
     );
