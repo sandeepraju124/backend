@@ -50,8 +50,8 @@ class InsightsProvider extends ChangeNotifier {
       _isLoadingProfile = true;
       notifyListeners();
 
-      var url = "https://supernova1137.azurewebsites.net/provile_visit?business_id=200newagain";
-      // var url = "$baseUrl/provile_visit?business_id=$businessUid";
+      // var url = "https://supernova1137.azurewebsites.net/provile_visit?business_id=200newagain";
+      var url = "$baseUrl/provile_visit?business_id=$businessUid";
       final response = await http.get(Uri.parse(url));
       print(response.body);
 
