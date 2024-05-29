@@ -26,8 +26,8 @@ class InsightsProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      // var url = "$baseUrl/overall_rating/$businessUid/6";
-      var url = "https://supernova1137.azurewebsites.net/overall_rating/PIZFOO4357128905678/6";
+      var url = "$baseUrl/overall_rating/$businessUid/6";
+      // var url = "https://supernova1137.azurewebsites.net/overall_rating/PIZFOO4357128905678/6";
       final response = await http.get(Uri.parse(url));
       print(response.body);
 

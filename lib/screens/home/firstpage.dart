@@ -40,10 +40,12 @@ class _FirstpageState extends State<Firstpage> {
     var data = Provider.of<BusinessDataProvider>(context);
     return Scaffold(
         appBar: AppBar(
+          // leading: Center(child: Text("NearMe")),
+
           automaticallyImplyLeading: false,
           // elevation: 10,
           title:
-              Container(width: 65, child: Image.asset("assets/Yelp_Logo.png")),
+              Container(width: 95, child: Image.asset("assets/nearme2.png",)),
           actions: [
             GestureDetector(
               onTap: () {
@@ -204,9 +206,10 @@ class _FirstpageState extends State<Firstpage> {
                               await SharedPreferences.getInstance();
                           final String? action = prefs.getString('businessUid');
                           // await prefs.setString('businessUid', "VHAClcXeT7MAuIS24zb5rIha2J22");
-                          print(action);
+                          print("businessUid: $action");
+
                         },
-                        child: Text("enough space")),
+                        child: Text("Print BusinessUid")),
                     // Text(data.BusinessData![0].businessDescription)
                   ],
                 ),

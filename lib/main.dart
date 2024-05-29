@@ -7,7 +7,7 @@ import 'package:backendapp/provider/insights_provider.dart';
 import 'package:backendapp/register/postbusiness.dart';
 import 'package:backendapp/register/waiting.dart';
 import 'package:backendapp/screens/amenites/amenity_selector.dart';
-import 'package:backendapp/screens/business_selector.dart';
+import 'package:backendapp/register/business_selector.dart';
 import 'package:backendapp/screens/graphs/review_insight.dart';
 import 'package:backendapp/screens/testingchat.dart';
 import 'package:backendapp/screens/graphs/profile_visit.dart';
@@ -79,11 +79,11 @@ class MyApp extends StatelessWidget {
       // home: BusinessLineChart(yaxis: "reviews"),
       // home: SignUp(),
       // home: Homepage(),
-      // home:redirection(),
-      home:BusinessSelector(),
+      home:redirection(),
+      // home:ProfileScreenTest(),
+      // home:BusinessSelector(),
       // home:ReviewInsightChart(),
       // home: OnboardingService(),
-
     );
   } 
 }

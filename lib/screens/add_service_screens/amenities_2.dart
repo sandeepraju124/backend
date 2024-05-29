@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AmenitiesSelection extends StatefulWidget {
   @override 
   _AmenitiesSelectionState createState() => _AmenitiesSelectionState();
-}
+} 
 
 class _AmenitiesSelectionState extends State<AmenitiesSelection> {
   final List<String> _amenities =  ["Pool","Gym","Breakfast",

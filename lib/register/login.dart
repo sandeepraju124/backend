@@ -38,6 +38,9 @@ class _LoginState extends State<Login> {
       // var userpro = Provider.of<UserProvider>(context, listen: false);
       // await userpro.userProvider();
     } on FirebaseAuthException catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       if (kDebugMode) {
         print(e);
       }

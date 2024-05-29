@@ -4,6 +4,7 @@ import 'package:backendapp/models/businessdata_models.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/register/onboardingService.dart';
 import 'package:backendapp/register/profile_redirect.dart';
+import 'package:backendapp/register/business_selector.dart';
 import 'package:backendapp/screens/home/homepage.dart';
 import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/utils/constants.dart';
@@ -52,24 +53,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var data = Provider.of<BusinessDataProvider>(context);
     // You can return a placeholder widget or loader here if needed
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+        backgroundColor: tgAccentColor,
+      ),
       body: data.isLoading
-          ? CircularProgressIndicator()
+          ? Center(child: CircularProgressIndicator())
           : Column(
+
               // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Visibility(
                   visible:
                       data.BusinessData != null && data.BusinessData!.isEmpty,
-                  child: Text(
-                    onboardBusinessMessage,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
-                      // fontStyle: FontStyle.italic,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Image.asset("assets/empty.jpg", height: 200, width: 200),
+                        SizedBox(height: 20),
+                        Text(
+                          onboardBusinessMessage,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[800],
+                            // fontStyle: FontStyle.italic,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
                 ListView.builder(
@@ -154,7 +169,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         print("businessUid from shared preferences");
                         
                         Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => OnboardingService()));
+                MaterialPageRoute(builder: (context) => BusinessSelector()));
+                //         Navigator.of(context).pushReplacement(
+                // MaterialPageRoute(builder: (context) => OnboardingService()));
                         //
                       } catch (e) {
                         print("in catch");

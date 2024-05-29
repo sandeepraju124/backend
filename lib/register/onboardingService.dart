@@ -17,7 +17,8 @@ import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
 class OnboardingService extends StatefulWidget {
-  const OnboardingService({super.key});
+  final String? category;
+   OnboardingService({ this.category });
 
   // String lat;
   // String lang;
@@ -28,6 +29,31 @@ class OnboardingService extends StatefulWidget {
 }
 
 class _OnboardingServiceState extends State<OnboardingService> {
+  late String _selectedField;
+  String _category = "";
+  String _sub_category = "";
+  @override
+  void initState() {
+    super.initState();
+    // _selectedField = widget.category ?? "";
+    _selectedField = findFullCategoryPath(widget.category);
+    _serviceEditingController.text = _selectedField;
+    List<String?> cat = _selectedField.split(">");
+    _category = cat[0]!;
+    _sub_category = cat[1]!;
+  }
+
+  String findFullCategoryPath(String? category) {
+    if (category == null || category.isEmpty) return "";
+    for (String service in services) {
+      if (service.endsWith(category)) {
+        print("service $service");
+        return service;
+      }
+    }
+    return "";
+  }
+
   final _mapScreen = MapScreen();
   List<File> _images = [];
 
@@ -63,8 +89,7 @@ class _OnboardingServiceState extends State<OnboardingService> {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
-  String _category = "";
-  String _sub_category = "";
+  
 
   Future<String?> postServices() async {
     print("before try");
@@ -122,7 +147,7 @@ class _OnboardingServiceState extends State<OnboardingService> {
     'Beauty & Spas > Cosmetics & Beauty Supply',
     'Beauty & Spas > Acne Treatment',
     'Education > Adult Education',
-    'Home Services > Plumbers',
+    'Home Services > Plumbing',
     'Home Services > Electricians',
     'Home Services > Carpenters',
     'Home Services > Gardeners',
@@ -133,12 +158,16 @@ class _OnboardingServiceState extends State<OnboardingService> {
     'Nightlife > Cocktail Bars',
     'Nightlife > Comedy Clubs',
     'Nightlife > Club Crawl',
-    'Nightlife > Jazz & Blues'
+    'Nightlife > Jazz & Blues',
+    'Auto Service > Car Repair',
+    'Health > Gym',
   ];
 
   TextEditingController _serviceEditingController = TextEditingController();
 
-  String _selectedField = "";
+  // String _selectedField = "";
+  // String get _selectedField => widget.category ?? "";
+  
 
   Future pickImage(ImageSource source, String file) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
@@ -754,6 +783,8 @@ class _OnboardingServiceState extends State<OnboardingService> {
                   Text('Contact Info: ${_contactInfo.text}'),
                   const Text('Password: *****'),
                   Text('Address : ${_address.text}'),
+                  Text('Category: $_category'),
+                  Text('Sub Category: $_sub_category'),
                   // Text('Latitude: ${widget.lat }',),
                   // Text('Langitude: ${widget.lang }'),
                   // Text('image name : ${fileName}'),
@@ -767,6 +798,9 @@ class _OnboardingServiceState extends State<OnboardingService> {
   Widget build(BuildContext context) {
     var data = Provider.of<RegistrationProvider>(context, listen: false);
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Onboarding Business'),
+      ),
       body: SafeArea(
         child: Stepper(
           elevation: 0,
@@ -905,6 +939,26 @@ class _OnboardingServiceState extends State<OnboardingService> {
           Text("this is 4"),
           Text("this is 5"),
         ]);
+      case 'Auto Service > Car Repair':
+        return Column(children: const [
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            // controller: ,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelStyle: TextStyle(),
+              contentPadding: EdgeInsets.all(10),
+              labelText: 'Car Name',
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text("this is 7"),
+        ]);
+
       default:
         return Text("");
     }

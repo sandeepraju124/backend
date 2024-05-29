@@ -308,7 +308,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                           height: 10,
                         ),
 
-                        data.BusinessData!.amenities!.isNotEmpty ?
+                      data.BusinessData!.amenities != null &&  data.BusinessData!.amenities!.isNotEmpty   ?
                         
                         ListView.builder(
                           shrinkWrap: true,

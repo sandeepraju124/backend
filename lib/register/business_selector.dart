@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
 
+import 'package:backendapp/register/onboardingService.dart';
 import 'package:backendapp/register/select_location.dart';
 import 'package:backendapp/screens/graphs/review_insight.dart';
 import 'package:backendapp/screens/graphs/profile_visit.dart';
@@ -23,19 +24,15 @@ class _BusinessSelectorState extends State<BusinessSelector> {
     'assets/business_selector/hospital.jpg',
     'assets/business_selector/plumbing.jpg',
     'assets/business_selector/plumbing.jpg',
-    'assets/business_selector/gym.jpg',
-    'assets/business_selector/hospital.jpg',
   ];
 
   final List<String> businessNames = [
-    'Auto Service',
-    'Cleaning',
+    'Car Repair',
+    'Home Cleaning',
     'Gym',
     'Hospital',
     'Plumbing',
     'Plumbing',
-    'Gym',
-    'Hospital',
   ];
 
   // Define a mapping between image paths and screen route
@@ -73,6 +70,12 @@ class _BusinessSelectorState extends State<BusinessSelector> {
                   return GestureDetector(
                     onTap: () {
                       print("tapped");
+                      print(businessNames[index]);
+                      Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => OnboardingService(
+                  category:businessNames[index] 
+                //  category: "Beauty & Spas > Barbers"
+                  ,)));
                     },
                     child: GridTile(
                       child: Stack(
