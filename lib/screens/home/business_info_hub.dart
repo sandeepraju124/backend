@@ -9,6 +9,7 @@ import 'package:backendapp/utils/navigators.dart';
 import 'package:backendapp/screens/amenites/AmenitiesandMore.dart';
 import 'package:backendapp/widgets/Businessinfo.dart';
 import 'package:backendapp/widgets/HoursofOperations.dart';
+import 'package:backendapp/widgets/operating_hours_test.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -309,7 +310,6 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                         ),
 
                       data.BusinessData!.amenities != null &&  data.BusinessData!.amenities!.isNotEmpty   ?
-                        
                         ListView.builder(
                           shrinkWrap: true,
                           itemCount: data.BusinessData!.amenities!.length <=3 ?data.BusinessData!.amenities!.length : 3 ,
@@ -537,7 +537,8 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                       return Container(
                                           padding: EdgeInsets.all(15),
                                           width: double.infinity,
-                                          child: HoursOfOperations());
+                                          // child: HoursOfOperations());
+                                          child: OperatingHoursScreen());
                                     },
                                   );
                                 },

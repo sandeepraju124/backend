@@ -11,6 +11,7 @@ import 'package:backendapp/register/business_selector.dart';
 import 'package:backendapp/screens/graphs/review_insight.dart';
 import 'package:backendapp/screens/testingchat.dart';
 import 'package:backendapp/screens/graphs/profile_visit.dart';
+import 'package:backendapp/widgets/operating_hours_test.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/registrationdata_provider.dart';
@@ -59,6 +60,9 @@ void main()async {
     ChangeNotifierProvider<InsightsProvider>(
       create: (_) => InsightsProvider(),
     ),
+    ChangeNotifierProvider<HoursProvider>(
+      create: (_) => HoursProvider(),
+    ),
     ],
     
     child: const MyApp()));
@@ -80,7 +84,7 @@ class MyApp extends StatelessWidget {
       // home: SignUp(),
       // home: Homepage(),
       home:redirection(),
-      // home:ProfileScreenTest(),
+      // home:OperatingHoursScreen(),
       // home:BusinessSelector(),
       // home:ReviewInsightChart(),
       // home: OnboardingService(),

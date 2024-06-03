@@ -23,7 +23,7 @@ class _BusinessSelectorState extends State<BusinessSelector> {
     'assets/business_selector/gym.jpg',
     'assets/business_selector/hospital.jpg',
     'assets/business_selector/plumbing.jpg',
-    'assets/business_selector/plumbing.jpg',
+    'assets/business_selector/restaurent.jpg',
   ];
 
   final List<String> businessNames = [
@@ -32,7 +32,7 @@ class _BusinessSelectorState extends State<BusinessSelector> {
     'Gym',
     'Hospital',
     'Plumbing',
-    'Plumbing',
+    'Restaurant',
   ];
 
   // Define a mapping between image paths and screen route

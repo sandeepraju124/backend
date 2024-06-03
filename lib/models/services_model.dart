@@ -22,12 +22,6 @@ class ServicesModels {
     this.openingHours,
   });
 
-  // factory ServicesModels.fromJson(Map<String, dynamic> json) => ServicesModels(
-  //     amenities: List<String>.from(json["amenities"].map((x) => x)),
-  //     businessUid: json["business_uid"],
-  //     images: List<String>.from(json["images"].map((x) => x)),
-  //     openingHours: List<OpeningHour>.from(json["opening_hours"].map((x) => OpeningHour.fromJson(x))),
-  // );
   factory ServicesModels.fromJson(Map<String, dynamic> json) {
   return ServicesModels(
     amenities: json["amenities"] != null ? List<String>.from(json["amenities"].map((x) => x)) : null,
@@ -39,21 +33,6 @@ class ServicesModels {
         : null,
   );
 }
-
-// amenities: json["amenities"] != null
-//     ? List<String>.from(json["amenities"].map((x) => x))
-//     : null,
-// images: json["images"] != null
-//     ? List<String>.from(json["images"].map((x) => x))
-//     : null,
-// openingHours: json["opening_hours"] != null
-//     ? List<OpeningHour>.from(
-//         json["opening_hours"].map((x) => OpeningHour.fromJson(x)))
-//     : null,
-
-
-
-
 
 
   Map<String, dynamic> toJson() => {
@@ -74,11 +53,6 @@ class OpeningHour {
     this.openingTime,
   });
 
-  // factory OpeningHour.fromJson(Map<String, dynamic> json) => OpeningHour(
-  //       day: json["day"],
-  //       openingTime: List<OpeningTime>.from(
-  //           json["opening_time"].map((x) => OpeningTime.fromJson(x))),
-  //     );
       factory OpeningHour.fromJson(Map<String, dynamic> json) {
   return OpeningHour(
     day: json["day"],

@@ -37,10 +37,12 @@ class _OnboardingServiceState extends State<OnboardingService> {
     super.initState();
     // _selectedField = widget.category ?? "";
     _selectedField = findFullCategoryPath(widget.category);
+    print("selectedField $_selectedField");
     _serviceEditingController.text = _selectedField;
     List<String?> cat = _selectedField.split(">");
-    _category = cat[0]!;
-    _sub_category = cat[1]!;
+    print("cat $cat");
+    _category = cat[0]!.trim();
+    _sub_category = cat[1]!.trim();
   }
 
   String findFullCategoryPath(String? category) {
@@ -97,7 +99,7 @@ class _OnboardingServiceState extends State<OnboardingService> {
       print("inside try");
       List<String?> cat = _selectedField.split(">");
       String? category = cat[0];
-      String? sub_category = cat[1];
+      String? sub_category = cat[1]!.trim();
 
       final url = Uri.parse("$baseUrl/pg/business");
       // final url = Uri.parse('https://revolution.azurewebsites.net/services');
@@ -161,6 +163,7 @@ class _OnboardingServiceState extends State<OnboardingService> {
     'Nightlife > Jazz & Blues',
     'Auto Service > Car Repair',
     'Health > Gym',
+    'Food > Restaurant',
   ];
 
   TextEditingController _serviceEditingController = TextEditingController();
