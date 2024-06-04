@@ -344,21 +344,21 @@ class _HoursOfOperationsState extends State<HoursOfOperations> {
   var data = Provider.of<ServicesProvider>(context, listen: false);
   
   // Check if openingHours is not null before iterating over it
-  if (data.BusinessData != null && data.BusinessData!.openingHours != null) {
-    operatingHours = {
-      for (var openingHour in data.BusinessData!.openingHours!)
-        openingHour.day!: {
-          "startTime": openingHour.openingTime!.isNotEmpty
-              ? openingHour.openingTime![0].startTime
-              // ignore: prefer_const_constructors
-              : TimeOfDay(hour: 0, minute: 0),
-          "endTime": openingHour.openingTime!.isNotEmpty
-              ? openingHour.openingTime![0].endTime
-              : TimeOfDay(hour: 0, minute: 0),
-          "schedule": true,
-        }
-    };
-  }
+  // if (data.BusinessData != null && data.BusinessData!.operatingHours != null) {
+  //   operatingHours = {
+  //     for (var openingHour in data.BusinessData!.openingHours!)
+  //       openingHour.day!: {
+  //         "startTime": openingHour.openingTime!.isNotEmpty
+  //             ? openingHour.openingTime![0].startTime
+  //             // ignore: prefer_const_constructors
+  //             : TimeOfDay(hour: 0, minute: 0),
+  //         "endTime": openingHour.openingTime!.isNotEmpty
+  //             ? openingHour.openingTime![0].endTime
+  //             : TimeOfDay(hour: 0, minute: 0),
+  //         "schedule": true,
+  //       }
+  //   };
+  // }
 }
 
 

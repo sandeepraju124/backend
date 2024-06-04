@@ -111,7 +111,7 @@ class ServicesProvider extends ChangeNotifier {
 
 // this is for posting operating hours
 
-Future<void> postOperatingHours(Map<String, Map<String, dynamic>> hours, String business_uid) async {
+Future<bool> postOperatingHours(Map<String, Map<String, dynamic>> hours, String business_uid) async {
     final url = 'https://supernova1137.azurewebsites.net/mongo/business/hours';
     final response = await http.post(
       Uri.parse(url),
@@ -126,10 +126,14 @@ Future<void> postOperatingHours(Map<String, Map<String, dynamic>> hours, String 
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       print('Operating hours posted successfully');
+      getMongoBusinessData(business_uid);
+      return true;
     } else {
       print('Failed to post operating hours: ${response.statusCode}');
+      return false;
     }
   }
+
 
   Future<bool> uploadImagesToServer(
       List<File> images, String businessUid) async {

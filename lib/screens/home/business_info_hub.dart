@@ -50,8 +50,11 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
     var data = Provider.of<ServicesProvider>(context);
     var businessdata = Provider.of<BusinessDataProvider>(context);
     print("hereeeeeeeee");
-    print(data.BusinessData?.openingHours);
+    print(data.BusinessData?.operatingHours);
     print(data.BusinessData?.businessUid);
+    var amenities = data.BusinessData?.amenities;
+    var operatingHours = data.BusinessData?.operatingHours;
+
     // final List<Map<String, dynamic>> openingHours = data.BusinessData.openingHours;
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -309,23 +312,23 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                           height: 10,
                         ),
 
-                      data.BusinessData!.amenities != null &&  data.BusinessData!.amenities!.isNotEmpty   ?
+                      // data.BusinessData!.amenities == null  ||  data.BusinessData!.amenities!.isEmpty   ? Text(noAmenities):
+                      amenities == null || amenities.isEmpty ? Text(noAmenities):
                         ListView.builder(
                           shrinkWrap: true,
-                          itemCount: data.BusinessData!.amenities!.length <=3 ?data.BusinessData!.amenities!.length : 3 ,
+                          itemCount: amenities.length <=3 ?amenities.length : 3 ,
                           itemBuilder: (BuildContext, int) {
                             return Column(children: [
                               Row(children: [
-                                Text(data.BusinessData!.amenities![int]),
+                                Text(amenities[int]),
                                 SizedBox(width: 10,),
                                 Text("Yes",
                                 style: TextStyle(fontWeight: FontWeight.bold), )
                                 ],),
-                        
                             ],);
                           }
-                          ) :
-                          Text(noAmenities),
+                          ) 
+                          ,
 
                         // Row(
                         //   children: [
@@ -481,38 +484,61 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                         SizedBox(
                           height: 10,
                         ),
-                        data.BusinessData?.openingHours == null ? Text(""):
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: data.BusinessData!.openingHours!
-                                .map((openingHour) {
-                              final day = openingHour.day;
-                              final hoursList = openingHour.openingTime;
-                              final hours = hoursList!.isNotEmpty
-                                  ? hoursList
-                                      .map((hour) =>
-                                          '${_formatTime(hour.startTime!)} - ${_formatTime(hour.endTime!)}')
-                                      .join(', ')
-                                  : 'Closed';
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    day!,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  Text(hours),
-                                ],
-                              );
-                            }).toList(),
-                          ),
-                        ),
+                        operatingHours == null
+                          ? Text("No operating hours available")
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: operatingHours.toJson().entries.map((entry) {
+                                var day = entry.key;
+                                var hours = entry.value;
+                                return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(day, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                                    SizedBox(width: 10),
+                                    Text("Open: ${hours['open'] ?? 'N/A'}", ),
+                                    // Text("Close: ${hours['close'] ?? 'N/A'}"),
+                                    // Text("Closed: ${hours['closed'] ? 'Yes' : 'No'}"),
+                                    // Text("Open 24 hours: ${hours['open24'] ? 'Yes' : 'No'}"),
+                                    SizedBox(height: 10),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                        // data.BusinessData?.operatingHours == null ? Text(""): Text("Update Operating Hours "),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(16.0),
+                        //   child: 
+                        //   Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                        //     children: data.BusinessData!
+                        //         .map((openingHour) {
+                        //       final day = openingHour.day;
+                        //       final hoursList = openingHour.openingTime;
+                        //       final hours = hoursList!.isNotEmpty
+                        //           ? hoursList
+                        //               .map((hour) =>
+                        //                   '${_formatTime(hour.startTime!)} - ${_formatTime(hour.endTime!)}')
+                        //               .join(', ')
+                        //           : 
+                        //           'Closed';
+                        //       return Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           Text(
+                        //             day!,
+                        //             style: const TextStyle(
+                        //               fontWeight: FontWeight.bold,
+                        //             ),
+                        //           ),
+                        //           const SizedBox(width: 8.0),
+                        //           Text(hours),
+                        //         ],
+                        //       );
+                        //     }).toList(),
+                        //   ),
+                        // ),
 
                         SizedBox(
                           height: 14,
