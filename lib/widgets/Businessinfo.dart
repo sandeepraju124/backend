@@ -60,125 +60,131 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
 
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      // backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text("Basic Info"),
+        toolbarHeight: 80,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: TextFormField(
-                controller: businessNameController,
-                decoration: const InputDecoration(
-                  labelText: "Business name",
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: TextFormField(
+                  controller: businessNameController,
+                  decoration: const InputDecoration(
+                    labelText: "Business name",
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(8.0),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: TextFormField(
-                controller: addressController,
-                decoration: InputDecoration(
-                  labelText: "Address",
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(8.0),
+              SizedBox(height: 16.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: TextFormField(
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    labelText: "Address",
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(8.0),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: TextFormField(
-                controller: phoneNumberController,
-                decoration: InputDecoration(
-                  labelText: "Phone number",
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(8.0),
+              SizedBox(height: 16.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: TextFormField(
+                  controller: phoneNumberController,
+                  decoration: InputDecoration(
+                    labelText: "Phone number",
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(8.0),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: TextFormField(
-                controller: websiteLinkController,
-                decoration: InputDecoration(
-                  labelText: "Website link (Optional)",
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(8.0),
+              SizedBox(height: 16.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: TextFormField(
+                  controller: websiteLinkController,
+                  decoration: InputDecoration(
+                    labelText: "Website link (Optional)",
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(8.0),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: TextFormField(
-                controller: menuLinksController,
-                decoration: InputDecoration(
-                  labelText: "Menu links (Optional)",
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(8.0),
+              SizedBox(height: 16.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: TextFormField(
+                  controller: menuLinksController,
+                  decoration: InputDecoration(
+                    labelText: "Menu links (Optional)",
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(8.0),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () async {
-
-                // Print or process the form data as needed
-                print("Business Name: ${businessNameController.text}");
-                print("Phone Number: ${phoneNumberController.text}");
-                print("Website Link: ${websiteLinkController.text}");
-                print("Menu Links: ${menuLinksController.text}");
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                String? businessUid = prefs.getString('businessUid');
-
-                Map<String, dynamic> updatedData = {
-                  'business_uid': businessUid,
-                  'business_name': businessNameController.text,
-                  'address': addressController.text,
-                  'contact_information': phoneNumberController.text,
-                  // 'websiteLink': websiteLinkController.text,
-                  // 'menuLinks': menuLinks,
-                };
-
-                // Call the update method from the provider
-                bool response = await Provider.of<BusinessDataProvider>(context, listen: false)
-                    .updateBusinessData(updatedData);
-                    if (response){
-                      showSnackBar(context,"Profile Updated Sucessfully" );
-                    }
-                    // Navigator.pop(context);
-              },
-              child: data.isLoadingPatch ? CircularProgressIndicator(): Text("Submit"),
-            ),
-          ],
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () async {
+          
+                  // Print or process the form data as needed
+                  print("Business Name: ${businessNameController.text}");
+                  print("Phone Number: ${phoneNumberController.text}");
+                  print("Website Link: ${websiteLinkController.text}");
+                  print("Menu Links: ${menuLinksController.text}");
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  String? businessUid = prefs.getString('businessUid');
+          
+                  Map<String, dynamic> updatedData = {
+                    'business_uid': businessUid,
+                    'business_name': businessNameController.text,
+                    'address': addressController.text,
+                    'contact_information': phoneNumberController.text,
+                    // 'websiteLink': websiteLinkController.text,
+                    // 'menuLinks': menuLinks,
+                  };
+          
+                  // Call the update method from the provider
+                  bool response = await Provider.of<BusinessDataProvider>(context, listen: false)
+                      .updateBusinessData(updatedData);
+                      if (response){
+                        showSnackBar(context,"Profile Updated Sucessfully" );
+                        Navigator.pop(context);
+                      }
+                      // Navigator.pop(context);
+                },
+                child: data.isLoadingPatch ? CircularProgressIndicator(): Text("Submit"),
+              ),
+            ],
+          ),
         ),
       ),
     );

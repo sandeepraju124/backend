@@ -51,6 +51,7 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
   
   if (isCheck) {
     showSnackBar(context, "Amenities updated successfully");
+    Navigator.pop(context);
   }
 }
 
@@ -62,16 +63,18 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
     print(data.BusinessData![0].subCategory);
     return Scaffold(
       // backgroundColor: Colors.grey[100],
-      appBar: AppBar(title: Text("Amenities and more")),
+      appBar: AppBar(
+        toolbarHeight: 120,
+        title: Text("Amenities and more")),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(children: [
-            SizedBox(
-              height: 10,
-            ),
+            // SizedBox(
+            //   height: 10,
+            // ),
             Text(
-                "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results."),
+                "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results.",style: TextStyle(fontSize: 12)),
             SizedBox(
               height: 14,
             ),

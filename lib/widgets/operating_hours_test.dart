@@ -216,17 +216,25 @@ class OperatingHoursScreen extends StatelessWidget {
     });
 
     return Scaffold(
-        appBar: AppBar(
+      backgroundColor: Colors.white,
+        appBar: AppBar( 
+          toolbarHeight: 80,
+          backgroundColor:Colors.white ,
           title: Text('Operating Hours'),
         ),
-        body: ListView(
-          children: [
-            DayTimeSelector(day: 'Monday'),
-            DayTimeSelector(day: 'Tuesday'),
-            DayTimeSelector(day: 'Wednesday'),
-            DayTimeSelector(day: 'Thursday'),
-            DayTimeSelector(day: 'Friday'),
-          ],
+        body: SafeArea(
+
+          // maintainBottomViewPadding: true,
+          child: ListView(
+            children: [
+              // Text('Operating Hours'),
+              DayTimeSelector(day: 'Monday'),
+              DayTimeSelector(day: 'Tuesday'),
+              DayTimeSelector(day: 'Wednesday'),
+              DayTimeSelector(day: 'Thursday'),
+              DayTimeSelector(day: 'Friday'),
+            ],
+          ),
         ),
         bottomNavigationBar: ElevatedButton(
             onPressed: () async {
@@ -238,6 +246,7 @@ class OperatingHoursScreen extends StatelessWidget {
                   await data.postOperatingHours(provider.hours, businessUid);
               if (isCheck) {
                 showSnackBar(context, "Operating Hours updated successfully");
+                Navigator.pop(context);
               }
             },
             child: Text('Update Operating Hours'),

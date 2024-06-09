@@ -1,11 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:backendapp/provider/askcommunityprovider.dart';
+import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/screens/askcommunity.dart';
 import 'package:backendapp/screens/commentsection/showreviews.dart';
 import 'package:backendapp/screens/home/s1.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Community extends StatefulWidget {
   const Community({super.key});
@@ -25,6 +29,24 @@ class _CommunityState extends State<Community> {
   //   _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   // }
 
+  Future<void> _refreshAsk()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? businessUid = prefs.getString('businessUid');
+    print("Business_uid = $businessUid");
+    print("refreshing ask community");
+    // var commentsData = Provider.of<CommentSectionProvider>(context, listen: false).commentSectionProvider(businessUid);
+    var askCommData = Provider.of<AskCommunityProvider>(context, listen: false).fetchAskCommunityData(businessUid!);
+
+  }
+  Future<void> _refreshComments()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? businessUid = prefs.getString('businessUid');
+    print("Business_uid = $businessUid");
+    print("refreshing comments");
+    var commentsData = Provider.of<CommentSectionProvider>(context, listen: false).commentSectionProvider(businessUid);
+    // var askCommData = Provider.of<AskCommunityProvider>(context, listen: false).fetchAskCommunityData(businessUid!);
+
+  }
 
   
 
@@ -35,6 +57,7 @@ class _CommunityState extends State<Community> {
       child: Scaffold(
         backgroundColor: Color(0xFFEFF0F7),
         appBar: AppBar(
+          // backgroundColor: tgAccentColor,
           title: Text("Community Discussion"),
           elevation: 10,
         ),
@@ -51,7 +74,7 @@ class _CommunityState extends State<Community> {
                 child: TabBar(
                     // isScrollable: true,
                     dividerColor: Colors.transparent,
-
+            
                     // isScrollable: true,
                     indicatorSize: TabBarIndicatorSize.tab,
                     indicatorPadding: EdgeInsets.symmetric(horizontal: 12),
@@ -72,14 +95,19 @@ class _CommunityState extends State<Community> {
                 child: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),
               children: [
-                AskForCommunityWidget(
-                          uid: '',
-                          Questionid: "",
-                        ),
+                RefreshIndicator(
+                   onRefresh: _refreshAsk,
+                  child: AskForCommunityWidget(
+                            uid: '',
+                            Questionid: "",
+                          ),
+                ),
                 // Text("first"),
                 // Text("second"),
                 // PaymentPage(),
-                NewShowRewviewPage()
+                RefreshIndicator(
+                  onRefresh: _refreshComments,
+                  child: NewShowRewviewPage())
               ],
             ))
           ],

@@ -560,11 +560,14 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                     maxChildSize:
                                         1.0, // Maximum height to stop at (same as initialChildSize)
                                     builder: (context, scrollController) {
-                                      return Container(
-                                          padding: EdgeInsets.all(15),
-                                          width: double.infinity,
-                                          // child: HoursOfOperations());
-                                          child: OperatingHoursScreen());
+                                      return SafeArea(
+                                        child: Container(
+                                          color: Colors.white,
+                                            padding: EdgeInsets.all(15),
+                                            width: double.infinity,
+                                            // child: HoursOfOperations());
+                                            child: OperatingHoursScreen()),
+                                      );
                                     },
                                   );
                                 },
@@ -636,6 +639,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                       1.0, // Maximum height to stop at (same as initialChildSize)
                                   builder: (context, scrollController) {
                                     return Container(
+                                      color: Colors.white,
                                         padding: EdgeInsets.all(15),
                                         width: double.infinity,
                                         child: BasicInfoForm());
