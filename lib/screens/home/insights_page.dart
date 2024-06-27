@@ -19,14 +19,14 @@ class _InsightsState extends State<Insights> {
   final List<String> imagePaths = [
     'assets/linechart.png',
     'assets/17906.jpg',
-    'assets/pie.jpg',
+    // 'assets/pie.jpg',
   ];
 
    // Define a mapping between image paths and screen route
    final Map<String, Widget> screenRoutes = {
     'assets/linechart.png': ReviewInsightChart(),
     'assets/17906.jpg': MonthlyViewsChart(),
-    // 'assets/pie.jpg': OtherScreen2(),
+    // 'assets/17906.jpg': MonthlyViewsChart()
   };
 
 
