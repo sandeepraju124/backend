@@ -16,12 +16,12 @@ class RegistrationProvider extends ChangeNotifier{
     'country':'',
     'latitude': '',
     'longitude': '',
-    'profile_image_url':'',
+    'profile_image_url':null,
     'category':'',
     'sub_category':'',
     'images': [],
-    'aadhar_front':'',
-    'aadhar_back':'',
+    'aadhar_front':null,
+    'aadhar_back':null,
 
   };
 

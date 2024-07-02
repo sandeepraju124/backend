@@ -87,68 +87,136 @@ class _PostBusinessPageState extends State<PostBusinessPage> {
       }
     }
 
-    Future<bool> postBusiness() async {
-      setState(() {
-        _isLoading = true;
-      });
-      final user = FirebaseAuth.instance.currentUser;
-      final userid = user?.uid;
-      print(userid);
+    // Future<bool> postBusiness() async {
+    //   setState(() {
+    //     _isLoading = true;
+    //   });
+    //   final user = FirebaseAuth.instance.currentUser;
+    //   final userid = user?.uid;
+    //   print(userid);
 
-      // var data = Provider.of<RegistrationProvider>;
-      print("before try");
-      try {
-        print("inside try");
-        final url =
-            Uri.parse("https://supernova1137.azurewebsites.net/pg/business");
+    //   // var data = Provider.of<RegistrationProvider>;
+    //   print("before try");
+    //   try {
+    //     print("inside try");
+    //     final url =
+    //         Uri.parse("https://supernova1137.azurewebsites.net/pg/business");
             
 
-        Map<String, String> body = {
-          'business_uid': business_uid,
-          'business_name': data.registrationData['businessName'],
-          'business_description': data.registrationData['business_description'],
-          'contact_information': data.registrationData['contactInfo'],
-          'country': "india",
-          'category': data.registrationData['category'],
-          'sub_category': data.registrationData['sub_category'],
-          'latitude': data.registrationData['latitude'].toString(),
-          'longitude': data.registrationData['longitude'].toString(),
-          'userid':userid.toString(),
-          // 'image' : _ffsaiImage
-        };
-        print(" try");
-        print(Random(5).nextInt(5));
+    //     Map<String, String> body = {
+    //       'business_uid': business_uid,
+    //       'business_name': data.registrationData['businessName'],
+    //       'business_description': data.registrationData['business_description'],
+    //       'contact_information': data.registrationData['contactInfo'],
+    //       'country': "india",
+    //       'category': data.registrationData['category'],
+    //       'sub_category': data.registrationData['sub_category'],
+    //       'latitude': data.registrationData['latitude'].toString(),
+    //       'longitude': data.registrationData['longitude'].toString(),
+    //       'userid':userid.toString(),
+    //       // 'image' : _ffsaiImage
+    //     };
+    //     print(" try");
+    //     print(Random(5).nextInt(5));
 
-        // final response = await http.post(url, body: body);
-        final request = http.MultipartRequest(
-          'POST',
-          url,
-        )
-          ..files.add(await http.MultipartFile.fromPath(
-              'profile_image_url', data.registrationData['profile_image_url']))
-          ..fields.addAll(body);
-        final response = await request.send();
-        print(response.statusCode);
-        print(response);
-        if (response.statusCode == 200) {
-          final responseBody = await response.stream.bytesToString();
-          print(responseBody);
+    //     // final response = await http.post(url, body: body);
+    //     final request = http.MultipartRequest(
+    //       'POST',
+    //       url,
+    //     )
+    //       ..files.add(await http.MultipartFile.fromPath(
+    //           'profile_image_url', data.registrationData['profile_image_url']))
+    //       ..fields.addAll(body);
+    //     final response = await request.send();
+    //     print(response.statusCode);
+    //     print(response);
+    //     if (response.statusCode == 200) {
+    //       final responseBody = await response.stream.bytesToString();
+    //       print(responseBody);
 
-          setState(() {
-            _isLoading = false;
-            // return true;
-          });
+    //       setState(() {
+    //         _isLoading = false;
+    //         // return true;
+    //       });
 
-          // return 'Service created successfully';
-          return true;
-        } else {
-          throw Exception('Failed to create service');
-        }
-      } catch (e) {
-        print(e.toString());
-        throw Exception('Failed to create service: $e');
-      }
+    //       // return 'Service created successfully';
+    //       return true;
+    //     } else {
+    //       throw Exception('Failed to create service');
+    //     }
+    //   } catch (e) {
+    //     print(e.toString());
+    //     throw Exception('Failed to create service: $e');
+    //   }
+    // }
+
+    Future<bool> postBusiness() async {
+  setState(() {
+    _isLoading = true;
+  });
+
+  final user = FirebaseAuth.instance.currentUser;
+  final userid = user?.uid;
+  print(userid);
+
+  print("before try");
+  try {
+    print("inside try");
+    final url = Uri.parse("https://supernova1137.azurewebsites.net/pg/business");
+
+    Map<String, String> body = {
+      'business_uid': business_uid,
+      'business_name': data.registrationData['businessName'],
+      'business_description': data.registrationData['business_description'],
+      'contact_information': data.registrationData['contactInfo'],
+      'country': "india",
+      'category': data.registrationData['category'],
+      'sub_category': data.registrationData['sub_category'],
+      'latitude': data.registrationData['latitude'].toString(),
+      'longitude': data.registrationData['longitude'].toString(),
+      'userid': userid.toString(),
+    };
+
+    print(" try");
+    print(Random(5).nextInt(5));
+
+    final request = http.MultipartRequest(
+      'POST',
+      url,
+    )..fields.addAll(body);
+
+    // Conditionally add profile_image_url if it is not null
+    if (data.registrationData['profile_image_url'] != null && data.registrationData['profile_image_url'] is String && data.registrationData['profile_image_url'].isNotEmpty) {
+      request.files.add(await http.MultipartFile.fromPath(
+        'profile_image_url', data.registrationData['profile_image_url']
+      ));
     }
+
+    // Conditionally add aadhar_front if it is not null
+
+
+    final response = await request.send();
+    print(response.statusCode);
+    print(response);
+
+    if (response.statusCode == 200) {
+      final responseBody = await response.stream.bytesToString();
+      print(responseBody);
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      return true;
+    } else {
+      throw Exception('Failed to create service');
+    }
+  } catch (e) {
+    print(e.toString());
+    throw Exception('Failed to create service: $e');
+  }
+}
+
 
     return MaterialApp(
       home: Scaffold(
@@ -164,12 +232,16 @@ class _PostBusinessPageState extends State<PostBusinessPage> {
                     bottomLeft: Radius.circular(30.0),
                     bottomRight: Radius.circular(30.0),
                   ),
-                  child: Image.file(
+                  child: data.registrationData['profile_image_url'] == null ? 
+                  Image.asset("assets/defaulltdp.png",width: 100,)
+                      :
+                       Image.file(
                       height: 220,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      File(data.registrationData['profile_image_url'])),
+                      File(data.registrationData['profile_image_url'])) ,
                 ),
+                // || data.registrationData['profile_image_url'].isNotEmpty
                 SizedBox(
                   height: 15,
                 ),
@@ -183,33 +255,31 @@ class _PostBusinessPageState extends State<PostBusinessPage> {
                         color: Colors.grey),
                   ),
                 ),
-                Visibility(
-                    visible: data.registrationData['aadhar_front'] != null,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.file(
-                            data.registrationData['aadhar_front'],
-                            // File(data.registrationData['images'][int]),
-                            width: 90.0,
-                            height: 80.0,
-                            fit: BoxFit.cover,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Image.file(
-                            data.registrationData['aadhar_back'],
-                            // File(data.registrationData['images'][int]),
-                            width: 90.0,
-                            height: 80.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ],
+                 if (data.registrationData['aadhar_front'] != null && data.registrationData['aadhar_front'] is File)
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.file(
+                      data.registrationData['aadhar_front'],
+                      // File(data.registrationData['images'][int]),
+                      width: 90.0,
+                      height: 80.0,
+                      fit: BoxFit.cover,),   
+                      SizedBox(
+                        width: 10,
                       ),
-                    )),
+                      Image.file(
+                        data.registrationData['aadhar_back'],
+                        // File(data.registrationData['images'][int]),
+                        width: 90.0,
+                        height: 80.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                  ),
+                ),
                 Visibility(
                   visible: data.registrationData['images'].isNotEmpty,
                   child: Text(

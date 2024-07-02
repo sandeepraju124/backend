@@ -4,6 +4,7 @@ import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/provider/insights_provider.dart';
+import 'package:backendapp/register/onboardingtest.dart';
 import 'package:backendapp/register/postbusiness.dart';
 import 'package:backendapp/register/waiting.dart';
 import 'package:backendapp/screens/amenites/amenity_selector.dart';
@@ -83,8 +84,8 @@ class MyApp extends StatelessWidget {
       // home: BusinessLineChart(yaxis: "reviews"),
       // home: SignUp(),
       // home: Homepage(),
-      home:redirection(),
-      // home:OperatingHoursScreen(),
+      // home:redirection(),
+      home:CustomOnboardingService(category: "Beauty & Spas > Barbers"),
       // home:BusinessSelector(),
       // home:ReviewInsightChart(),
       // home: OnboardingService(),

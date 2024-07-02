@@ -332,7 +332,8 @@ class _OnboardingServiceState extends State<OnboardingService> {
                 _activeStepIndex <= 1 ? StepState.editing : StepState.complete,
             isActive: _activeStepIndex >= 1,
             title: const Text('Upload Docs'),
-            content: Column(
+            content: 
+            Column(
               children: [
                 const SizedBox(
                   height: 8,
@@ -764,7 +765,8 @@ class _OnboardingServiceState extends State<OnboardingService> {
                   ],
                 ),
               ],
-            )),
+            )
+            ),
         //   Step(
         //     state: StepState.complete,
         // isActive: _activeStepIndex >= 2,
@@ -802,6 +804,7 @@ class _OnboardingServiceState extends State<OnboardingService> {
     var data = Provider.of<RegistrationProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
+        // backgroundColor: tgDarkPrimaryColor,
         title: const Text('Onboarding Business'),
       ),
       body: SafeArea(

@@ -137,13 +137,18 @@ class _BusinessSelectorState extends State<BusinessSelector> {
                   );
                 },
               ),
-              ClipPath(
-                clipper: PointedCornerClipper(),
-                child: Container(
-                  width: 200,
-                  height: 30,
-                  color: Colors.grey,
-                  child: Center(child: Text("View All",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold, color: Colors.white),)),
+              GestureDetector(
+                onTap: (){
+                  showSnackBar(context, "Feature is in progress soon it will be available");
+                },
+                child: ClipPath(
+                  clipper: PointedCornerClipper(),
+                  child: Container(
+                    width: 200,
+                    height: 30,
+                    color: Colors.grey,
+                    child: Center(child: Text("View All",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold, color: Colors.white),)),
+                  ),
                 ),
               ),
               SizedBox(height: 39,)

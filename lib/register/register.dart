@@ -37,6 +37,8 @@ class _RegisterState extends State<Register> {
     });
   }
 
+  bool _obscureText = true;
+
   // Future postUser(userid) async {
 
   // Map<String, String> body = {
@@ -55,7 +57,7 @@ class _RegisterState extends State<Register> {
     setState(() {
       _isLoading = true;
     });
-    
+
     print('Sign up clicked');
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -98,8 +100,8 @@ class _RegisterState extends State<Register> {
                   redirection()), // Use redirection widget here
         );
         setState(() {
-      _isLoading = false;
-    });
+          _isLoading = false;
+        });
 
         //fetch data and store on provider
         // userpro.userProvider();
@@ -242,14 +244,27 @@ class _RegisterState extends State<Register> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
+              obscureText: _obscureText,
               controller: _passwordcontroller,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(10),
-                border: OutlineInputBorder(),
-                labelText: 'Password',
-              ),
+                  contentPadding: EdgeInsets.all(10),
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                    icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                    ),
+                  )),
               autofocus: false,
-              maxLines: null,
+              maxLines: 1,
+              // expands:true,
+              // minLines: 1,
+              maxLength: 250,
               keyboardType: TextInputType.visiblePassword,
             ),
           ),
@@ -266,11 +281,15 @@ class _RegisterState extends State<Register> {
           width: double.infinity,
           color: tgAccentColor,
           child: Center(
-              child: _isLoading ? Center(child: CircularProgressIndicator(backgroundColor: Colors.white,)):
-              Text(
-            "Join",
-            style: TextStyle(color: Colors.white, fontSize: 17),
-          )),
+              child: _isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                    ))
+                  : Text(
+                      "Join",
+                      style: TextStyle(color: Colors.white, fontSize: 17),
+                    )),
         ),
       ),
     );

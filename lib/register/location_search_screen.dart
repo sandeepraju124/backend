@@ -284,6 +284,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                 print(data.registrationData.keys);
                 print(data.registrationData.values);
                 print(data.registrationData["latitude"]);
+                print(data.registrationData['aadhar_back']);
                 // print(data.registrationData["images"]);
                 // print(data.registrationData["aadhar_front"]);
               });

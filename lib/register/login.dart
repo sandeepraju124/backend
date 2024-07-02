@@ -66,6 +66,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
           child: Center(
         child: Padding(
@@ -139,12 +140,17 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 5,
               ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "Forget password",
-                    style: TextStyle(color: Colors.teal),
-                  )),
+              GestureDetector(
+                onTap: (){
+                  showSnackBar(context, "Feature is in progress soon it will be available");
+                },
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "Forget password",
+                      style: TextStyle(color: Colors.teal),
+                    )),
+              ),
               SizedBox(
                 height: 10,
               ),
