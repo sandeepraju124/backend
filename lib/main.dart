@@ -6,6 +6,7 @@ import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/provider/insights_provider.dart';
 import 'package:backendapp/register/onboardingtest.dart';
 import 'package:backendapp/register/postbusiness.dart';
+import 'package:backendapp/register/selectallbusinesstest.dart';
 import 'package:backendapp/register/waiting.dart';
 import 'package:backendapp/screens/amenites/amenity_selector.dart';
 import 'package:backendapp/register/business_selector.dart';
@@ -75,6 +76,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // final allSubcategories = <String, List<BeautySpa>>{};
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -84,10 +86,10 @@ class MyApp extends StatelessWidget {
       // home: BusinessLineChart(yaxis: "reviews"),
       // home: SignUp(),
       // home: Homepage(),
-      // home:redirection(),
-      home:CustomOnboardingService(category: "Beauty & Spas > Barbers"),
+      home:redirection(), //this is default page
+      // home:CustomOnboardingService(category: "Beauty & Spas > Barbers"),
       // home:BusinessSelector(),
-      // home:ReviewInsightChart(),
+      // home:AllSubcategoriesPage(),
       // home: OnboardingService(),
     );
   } 

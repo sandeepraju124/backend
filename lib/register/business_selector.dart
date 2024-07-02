@@ -2,6 +2,7 @@
 
 import 'package:backendapp/register/onboardingService.dart';
 import 'package:backendapp/register/select_location.dart';
+import 'package:backendapp/register/selectallbusinesstest.dart';
 import 'package:backendapp/screens/graphs/review_insight.dart';
 import 'package:backendapp/screens/graphs/profile_visit.dart';
 import 'package:backendapp/utils/constants.dart';
@@ -139,7 +140,8 @@ class _BusinessSelectorState extends State<BusinessSelector> {
               ),
               GestureDetector(
                 onTap: (){
-                  showSnackBar(context, "Feature is in progress soon it will be available");
+                  // showSnackBar(context, "Feature is in progress soon it will be available");
+                  navigatorPush(context, AllSubcategoriesPage());
                 },
                 child: ClipPath(
                   clipper: PointedCornerClipper(),

@@ -15,7 +15,8 @@ import 'package:provider/provider.dart';
 
 class CustomOnboardingService extends StatefulWidget {
   final String? category;
-  CustomOnboardingService({this.category});
+  final String? Subcategory;
+  CustomOnboardingService({this.category, this.Subcategory});
   @override
   _CustomOnboardingServiceState createState() =>
       _CustomOnboardingServiceState();
@@ -33,8 +34,8 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
   PageController _pageController = PageController();
   int _currentStep = 0;
 
-  String _category = "";
-  String _sub_category = "";
+  // String _category = "";
+  // String _sub_category = "";
   late String _selectedField;
   bool carParking = false;
   bool twoWheelerParking = false;
@@ -85,18 +86,18 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     'Food > Restaurant',
   ];
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
     // _selectedField = widget.category ?? "";
-    _selectedField = findFullCategoryPath(widget.category);
-    print("selectedField $_selectedField");
-    _serviceEditingController.text = _selectedField;
-    List<String?> cat = _selectedField.split(">");
-    print("cat $cat");
-    _category = cat[0]!.trim();
-    _sub_category = cat[1]!.trim();
-  }
+    // _selectedField = findFullCategoryPath(widget.category);
+    // print("selectedField $_selectedField");
+    // _serviceEditingController.text = _selectedField;
+    // List<String?> cat = _selectedField.split(">");
+    // print("cat $cat");
+    // _category = cat[0]!.trim();
+    // _sub_category = cat[1]!.trim();
+  // }
 
   String findFullCategoryPath(String? category) {
     if (category == null || category.isEmpty) return "";
@@ -503,6 +504,20 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
 
           children: [
             Text('Step 1: Basic Info'),
+            SizedBox(height: 26,),
+            // Text("${widget.category} > ${widget.Subcategory}", style:TextStyle(overflow: TextOverflow.fade) ),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.all(10),
+                labelText: 'Selected category',
+              ),
+              controller: TextEditingController(
+                text: "${widget.category} > ${widget.Subcategory}",
+              ),
+              enabled: false, // Makes the TextField non-editable
+            ),
+            
             SizedBox(height: 16),
             TextField(
               controller: _businessName,
@@ -576,44 +591,44 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
             const SizedBox(
               height: 16,
             ),
-            TypeAheadField(
-              textFieldConfiguration: TextFieldConfiguration(
-                  // controller: _serviceEditingController,
-                  decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(10),
-                labelText: "Select a Service",
-                border: OutlineInputBorder(),
-              )),
-              suggestionsCallback: (pattern) {
-                if (pattern.isEmpty) {
-                  return List<String>.empty();
-                } else {
-                  return services.where((service) =>
-                      service.toLowerCase().contains(pattern.toLowerCase()));
-                }
-              },
-              itemBuilder: (context, service) {
-                return ListTile(
-                  title: Text(service),
-                );
-              },
-              onSuggestionSelected: (service) {
-                _serviceEditingController.text = service;
-                List<String> cat = service.split(">");
-                _category = cat[0].trim();
-                _sub_category = cat[1].trim();
+            // TypeAheadField(
+            //   textFieldConfiguration: TextFieldConfiguration(
+            //       // controller: _serviceEditingController,
+            //       decoration: const InputDecoration(
+            //     contentPadding: EdgeInsets.all(10),
+            //     labelText: "Select a Service",
+            //     border: OutlineInputBorder(),
+            //   )),
+            //   suggestionsCallback: (pattern) {
+            //     if (pattern.isEmpty) {
+            //       return List<String>.empty();
+            //     } else {
+            //       return services.where((service) =>
+            //           service.toLowerCase().contains(pattern.toLowerCase()));
+            //     }
+            //   },
+            //   itemBuilder: (context, service) {
+            //     return ListTile(
+            //       title: Text(service),
+            //     );
+            //   },
+            //   onSuggestionSelected: (service) {
+            //     _serviceEditingController.text = service;
+            //     List<String> cat = service.split(">");
+            //     // _category = cat[0].trim();
+            //     // _sub_category = cat[1].trim();
 
-                setState(() {
-                  _selectedField = service;
-                });
-                print("this is $_selectedField");
-                print(cat[0]);
-                print(cat[1]);
-              },
-            ),
-            _selectedField != null
-                ? displayServiceField(_selectedField)
-                : Text("no")
+            //     setState(() {
+            //       _selectedField = service;
+            //     });
+            //     print("this is $_selectedField");
+            //     print(cat[0]);
+            //     print(cat[1]);
+            //   },
+            // ),
+            // _selectedField != null
+            //     ? displayServiceField(_selectedField)
+            //     : Text("no")
           ],
         ),
       ),
@@ -1254,8 +1269,8 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                   'address': _address.text,
                   'country': "india",
                   'profile_image_url': _profileimage?.path,
-                  'category': _category,
-                  'sub_category': _sub_category,
+                  'category': widget.category,
+                  'sub_category': widget.Subcategory,
                   'business_description': _description.text
                   // 'latitude':widget.lat.toString(),
                   // 'langitude' : widget.lang.toString()
