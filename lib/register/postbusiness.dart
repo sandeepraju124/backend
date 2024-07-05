@@ -42,6 +42,7 @@ class _PostBusinessPageState extends State<PostBusinessPage> {
       // Concatenate all parts to form the final string
       return '$categoryPrefix$subCategoryPrefix$randomChars';
     }
+
     String business_uid = generateRandomString(data.registrationData['category'], data.registrationData['sub_category']);
 
     Future<bool> postImages() async {
@@ -471,7 +472,6 @@ class _PostBusinessPageState extends State<PostBusinessPage> {
         ),
         bottomNavigationBar: InkWell(
           onTap: () {
-
             // String a = generateRandomString("hshsh", "jshhdd");
             // print(a);
             postBusiness().then((value) {

@@ -1,17 +1,22 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:backendapp/provider/registrationdata_provider.dart';
 import 'package:backendapp/register/housetest.dart';
 import 'package:backendapp/register/location_search_screen.dart';
 import 'package:backendapp/register/select_location.dart';
+import 'package:backendapp/register/waiting.dart';
+import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class CustomOnboardingService extends StatefulWidget {
   final String? category;
@@ -39,10 +44,13 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
   late String _selectedField;
   bool carParking = false;
   bool twoWheelerParking = false;
-  HosueType? _selectedType;
-  Bedrooms? _selectedBedroom;
+  HosueType? _selectedHouseType;
+  // Bedrooms? _selectedBedroom;
+  int? _selectedBedroom;
   DateTime? availableFrom;
   int rent = 0;
+  int adv = 0;
+  String _generated_business_uid = "";
 
   TextEditingController availableFromController = TextEditingController();
   TextEditingController gateClosingTimeController = TextEditingController();
@@ -61,8 +69,14 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
 
   File? _ffsaiImage;
   File? _profileimage;
+  File? _certificationimage = null;
   File? _aadharfront = null;
   File? _aadharback = null;
+
+  bool _isLoading = false;
+  String? _houseFacing = null;
+  int? _buildingAge = null;
+  String? _Preferred = null;
 
   final List<String> services = [
     'Beauty & Spas > Barbers',
@@ -89,14 +103,14 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
   // @override
   // void initState() {
   //   super.initState();
-    // _selectedField = widget.category ?? "";
-    // _selectedField = findFullCategoryPath(widget.category);
-    // print("selectedField $_selectedField");
-    // _serviceEditingController.text = _selectedField;
-    // List<String?> cat = _selectedField.split(">");
-    // print("cat $cat");
-    // _category = cat[0]!.trim();
-    // _sub_category = cat[1]!.trim();
+  // _selectedField = widget.category ?? "";
+  // _selectedField = findFullCategoryPath(widget.category);
+  // print("selectedField $_selectedField");
+  // _serviceEditingController.text = _selectedField;
+  // List<String?> cat = _selectedField.split(">");
+  // print("cat $cat");
+  // _category = cat[0]!.trim();
+  // _sub_category = cat[1]!.trim();
   // }
 
   String findFullCategoryPath(String? category) {
@@ -146,6 +160,11 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
               pickedFile.path,
             );
             break;
+          case "_certificationimage":
+            _certificationimage = File(
+              pickedFile.path,
+            );
+            break;
         }
       });
     }
@@ -171,8 +190,231 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     });
   }
 
+  // ################## posting  ############################
+
+  String generateRandomChars(int length) {
+    const chars =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final random = Random();
+    return String.fromCharCodes(Iterable.generate(
+        length, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
+  }
+
+  String generateRandomString(String category, String subCategory) {
+    // Get the first 3 letters of the category and subcategory
+    String categoryPrefix = category.substring(0, 3).toUpperCase();
+    String subCategoryPrefix = subCategory.substring(0, 3).toUpperCase();
+
+    // Generate random alphanumeric characters
+    String randomChars = generateRandomChars(10);
+
+    // Concatenate all parts to form the final string
+    return '$categoryPrefix$subCategoryPrefix$randomChars';
+  }
+
+  // String business_uid = generateRandomString(widget.category, widget.Subcategory);
+
+  Future<bool> postImages() async {
+    try {
+      // String business_uid = generateRandomString(widget.category!, widget.Subcategory!);
+      final url2 = Uri.parse(
+          "https://supernova1137.azurewebsites.net/post_multiple_images");
+      var request = http.MultipartRequest('POST', url2);
+      request.fields['business_uid'] = _generated_business_uid;
+      print(_generated_business_uid);
+
+      if (_aadharfront != null) {
+        File aadharFrontImage = File(_aadharfront!.path);
+        File aadharBackImage = File(_aadharback!.path);
+        request.files.add(await http.MultipartFile.fromPath(
+            'aadhar_front', aadharFrontImage.path));
+        request.files.add(await http.MultipartFile.fromPath(
+            'aadhar_back', aadharBackImage.path));
+      }
+
+      if (_images.isNotEmpty) {
+        for (File image in _images) {
+          request.files
+              .add(await http.MultipartFile.fromPath('images', image.path));
+        }
+      }
+
+      if (_certificationimage != null) {
+        File certification = File(_certificationimage!.path);
+        request.files.add(await http.MultipartFile.fromPath(
+            'certificationimage', certification.path));
+      }
+
+      if (_ffsaiImage != null) {
+        File ffsaiImage = File(_certificationimage!.path);
+        request.files.add(
+            await http.MultipartFile.fromPath('ffsaiImage', ffsaiImage.path));
+      }
+
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        print(responseBody);
+
+        // return 'Service created successfully';
+        return true;
+      } else {
+        throw Exception('Failed to send images');
+      }
+    } catch (e) {
+      print(e.toString());
+      throw Exception('Failed to send images: $e');
+    }
+  }
+
+  Future<bool> postBusiness(String category, String subcategory) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final user = FirebaseAuth.instance.currentUser;
+    final userid = user?.uid;
+    print(userid);
+
+    print("before try");
+    try {
+      print("inside try");
+      final url =
+          Uri.parse("https://supernova1137.azurewebsites.net/pg/business");
+
+      Map<String, String> body = {
+        'business_uid': _generated_business_uid,
+        'business_name': _businessName.text,
+        'business_description': _description.text,
+        'contact_information': _contactInfo.text,
+        'country': "india",
+        'category': category,
+        'sub_category': subcategory,
+        // 'latitude': data.registrationData['latitude'].toString(),
+        // 'longitude': data.registrationData['longitude'].toString(),
+        'userid': userid.toString(),
+      };
+
+      print(" try");
+      print(Random(5).nextInt(5));
+
+      final request = http.MultipartRequest(
+        'POST',
+        url,
+      )..fields.addAll(body);
+
+      // Conditionally add profile_image_url if it is not null
+      // if (data.registrationData['profile_image_url'] != null && data.registrationData['profile_image_url'].isNotEmpty) {
+      //   request.files.add(await http.MultipartFile.fromPath(
+      //     'profile_image_url', data.registrationData['profile_image_url']
+      //   ));
+      // }
+
+      if (_profileimage != null) {
+        File profileimage = File(_profileimage!.path);
+        request.files.add(await http.MultipartFile.fromPath(
+            'profileimage', profileimage.path));
+      }
+
+      // Conditionally add aadhar_front if it is not null
+
+      final response = await request.send();
+      print(response.statusCode);
+      print(response);
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        print(responseBody);
+
+        if (widget.Subcategory == "Fullhouse") {
+          postHouseData().then((value) {
+            if (value == true) {
+              // navigatorPush(context, WaitingScreen());
+              print(value);
+              
+              print("house data uploaded");
+            } else {
+              showSnackBar(context, "error please try again");
+            }
+          });
+        }
+
+        setState(() {
+          _isLoading = false;
+        });
+
+        return true;
+      } else {
+        throw Exception('Failed to create service');
+      }
+    } catch (e) {
+      print(e.toString());
+      throw Exception('Failed to create service: $e');
+    }
+  }
+
+  Future<bool> postHouseData() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final user = FirebaseAuth.instance.currentUser;
+    final userid = user?.uid;
+    print(userid);
+    try {
+      print("inside try");
+      final url = "https://supernova1137.azurewebsites.net/pg/house";
+
+      Map<String, String> body = {
+        'business_uid': _generated_business_uid,
+        'house_facing': _houseFacing!,
+        'building_age': _buildingAge!.toString(),
+        'house_type': _selectedHouseType.toString(),
+        'price': rent.toString(),
+        'bedrooms': _buildingAge!.toString(),
+        'car_parking': carParking.toString(),
+        'advance': adv.toString(),
+        'preferred': _Preferred!,
+        'furnishing_level': _selectedHouseType.toString(),
+        // 'latitude': data.registrationData['latitude'].toString(),
+        // 'longitude': data.registrationData['longitude'].toString(),
+        // 'userid': userid.toString(),
+      };
+
+      print("housebody $body");
+
+      final response = await http.post(
+        Uri.parse(url),
+        body: body,
+      );
+      print(response.statusCode);
+      print(response);
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.body;
+        print(responseBody);
+
+        setState(() {
+          _isLoading = false;
+        });
+
+        return true;
+      } else {
+        throw Exception('Failed to create service');
+      }
+    } catch (e) {
+      print(e.toString());
+      throw Exception('Failed to create service: $e');
+    }
+  }
+
+  // ################## posting  ############################
+
   @override
   Widget build(BuildContext context) {
+    print("category ${widget.category}");
+    print("subcategoey ${widget.Subcategory}");
     var data = Provider.of<RegistrationProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
@@ -193,11 +435,16 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
           _basicInfoStep(),
           // PGDetailsForm(),
           // _uploadDoc(),
-          _houseInfo(),
+          // _houseInfo(),
+          //  if (widget.Subcategory != null && Page2Display(widget.Subcategory!) != null)
+          //   Page2Display(widget.Subcategory!),
+          Page2Display(widget.Subcategory ?? ""),
+          // _plumber(),
           // _sub_category == "Barbers" ? _basicInfoStep():_buildStep2(),
           // _buildStep3(),
           // _uploadDoc(),
-          _uploadImages(),
+          // _uploadImagesAll(),
+          _imageUploadByCategory(),
           // SearchLocationScreen(),
         ],
       ),
@@ -263,6 +510,19 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     );
   }
 
+  Widget _plumber() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('Step 2: Plumbing Info'),
+          SizedBox(height: 16),
+          _plumbingExperiance(),
+        ]),
+      ),
+    );
+  }
+
   Widget furnitureType() {
     return Container(
       child: Row(
@@ -294,7 +554,8 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _selectedType = type;
+          _selectedHouseType = type;
+          print(_selectedHouseType);
           // _selectedCriteria.houseType = type;
           // _selectedCriteria2['houseType'] = type.toString().split('.').last;
           // print(_selectedCriteria2);
@@ -314,7 +575,7 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                 color: Colors.grey,
                 width: 1.0,
               ),
-              color: _selectedType == type
+              color: _selectedHouseType == type
                   // ? Colors.teal[200]
                   ? Colors.grey[200]
                   : Colors.white
@@ -380,6 +641,45 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     );
   }
 
+  Widget descriptionBox() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TextFormField(
+        maxLines: null, // Makes the TextFormField expandable
+        decoration: InputDecoration(
+          labelText: 'Description',
+          labelStyle: TextStyle(
+            color: Colors.teal,
+            fontWeight: FontWeight.bold,
+          ),
+          hintText: 'Enter the description',
+          hintStyle: TextStyle(color: Colors.grey),
+          prefixIcon: Icon(Icons.description, color: Colors.blue),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(
+              color: Colors.teal,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(
+              color: Colors.teal,
+              width: 2.0,
+            ),
+          ),
+        ),
+        keyboardType: TextInputType.multiline,
+        textInputAction: TextInputAction.newline,
+        onChanged: (value) {
+          setState(() {
+            // description = value;
+          });
+        },
+      ),
+    );
+  }
+
   Widget advAmount() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -424,7 +724,17 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _selectedBedroom = type;
+          if (type == "Bedrooms.single") {
+            _selectedBedroom = 1;
+          }
+          if (type == "Bedrooms.double") {
+            _selectedBedroom = 2;
+          }
+          if (type == "Bedrooms.triple") {
+            _selectedBedroom = 3;
+          }
+          // _selectedBedroom = type;
+          print(_selectedBedroom);
           // _selectedCriteria.houseType = type;
           // _selectedCriteria2['houseType'] = type.toString().split('.').last;
           // print(_selectedCriteria2);
@@ -504,7 +814,9 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
 
           children: [
             Text('Step 1: Basic Info'),
-            SizedBox(height: 26,),
+            SizedBox(
+              height: 26,
+            ),
             // Text("${widget.category} > ${widget.Subcategory}", style:TextStyle(overflow: TextOverflow.fade) ),
             TextField(
               decoration: InputDecoration(
@@ -517,7 +829,7 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
               ),
               enabled: false, // Makes the TextField non-editable
             ),
-            
+
             SizedBox(height: 16),
             TextField(
               controller: _businessName,
@@ -635,7 +947,7 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     );
   }
 
-  Widget _uploadImages() {
+  Widget _uploadImagesAll() {
     return Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -651,6 +963,8 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
             _govIdUpload(),
             SizedBox(height: 16),
             _aadharUpload(),
+            SizedBox(height: 16),
+            _certificationUpload(),
           ],
         )));
   }
@@ -983,6 +1297,75 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     );
   }
 
+  // Widget Page2Display(String category){
+  //   switch (category){
+  //     case "house":
+  //       return _houseInfo();
+
+  //   }
+
+  //  }
+
+  Widget Page2Display(String subcategory) {
+    switch (subcategory) {
+      case "Fullhouse":
+        return _houseInfo();
+      case "Plumbers":
+        return _plumber();
+      case 'Carpenters':
+        return Column(children: const [
+          Text("this is 4"),
+          Text("this is 5"),
+        ]);
+      default:
+        return descriptionBox();
+    }
+  }
+
+  Widget Page3Display(String subcategory) {
+    switch (subcategory) {
+      case "Fullhouse":
+        return Column(
+          children: [
+            _profilePictureUpload(),
+            SizedBox(
+              height: 16,
+            ),
+            _multiSelectUpload(),
+          ],
+        );
+      case "Plumbers":
+        return Column(
+          children: [
+            _govIdUpload(),
+            SizedBox(
+              height: 16,
+            ),
+            _multiSelectUpload(),
+          ],
+        );
+      case 'Carpenters':
+        return Column(children: [
+          _aadharUpload(),
+        ]);
+      default:
+        return Column(children: [
+          _multiSelectUpload(),
+        ]);
+    }
+  }
+
+  Widget _imageUploadByCategory() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Page3Display(widget.Subcategory ?? ""),
+        ]),
+      ),
+    );
+  }
+
   Widget _profilePictureUpload() {
     return Column(
       children: [
@@ -1048,6 +1431,71 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     );
   }
 
+  Widget _certificationUpload() {
+    return Column(
+      children: [
+        Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Certifications/Licenses (Optional)",
+              style: TextStyle(fontSize: 23),
+            )),
+        const SizedBox(
+          height: 2,
+        ),
+        const Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "please upload a certification related your services",
+              style: TextStyle(color: Colors.grey),
+            )),
+        const SizedBox(
+          height: 8,
+        ),
+        Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            DottedBorder(
+                // dashPattern: [1,3],
+                strokeWidth: 1,
+                color: Colors.grey,
+                child: Container(
+                  height: 120,
+                  // color: Colors.grey,
+                )),
+            InkWell(
+              onTap: () {
+                pickImage(ImageSource.gallery, "_certificationimage");
+              },
+              child: _certificationimage == null
+                  ? DottedBorder(
+                      strokeWidth: 1,
+                      color: Colors.grey,
+                      child: Container(
+                        color: Colors.blue[50],
+                        height: 75,
+                        width: 75,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // crossAxisAlignment:CrossAxisAlignment.stretch ,
+                            children: const [
+                              Icon(Icons.camera_alt),
+                              Text("Add Photo"),
+                            ]),
+                      ),
+                    )
+                  : SizedBox(
+                      height: 75,
+                      width: 75,
+                      child: Image.file(_certificationimage!, fit: BoxFit.fill),
+                    ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Widget _buildGenderSelection() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -1077,7 +1525,10 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
           child: Text(type),
         );
       }).toList(),
-      onChanged: (value) {},
+      onChanged: (value) {
+        print(value);
+        _Preferred = value;
+      },
     );
   }
 
@@ -1094,7 +1545,10 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
           child: Text(type),
         );
       }).toList(),
-      onChanged: (value) {},
+      onChanged: (value) {
+        print(value);
+        _houseFacing = value!;
+      },
     );
   }
 
@@ -1103,6 +1557,35 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         labelText: 'Building Age',
+      ),
+      items: ['One', 'Two', 'Three', 'Four', 'Five+'].map((String type) {
+        return DropdownMenuItem<String>(
+          value: type,
+          child: Text(type),
+        );
+      }).toList(),
+      onChanged: (value) {
+        // _buildingAge = value!;
+        if (value == "One") {
+          _buildingAge = 1;
+        } else if (value == "Two") {
+          _buildingAge = 2;
+        } else if (value == "Three") {
+          _buildingAge = 3;
+        } else if (value == "Four") {
+          _buildingAge = 4;
+        } else if (value == "Five+") {
+          _buildingAge = 5;
+        }
+      },
+    );
+  }
+
+  Widget _plumbingExperiance() {
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Years of Experiance',
       ),
       items: ['One', 'Two', 'Three', 'Four', 'Five+'].map((String type) {
         return DropdownMenuItem<String>(
@@ -1260,7 +1743,7 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
             ),
           if (_currentStep == 2)
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Handle form submission
                 Map<String, dynamic> businessdata = {
                   'businessName': _businessName.text,
@@ -1283,11 +1766,65 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                   businessdata['aadhar_front'] = _aadharfront;
                   businessdata['aadhar_back'] = _aadharback;
                 }
-                data.updateBusinessData(businessdata);
-                print("pressed $businessdata");
-                navigatorPush(context, SearchLocationScreen());
+                // Adding additional fields
+                // if (_selectedField.isNotEmpty) {
+                //   businessdata['selectedField'] = _selectedField;
+                // }
+
+                // businessdata['carParking'] = carParking;
+                // businessdata['twoWheelerParking'] = twoWheelerParking;
+
+                // if (_selectedType != null) {
+                //   businessdata['selectedType'] = _selectedType.toString();
+                // }
+
+                // if (rent != 0) {
+                //   businessdata['rent'] = rent;
+                // }
+                // // Remove any entries with null values
+                // businessdata.removeWhere((key, value) => value == null);
+
+                _generated_business_uid =
+                    await generateRandomString(widget.category!, widget.Subcategory!);
+                // data.updateBusinessData(businessdata);
+                // print("pressed $businessdata");
+                postBusiness(widget.category!, widget.Subcategory!)
+                    .then((value) {
+                  if (value == true) {
+                    // navigatorPush(context, WaitingScreen());
+                    postImages().then((value) {
+                      if (value == true) {
+                        // navigatorPush(context, WaitingScreen());
+                        print("images uploaded");
+                        navigatorPush(context, SearchLocationScreen(businessUid: _generated_business_uid,));
+                      }
+                    });
+                    print(value);
+                  } else {
+                    showSnackBar(context, "error please try again");
+                  }
+                });
+                // navigatorPush(context, SearchLocationScreen());
+                // if (widget.Subcategory == "Fullhouse") {
+                //   postHouseData().then((value) {
+                //     if (value == true) {
+                //       // navigatorPush(context, WaitingScreen());
+                //       print(value);
+                //       print("house data uploaded");
+                //     } else {
+                //       showSnackBar(context, "error please try again");
+                //     }
+                //   });
+                // }
+                // navigatorPush(context, SearchLocationScreen());
               },
-              child: Text('Save & Continue'),
+              child: _isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                        backgroundColor: Colors.white,
+                      ))
+                    : Text('Save & Continue'),
+
             ),
         ],
       ),

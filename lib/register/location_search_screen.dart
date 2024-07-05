@@ -22,7 +22,8 @@ import '../utils/constants.dart';
 // import 'package:autocomplete_prediction.dart';
 
 class SearchLocationScreen extends StatefulWidget {
-  const SearchLocationScreen({super.key});
+  String businessUid;
+  SearchLocationScreen({required  this.businessUid});
 
   @override
   State<SearchLocationScreen> createState() => _SearchLocationScreenState();
@@ -79,7 +80,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
  latitude = position.latitude;
  longitude = position.longitude;
  locationName = await NetworkCalling().getLocationName(latitude!,longitude!,"AIzaSyBIp8U5x3b2GVj1cjNU3N6funOz_tEUAdk");
- showConfirmationDialog(context,locationName,latitude: latitude,longitude: longitude);
+ showConfirmationDialog(context,widget.businessUid,locationName,latitude: latitude,longitude: longitude);
 
 
   print(latitude);
@@ -142,6 +143,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<RegistrationProvider>(context, listen: false);
+    print("business uid in search screen ${widget.businessUid}");
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
@@ -247,7 +249,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                       final latlag = await getPlaceId(placePredictions[index].placeId);
                       print(latlag);
                       print("latlag");
-                      showConfirmationDialog(context,placePredictions[index].description,latitude: latlag['latitude'],longitude:latlag['longitude'] );
+                      showConfirmationDialog(context,widget.businessUid,placePredictions[index].description,latitude: latlag['latitude'],longitude:latlag['longitude'] );
                       //  showConfirmationDialog(context,locationName,latitude: latitude,longitude: longitude);
                       // Navigator.push(
                       //   context,

@@ -43,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       var dataBusiness =
           Provider.of<BusinessDataProvider>(context, listen: false);
       dataBusiness.getBusinessData("userid", user.uid);
+      print("getting already business");
     } else {
       print("elseeeeeeeeeeeeeeeeeeeee");
     }

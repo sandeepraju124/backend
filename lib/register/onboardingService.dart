@@ -846,7 +846,7 @@ class _OnboardingServiceState extends State<OnboardingService> {
                 businessdata['aadhar_back'] = _aadharback;
               }
               data.updateBusinessData(businessdata);
-              navigatorPush(context, SearchLocationScreen());
+              // navigatorPush(context, SearchLocationScreen());
               // navigatorPush(context, processing());
             }
           },
@@ -898,6 +898,8 @@ class _OnboardingServiceState extends State<OnboardingService> {
       ),
     );
   }
+
+   
 
   Widget displayServiceField(String service) {
     switch (service) {
