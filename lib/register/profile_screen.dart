@@ -61,7 +61,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: data.isLoading
           ? Center(child: CircularProgressIndicator())
           : Column(
-
               // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -72,7 +71,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Image.asset("assets/empty.jpg", height: 200, width: 200),
+                        Image.asset("assets/empty.jpg",
+                            height: 200, width: 200),
                         SizedBox(height: 20),
                         Text(
                           onboardBusinessMessage,
@@ -163,16 +163,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onTap: () async {
                       try {
                         print("in try");
-                        final SharedPreferences prefs = await SharedPreferences.getInstance();
+                        final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
                         final String? action = prefs.getString('businessUid');
                         // await prefs.setString('businessUid', "VHAClcXeT7MAuIS24zb5rIha2J22");
                         print(action);
                         print("businessUid from shared preferences");
-                        
-                        Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => BusinessSelector()));
-                //         Navigator.of(context).pushReplacement(
-                // MaterialPageRoute(builder: (context) => OnboardingService()));
+
+                        // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        //     builder: (context) => BusinessSelector()));
+
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return BusinessSelector();
+                        }));
+                        //         Navigator.of(context).pushReplacement(
+                        // MaterialPageRoute(builder: (context) => OnboardingService()));
                         //
                       } catch (e) {
                         print("in catch");

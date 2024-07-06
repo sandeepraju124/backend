@@ -50,7 +50,16 @@ class _BusinessSelectorState extends State<BusinessSelector> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 1,
-          title: Text("Pick your business"),
+          backgroundColor: tgLightPrimaryColor,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.keyboard_arrow_left_outlined)),
+          title: Text(
+            "Pick your business",
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -72,74 +81,74 @@ class _BusinessSelectorState extends State<BusinessSelector> {
                     onTap: () {
                       print("tapped");
                       print(businessNames[index]);
-                      Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => OnboardingService(
-                  category:businessNames[index] 
-                //  category: "Beauty & Spas > Barbers"
-                  ,)));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => OnboardingService(
+                                category: businessNames[index]
+                                //  category: "Beauty & Spas > Barbers"
+                                ,
+                              )));
                     },
                     child: GridTile(
                       child: Stack(
                         children: [
                           Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            // color: Colors.white,
-                            color: tgLightPrimaryColor,
-                            boxShadow: [
-                              // BoxShadow(
-                              //   color: Colors.grey.withOpacity(0.5),
-                              //   spreadRadius: 1,
-                              //   blurRadius: 4,
-                              //   offset: const Offset(0, 2),
-                              // ),
-                            ],
-                          ),
-                          child: ClipRRect(
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              child: Container(
-                                // width: 50,
-                                // height: 50,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: AssetImage(imagePaths[index]),
-                                    fit: BoxFit.cover,
+                              // color: Colors.white,
+                              color: tgLightPrimaryColor,
+                              boxShadow: [
+                                // BoxShadow(
+                                //   color: Colors.grey.withOpacity(0.5),
+                                //   spreadRadius: 1,
+                                //   blurRadius: 4,
+                                //   offset: const Offset(0, 2),
+                                // ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Container(
+                                  // width: 50,
+                                  // height: 50,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: AssetImage(imagePaths[index]),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
+                                )
+                                // Image.asset(
+                                //   imagePaths[index],
+                                //   fit: BoxFit.cover,
+                                // ),
                                 ),
-                              )
-                              // Image.asset(
-                              //   imagePaths[index],
-                              //   fit: BoxFit.cover,
-                              // ),
-                              ),
-                        ),
-                        Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: 
-                              Container(
-                                color: Colors.black.withOpacity(0.5),
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                                child: Text(
-                                  businessNames[index],
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              color: Colors.black.withOpacity(0.5),
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              child: Text(
+                                businessNames[index],
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                        ], 
+                          ),
+                        ],
                       ),
                     ),
                   );
                 },
               ),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   // showSnackBar(context, "Feature is in progress soon it will be available");
                   navigatorPush(context, AllSubcategoriesPage());
                 },
@@ -149,11 +158,20 @@ class _BusinessSelectorState extends State<BusinessSelector> {
                     width: 200,
                     height: 30,
                     color: Colors.grey,
-                    child: Center(child: Text("View All",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold, color: Colors.white),)),
+                    child: Center(
+                        child: Text(
+                      "View All",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    )),
                   ),
                 ),
               ),
-              SizedBox(height: 39,)
+              SizedBox(
+                height: 39,
+              )
             ],
           ),
         ));
