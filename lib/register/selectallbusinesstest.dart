@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'package:backendapp/register/onboardingtest.dart';
 import 'package:backendapp/utils/constants.dart';
@@ -33,7 +31,8 @@ class _AllSubcategoriesPageState extends State<AllSubcategoriesPage> {
         for (var category in decodedResponse) {
           category.forEach((key, value) {
             if (key != "_id") {
-              categories[key] = List<Subcategory>.from(value.map((item) => Subcategory.fromJson(item)));
+              categories[key] = List<Subcategory>.from(
+                  value.map((item) => Subcategory.fromJson(item)));
             }
           });
         }
@@ -57,7 +56,7 @@ class _AllSubcategoriesPageState extends State<AllSubcategoriesPage> {
         backgroundColor: tgDarkPrimaryColor,
         title: const Text(
           'Select your Business Category',
-          style: TextStyle(fontSize: 17),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
         leading: IconButton(
           onPressed: () {
@@ -79,12 +78,15 @@ class _AllSubcategoriesPageState extends State<AllSubcategoriesPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(
+                  left: 15,
+                  top: 15,
+                ),
                 child: Text(
                   "$categoryName:",
                   style: TextStyle(
                     fontSize: 15.5,
-                    fontWeight: FontWeight.w300,
+                    fontWeight: FontWeight.w500,
                     color: secondaryColor60LightTheme,
                   ),
                 ),
@@ -105,7 +107,12 @@ class _AllSubcategoriesPageState extends State<AllSubcategoriesPage> {
                       // Handle on tap
                       print(" $categoryName > ${subcategory.subcategory}");
                       // CustomOnboardingService
-                      navigatorPush(context, CustomOnboardingService(category:categoryName ,Subcategory: subcategory.subcategory,));
+                      navigatorPush(
+                          context,
+                          CustomOnboardingService(
+                            category: categoryName,
+                            Subcategory: subcategory.subcategory,
+                          ));
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -127,9 +134,9 @@ class _AllSubcategoriesPageState extends State<AllSubcategoriesPage> {
                         Text(
                           subcategory.subcategory,
                           style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 10.1,
-                          ),
+                              color: Colors.black87,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400),
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                         ),

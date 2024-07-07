@@ -76,7 +76,7 @@ class _QuestionpageState extends State<Questionpage> {
                 width: 360,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: tgPrimaryColor,
+                    backgroundColor: tgPrimaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

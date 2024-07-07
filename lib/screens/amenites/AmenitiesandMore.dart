@@ -28,33 +28,32 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
     });
   }
 
-
   void postSelectedAmenities() async {
-  // Extract business UID
-  String businessUid = await getBusinessUid(context);
-  print('Business UID: $businessUid');
-  
-  // Extract selected amenities
-  // Map<String, List<String>> selectedAmenities = Provider.of<BusinessDataProvider>(context, listen: false).selectedAmenities;
-  List<String> amenitiesToAddOrUpdate = [];
-  List<String> amenitiesToRemove = [];
-  selectedAmenities.forEach((key, value) {
-    if (value.isNotEmpty) {
-      amenitiesToAddOrUpdate.add(key);
-    } else {
-      amenitiesToRemove.add(key);
-    }
-  });
-  
-  // Call the function to post amenities
-  bool isCheck = await Provider.of<ServicesProvider>(context, listen: false).postAmenities(businessUid, amenitiesToAddOrUpdate, amenitiesToRemove);
-  
-  if (isCheck) {
-    showSnackBar(context, "Amenities updated successfully");
-    Navigator.pop(context);
-  }
-}
+    // Extract business UID
+    String businessUid = await getBusinessUid(context);
+    print('Business UID: $businessUid');
 
+    // Extract selected amenities
+    // Map<String, List<String>> selectedAmenities = Provider.of<BusinessDataProvider>(context, listen: false).selectedAmenities;
+    List<String> amenitiesToAddOrUpdate = [];
+    List<String> amenitiesToRemove = [];
+    selectedAmenities.forEach((key, value) {
+      if (value.isNotEmpty) {
+        amenitiesToAddOrUpdate.add(key);
+      } else {
+        amenitiesToRemove.add(key);
+      }
+    });
+
+    // Call the function to post amenities
+    bool isCheck = await Provider.of<ServicesProvider>(context, listen: false)
+        .postAmenities(businessUid, amenitiesToAddOrUpdate, amenitiesToRemove);
+
+    if (isCheck) {
+      showSnackBar(context, "Amenities updated successfully");
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +62,7 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
     print(data.BusinessData![0].subCategory);
     return Scaffold(
       // backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        toolbarHeight: 120,
-        title: Text("Amenities and more")),
+      appBar: AppBar(toolbarHeight: 120, title: Text("Amenities and more")),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -74,7 +71,8 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
             //   height: 10,
             // ),
             Text(
-                "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results.",style: TextStyle(fontSize: 12)),
+                "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results.",
+                style: TextStyle(fontSize: 12)),
             SizedBox(
               height: 14,
             ),
@@ -181,7 +179,7 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
                                       });
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      primary: _selected == 'Yes'
+                                      backgroundColor: _selected == 'Yes'
                                           ? Colors.teal
                                           : Colors.white,
                                       shape: RoundedRectangleBorder(
@@ -205,7 +203,7 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
                                       });
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      primary: _selected == 'No'
+                                      backgroundColor: _selected == 'No'
                                           // ? Colors.red
                                           // : Colors.grey[150],
                                           ? Colors.teal

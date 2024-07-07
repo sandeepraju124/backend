@@ -12,11 +12,13 @@ class ProfileRedirect extends StatelessWidget {
   Widget build(BuildContext context) {
     print("in stream");
     return StreamBuilder<String?>(
-      stream: SharedPreferences.getInstance().then((prefs) => prefs.getString('businessUid')).asStream(),
+      stream: SharedPreferences.getInstance()
+          .then((prefs) => prefs.getString('businessUid'))
+          .asStream(),
       builder: (context, snapshot) {
-        print("in stream");
+        // print("in stream");
         if (snapshot.connectionState == ConnectionState.waiting) {
-          print("in stream 17");
+          // print("in stream 17");
           // Wait for the shared preferences to load
           return Scaffold(
             body: Center(
@@ -24,12 +26,14 @@ class ProfileRedirect extends StatelessWidget {
             ),
           );
         } else {
-          print("in stream 25");
+          // print("in stream 25");
           // If businessUid is present in shared preferences, navigate to homepage
-          if (snapshot.hasData && snapshot.data != null && snapshot.data!.isNotEmpty) {
+          if (snapshot.hasData &&
+              snapshot.data != null &&
+              snapshot.data!.isNotEmpty) {
             return Homepage();
           } else {
-            print("in stream 30");
+            // print("in stream 30");
             // If businessUid is not present, navigate to ProfileRedirect page
             return ProfileScreen();
           }
