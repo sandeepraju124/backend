@@ -19,6 +19,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Homepage extends StatefulWidget {
+  final int initialIndex;
+  Homepage({this.initialIndex = 0});
   // String businessuid;
   
   // Homepage(String s, {required this.businessuid});
@@ -44,6 +46,7 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     getBusinessData();
+    _selectedIndex = widget.initialIndex;
     // Provider.of<CommentSectionProvider>(context, listen: false)
     //     .commentSectionProvider("PIZFOO4357128905678");
     

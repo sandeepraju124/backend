@@ -347,10 +347,12 @@ class _AddPhotosState extends State<AddPhotos> {
                       Padding(
                         padding: const EdgeInsets.only(left: 16),
                         child: Text(
-                          "Total Images ${data.BusinessData!.images!.length}",
+                          // "Total Images ${data.BusinessData!.images!.length}",
+                          "Total Images ${data.BusinessData?.images?.length ?? 0}",
                           style: TextStyle(fontSize: 17, color: Colors.grey),
                         ),
                       ),
+                      if (data.BusinessData?.images != null && data.BusinessData!.images!.isNotEmpty)
                       GridView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.all(16),
@@ -367,8 +369,7 @@ class _AddPhotosState extends State<AddPhotos> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => FullScreenImage(
-                                      imageUrl:
-                                          data.BusinessData!.images![index]),
+                                      imageUrl: data.BusinessData!.images![index]),
                                 ),
                               );
                             },

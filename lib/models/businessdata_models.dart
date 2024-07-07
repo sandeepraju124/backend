@@ -19,7 +19,7 @@ class BusinessDataModels {
     String country;
     double latitude;
     double longitude;
-    String profileImageUrl;
+    String? profileImageUrl;
     String subCategory;
     String userid;
 

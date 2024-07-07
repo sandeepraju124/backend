@@ -1796,7 +1796,8 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                       if (value == true) {
                         // navigatorPush(context, WaitingScreen());
                         print("images uploaded");
-                        navigatorPush(context, SearchLocationScreen(businessUid: _generated_business_uid,));
+                        // navigatorPush(context, SearchLocationScreen(businessUid: _generated_business_uid,));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SearchLocationScreen(businessUid: _generated_business_uid,)));
                       }
                     });
                     print(value);

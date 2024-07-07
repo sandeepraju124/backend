@@ -136,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     height: double.infinity,
                                     child: Image.network(
                                         fit: BoxFit.fill,
-                                        data.BusinessData![int].profileImageUrl
+                                        data.BusinessData![int].profileImageUrl ?? "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg"
                                         // "https://img.jagrantv.com/webstories/ws4044/1683862688-9.jpg"
                                         ),
                                   ),

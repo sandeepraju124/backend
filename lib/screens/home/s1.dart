@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:backendapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -103,7 +104,10 @@ class _PaymentPageState extends State<PaymentPage> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _processPayment,
+                // onPressed: _processPayment,
+                onPressed: () {
+                 showSnackBar(context,"feature not available yet");
+                },
                 child: Text('Pay Now'),
               ),
               SizedBox(height: 20),

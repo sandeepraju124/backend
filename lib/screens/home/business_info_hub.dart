@@ -4,6 +4,8 @@ import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/screens/add_photos.dart';
 import 'package:backendapp/screens/amenites/diaplay_amenities.dart';
+import 'package:backendapp/screens/home/Community.dart';
+import 'package:backendapp/screens/home/homepage.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:backendapp/screens/amenites/AmenitiesandMore.dart';
@@ -86,7 +88,8 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                           color: Colors.white,
                         ),
                         child: ClipOval(
-                          child: Image.network(businessdata.BusinessData![0].profileImageUrl, fit: BoxFit.cover,)
+                          child: Image.network(businessdata.BusinessData![0].profileImageUrl ?? "https://img.jagrantv.com/webstories/ws4044/1683862688-9.jpg",
+                           fit: BoxFit.cover)
                           // Image.network(
                           //   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                           //   fit: BoxFit
@@ -122,23 +125,30 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    // width: 100,
-                                    height: 40,
-                                    // color: Colors.red,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: Colors
-                                            .grey, // You can customize the border color
-                                        // width: 2.0, // You can customize the border width
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Community();
+                                      ;
+                                      navigatorPush(context, Homepage(initialIndex: 3));
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      // width: 100,
+                                      height: 40,
+                                      // color: Colors.red,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                          color: Colors
+                                              .grey, // You can customize the border color
+                                          // width: 2.0, // You can customize the border width
+                                        ),
                                       ),
-                                    ),
-
-                                    child: Text(
-                                      'See reviews',
-                                      style: TextStyle(color: Colors.teal),
+                                    
+                                      child: Text(
+                                        'See reviews',
+                                        style: TextStyle(color: Colors.teal),
+                                      ),
                                     ),
                                   ),
 

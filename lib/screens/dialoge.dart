@@ -4,6 +4,7 @@ import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/registrationdata_provider.dart';
 import 'package:backendapp/register/postbusinessdatatest.dart';
 import 'package:backendapp/register/postbusiness.dart';
+import 'package:backendapp/register/waiting.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ Future<void> showConfirmationDialog(context, businessUid, description,
               // Perform actions on location confirmation
               // Navigator.of(context).pop();
               // navigatorPush(context, PostBusiness());
-              // navigatorPush(context, PostBusinessPage());
+              navigatorPush(context, WaitingScreen());
             },
           ),
         ],

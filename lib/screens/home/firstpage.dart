@@ -172,7 +172,11 @@ class _FirstpageState extends State<Firstpage> {
                                 ),
                               ),
                             ),
-                            RetangularBorderBox("POST"),
+                            GestureDetector(
+                              onTap: (){
+                                showSnackBar(context, "feature not available yet, stay tuned");
+                              },
+                              child: RetangularBorderBox("POST")),
                             SizedBox(
                               height: 10,
                             ),
@@ -184,6 +188,7 @@ class _FirstpageState extends State<Firstpage> {
                         onTap: () {
                         },
                         child: Text("click")),
+
                     //   SliverToBoxAdapter(
                     //   child: Padding(
                     //     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -207,6 +212,7 @@ class _FirstpageState extends State<Firstpage> {
                           final String? action = prefs.getString('businessUid');
                           // await prefs.setString('businessUid', "VHAClcXeT7MAuIS24zb5rIha2J22");
                           print("businessUid: $action");
+                          showSnackBar(context, action!);
 
                         },
                         child: Text("Print BusinessUid")),

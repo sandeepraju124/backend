@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
 
 import 'package:backendapp/register/onboardingService.dart';
+import 'package:backendapp/register/onboardingtest.dart';
 import 'package:backendapp/register/select_location.dart';
 import 'package:backendapp/register/selectallbusinesstest.dart';
 import 'package:backendapp/screens/graphs/review_insight.dart';
@@ -27,14 +28,24 @@ class _BusinessSelectorState extends State<BusinessSelector> {
     'assets/business_selector/restaurent.jpg',
   ];
 
-  final List<String> businessNames = [
-    'Car Repair',
-    'Home Cleaning',
-    'Gym',
-    'Hospital',
-    'Plumbing',
-    'Restaurant',
+  // final List<String> businessNames = [
+  //   'Car Repair',
+  //   'Home Cleaning',
+  //   'Gym',
+  //   'Hospital',
+  //   'Plumbing',
+  //   'Restaurant',
+  // ];
+
+  final List<Map<String, dynamic>> businessNames = [
+    {"Auto Mobile":"Car Repair"},
+    {"Home Service":"Home Cleaning"},
+    {"Lifestyle":"Gym"},
+    {"Health":"Hospital"},
+    {"Home Service":"Plumbing"},
+    {"Food":"Restaurant"},
   ];
+
 
   // Define a mapping between image paths and screen route
   //  final Map<String, Widget> screenRoutes = {
@@ -72,11 +83,12 @@ class _BusinessSelectorState extends State<BusinessSelector> {
                     onTap: () {
                       print("tapped");
                       print(businessNames[index]);
-                      Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => OnboardingService(
-                  category:businessNames[index] 
-                //  category: "Beauty & Spas > Barbers"
-                  ,)));
+                //       Navigator.of(context).pushReplacement(
+                // MaterialPageRoute(builder: (context) => OnboardingService(
+                //   category:businessNames[index] 
+                // //  category: "Beauty & Spas > Barbers"
+                //   ,)));
+                   navigatorPush(context, CustomOnboardingService(category: businessNames[index].keys.first.toString(),Subcategory: businessNames[index].values.first.toString(),));
                     },
                     child: GridTile(
                       child: Stack(
@@ -123,7 +135,7 @@ class _BusinessSelectorState extends State<BusinessSelector> {
                                 color: Colors.black.withOpacity(0.5),
                                 padding: EdgeInsets.symmetric(vertical: 5),
                                 child: Text(
-                                  businessNames[index],
+                                  businessNames[index].values.first.toString(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
