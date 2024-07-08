@@ -24,7 +24,7 @@ class _AmenityScreenState extends State<AmenityScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: ListView.builder(
+        child: data.BusinessData?.amenities != null && data.BusinessData!.amenities!.isNotEmpty ? ListView.builder(
           itemCount: data.BusinessData!.amenities!.length,
           itemBuilder: (context, index) {
             return AmenityTile(
@@ -36,7 +36,7 @@ class _AmenityScreenState extends State<AmenityScreen> {
               },
             );
           },
-        ),
+        ): Text("No amenities added yet"),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
