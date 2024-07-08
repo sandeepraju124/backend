@@ -126,16 +126,22 @@ class ServicesModels {
     //     ? List<OpeningHour>.from(
     //         json["opening_hours"].map((x) => OpeningHour.fromJson(x)))
     //     : null,
-        operatingHours: OperatingHours.fromJson(json["operating_hours"]),
+        // operatingHours: OperatingHours.fromJson(json["operating_hours"]),
+         operatingHours: json["operating_hours"] != null ? OperatingHours.fromJson(json["operating_hours"]) : null,
     );
+
+
 
     Map<String, dynamic> toJson() => {
         "amenities": List<dynamic>.from(amenities!.map((x) => x)),
         "business_uid": businessUid,
         "images": List<dynamic>.from(images!.map((x) => x)),
-        "operating_hours": operatingHours!.toJson(),
+        // "operating_hours": operatingHours!.toJson(),
+        "operating_hours": operatingHours != null ? operatingHours!.toJson() : null,
     };
 }
+
+
 
 class OperatingHours {
   Day friday;

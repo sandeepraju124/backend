@@ -25,6 +25,7 @@ class ServicesProvider extends ChangeNotifier {
   Future<void> getMongoBusinessData(String business_uid) async {
     _isLoading = true;
     try {
+      print("getMongoBusinessData called");
       // var uri = "https://supernova1137.azurewebsites.net/mongo/business?business_uid=HOMPLUS9PVd3F9W6NEW";
       var uri = "$baseUrl/mongo/business?business_uid=$business_uid";
       ServicesModels data = await NetworkCalling().fetchMongoBusinessData(uri);
@@ -156,7 +157,7 @@ Future<bool> postOperatingHours(Map<String, Map<String, dynamic>> hours, String 
       // Check the status code of the response
       if (response.statusCode == 200) {
         print('Images uploaded successfully');
-        getMongoBusinessData(businessUid);
+        await getMongoBusinessData(businessUid);
         return true;
       } else {
         print('Failed to upload images. Status code: ${response.statusCode}');

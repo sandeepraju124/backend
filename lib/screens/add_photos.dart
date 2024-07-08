@@ -330,6 +330,7 @@ class _AddPhotosState extends State<AddPhotos> {
             Expanded(
               flex: 80,
               child: Container(
+                width: double.infinity ,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -439,7 +440,8 @@ class _FullScreenImageState extends State<FullScreenImage> {
         .deleteImage(businessUid, widget.imageUrl);
     Navigator.pop(context);
   }
-  
+
+
 
   @override
   Widget build(BuildContext context) {

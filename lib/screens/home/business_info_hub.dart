@@ -108,7 +108,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                         child: ClipOval(
                             child: Image.network(
                                 businessdata.BusinessData![0].profileImageUrl ??
-                                    "https://img.jagrantv.com/webstories/ws4044/1683862688-9.jpg",
+                                    "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg",
                                 fit: BoxFit.cover)
                             // Image.network(
                             //   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -148,9 +148,10 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                   GestureDetector(
                                     onTap: () {
                                       // Community();
-                                      ;
-                                      navigatorPush(
-                                          context, Homepage(initialIndex: 3));
+                                      
+                                      // navigatorPush(
+                                      //     context, Homepage(initialIndex: 3));
+                                      Navigator.pushReplacement( context, MaterialPageRoute(builder: (context) => Homepage(initialIndex: 3)));
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(10),
