@@ -70,13 +70,18 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Premium Account'),
+        title: Text(
+          'Premium Account',
+          style: TextStyle(fontSize: 18.8, fontWeight: FontWeight.w500),
+        ),
+        backgroundColor: tgDarkPrimaryColor,
         actions: [
-          IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              icon: Icon(Icons.menu))
+          // IconButton(
+          //     onPressed: () {
+          //       Scaffold.of(context).openDrawer();
+          //     },
+          //     // icon: Icon(Icons.menu)
+          //     )
         ],
       ),
       body: SingleChildScrollView(
@@ -98,6 +103,9 @@ class _PaymentPageState extends State<PaymentPage> {
                     : Text(
                         'Upgrade to a premium account for additional benefits.'),
                 trailing: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all(tgLightPrimaryColor)),
                   onPressed: _togglePremium,
                   child: isPremium ? Text('Downgrade') : Text('Upgrade'),
                 ),
@@ -105,10 +113,15 @@ class _PaymentPageState extends State<PaymentPage> {
               SizedBox(height: 20),
               ElevatedButton(
                 // onPressed: _processPayment,
+                style: ButtonStyle(
+                    backgroundColor:
+                        WidgetStateProperty.all(tgLightPrimaryColor)),
                 onPressed: () {
-                 showSnackBar(context,"feature not available yet");
+                  showSnackBar(context, "feature not available yet");
                 },
-                child: Text('Pay Now'),
+                child: Text(
+                  'Pay Now',
+                ),
               ),
               SizedBox(height: 20),
               Text(
@@ -132,9 +145,7 @@ class _PaymentPageState extends State<PaymentPage> {
           ),
         ),
       ),
-      drawer: Drawer(
-        width: double.infinity,
-        child: Text("hdhdh")),
+      drawer: Drawer(width: double.infinity, child: Text("hdhdh")),
     );
   }
 

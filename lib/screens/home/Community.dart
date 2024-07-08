@@ -19,8 +19,6 @@ class Community extends StatefulWidget {
 }
 
 class _CommunityState extends State<Community> {
-
-
   // @override
   // void initState() {
   //   super.initState();
@@ -29,26 +27,27 @@ class _CommunityState extends State<Community> {
   //   _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   // }
 
-  Future<void> _refreshAsk()async {
+  Future<void> _refreshAsk() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? businessUid = prefs.getString('businessUid');
     print("Business_uid = $businessUid");
     print("refreshing ask community");
     // var commentsData = Provider.of<CommentSectionProvider>(context, listen: false).commentSectionProvider(businessUid);
-    var askCommData = Provider.of<AskCommunityProvider>(context, listen: false).fetchAskCommunityData(businessUid!);
-
+    var askCommData = Provider.of<AskCommunityProvider>(context, listen: false)
+        .fetchAskCommunityData(businessUid!);
   }
-  Future<void> _refreshComments()async {
+
+  Future<void> _refreshComments() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? businessUid = prefs.getString('businessUid');
     print("Business_uid = $businessUid");
     print("refreshing comments");
-    var commentsData = Provider.of<CommentSectionProvider>(context, listen: false).commentSectionProvider(businessUid);
+    var commentsData =
+        Provider.of<CommentSectionProvider>(context, listen: false)
+            .commentSectionProvider(businessUid);
     // var askCommData = Provider.of<AskCommunityProvider>(context, listen: false).fetchAskCommunityData(businessUid!);
-
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -56,9 +55,12 @@ class _CommunityState extends State<Community> {
       child: Scaffold(
         backgroundColor: Color(0xFFEFF0F7),
         appBar: AppBar(
-          // backgroundColor: tgAccentColor,
-          title: Text("Community Discussion"),
-          elevation: 10,
+          backgroundColor: tgPrimaryColor,
+          title: Text(
+            "Community Discussion",
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
+          ),
+          elevation: 20,
         ),
         body: Column(
           children: [
@@ -73,13 +75,13 @@ class _CommunityState extends State<Community> {
                 child: TabBar(
                     // isScrollable: true,
                     dividerColor: Colors.transparent,
-            
+
                     // isScrollable: true,
                     indicatorSize: TabBarIndicatorSize.tab,
                     indicatorPadding: EdgeInsets.symmetric(horizontal: 12),
                     // indicatorWeight: 4,
                     indicator: BoxDecoration(
-                        color: Colors.blueAccent,
+                        color: Colors.blue.shade700,
                         borderRadius: BorderRadius.circular(8)),
                     tabs: [
                       Text(
@@ -92,21 +94,20 @@ class _CommunityState extends State<Community> {
             ),
             Expanded(
                 child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 RefreshIndicator(
-                   onRefresh: _refreshAsk,
+                  onRefresh: _refreshAsk,
                   child: AskForCommunityWidget(
-                            uid: '',
-                            Questionid: "",
-                          ),
+                    uid: '',
+                    Questionid: "",
+                  ),
                 ),
                 // Text("first"),
                 // Text("second"),
                 // PaymentPage(),
                 RefreshIndicator(
-                  onRefresh: _refreshComments,
-                  child: NewShowRewviewPage())
+                    onRefresh: _refreshComments, child: NewShowRewviewPage())
               ],
             ))
           ],

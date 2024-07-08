@@ -4,7 +4,6 @@ import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/screens/add_photos.dart';
 import 'package:backendapp/screens/amenites/diaplay_amenities.dart';
-import 'package:backendapp/screens/home/Community.dart';
 import 'package:backendapp/screens/home/homepage.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
@@ -60,8 +59,27 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
     // final List<Map<String, dynamic>> openingHours = data.BusinessData.openingHours;
     return Scaffold(
       backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        backgroundColor: tgDarkPrimaryColor,
+        title: Text(
+          "Business Info Hub",
+          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              // data.getMongoBusinessData();
+              showSnackBar(context, "Business Info Hub");
+            },
+            icon: Icon(Icons.add_business_outlined),
+          )
+        ],
+      ),
       body: businessdata.isLoading
-          ? CircularProgressIndicator()
+          ? Center(
+              child: CircularProgressIndicator(
+              color: tgPrimaryColor,
+            ))
           : SafeArea(
               child: ListView(
               padding: EdgeInsets.all(10),
@@ -70,7 +88,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                   Container(
                       height: 140,
                       width: double.infinity,
-                      color: Colors.blue,
+                      // color: Colors.blue,
                       child: Image(
                         image: NetworkImage(
                             "https://images.unsplash.com/photo-1501862700950-18382cd41497?auto=format&fit=crop&q=80&w=2019&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
@@ -88,14 +106,16 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                           color: Colors.white,
                         ),
                         child: ClipOval(
-                          child: Image.network(businessdata.BusinessData![0].profileImageUrl ?? "https://img.jagrantv.com/webstories/ws4044/1683862688-9.jpg",
-                           fit: BoxFit.cover)
-                          // Image.network(
-                          //   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                          //   fit: BoxFit
-                          //       .cover, // Use BoxFit.cover to make the image cover the entire circular container
-                          // ),
-                        ),
+                            child: Image.network(
+                                businessdata.BusinessData![0].profileImageUrl ??
+                                    "https://img.jagrantv.com/webstories/ws4044/1683862688-9.jpg",
+                                fit: BoxFit.cover)
+                            // Image.network(
+                            //   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                            //   fit: BoxFit
+                            //       .cover, // Use BoxFit.cover to make the image cover the entire circular container
+                            // ),
+                            ),
                       ),
                     ),
                   )
@@ -129,7 +149,8 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                     onTap: () {
                                       // Community();
                                       ;
-                                      navigatorPush(context, Homepage(initialIndex: 3));
+                                      navigatorPush(
+                                          context, Homepage(initialIndex: 3));
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(10),
@@ -137,25 +158,26 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                       height: 40,
                                       // color: Colors.red,
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                          color: Colors
-                                              .grey, // You can customize the border color
-                                          // width: 2.0, // You can customize the border width
-                                        ),
-                                      ),
-                                    
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            color: Colors
+                                                .grey, // You can customize the border color
+                                            // width: 2.0, // You can customize the border width
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+
                                       child: Text(
                                         'See reviews',
-                                        style: TextStyle(color: Colors.teal),
+                                        style: TextStyle(
+                                            color: tgDarkPrimaryColor),
                                       ),
                                     ),
                                   ),
 
                                   GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       navigatorPush(context, AddPhotos());
-
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(10),
@@ -163,17 +185,19 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                       height: 40,
                                       // color: Colors.red,
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                          color: Colors
-                                              .grey, // You can customize the border color
-                                          // width: 2.0, // You can customize the border width
-                                        ),
-                                      ),
-                                    
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            color: Colors
+                                                .grey, // You can customize the border color
+                                            // width: 2.0, // You can customize the border width
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+
                                       child: Text(
                                         'Add photos',
-                                        style: TextStyle(color: Colors.teal),
+                                        style: TextStyle(
+                                            color: tgDarkPrimaryColor),
                                       ),
                                     ),
                                   ),
@@ -183,17 +207,18 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                     height: 40,
                                     // color: Colors.red,
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: Colors
-                                            .grey, // You can customize the border color
-                                        // width: 2.0, // You can customize the border width
-                                      ),
-                                    ),
+                                        color: Colors.white,
+                                        border: Border.all(
+                                          color: Colors
+                                              .grey, // You can customize the border color
+                                          // width: 2.0, // You can customize the border width
+                                        ),
+                                        borderRadius: BorderRadius.circular(5)),
 
                                     child: Text(
                                       'View ',
-                                      style: TextStyle(color: Colors.teal),
+                                      style:
+                                          TextStyle(color: tgDarkPrimaryColor),
                                     ),
                                   )
                                   // Container(
@@ -309,36 +334,49 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                           children: [
                             Text("Amenities and more",
                                 style: TextStyle(
-                                  fontSize: 30,
-                                )),
-                                GestureDetector(
-                                  onTap: (){
-                                    navigatorPush(context, AmenityScreen());
-                                  },
-                                  child: Text("view all", style: TextStyle(color:Colors.teal ),))
+                                    fontSize: 22.4,
+                                    fontWeight: FontWeight.w600)),
+                            GestureDetector(
+                                onTap: () {
+                                  navigatorPush(context, AmenityScreen());
+                                },
+                                child: Text(
+                                  "view all",
+                                  style: TextStyle(color: Colors.teal),
+                                ))
                           ],
                         ),
                         SizedBox(
                           height: 10,
                         ),
 
-                      // data.BusinessData!.amenities == null  ||  data.BusinessData!.amenities!.isEmpty   ? Text(noAmenities):
-                      amenities == null || amenities.isEmpty ? Text(noAmenities):
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: amenities.length <=3 ?amenities.length : 3 ,
-                          itemBuilder: (BuildContext, int) {
-                            return Column(children: [
-                              Row(children: [
-                                Text(amenities[int]),
-                                SizedBox(width: 10,),
-                                Text("Yes",
-                                style: TextStyle(fontWeight: FontWeight.bold), )
-                                ],),
-                            ],);
-                          }
-                          ) 
-                          ,
+                        // data.BusinessData!.amenities == null  ||  data.BusinessData!.amenities!.isEmpty   ? Text(noAmenities):
+                        amenities == null || amenities.isEmpty
+                            ? Text(noAmenities)
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: amenities.length <= 3
+                                    ? amenities.length
+                                    : 3,
+                                itemBuilder: (BuildContext, int) {
+                                  return Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(amenities[int]),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            "Yes",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                }),
 
                         // Row(
                         //   children: [
@@ -451,12 +489,12 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                               height: 40,
                               // color: Colors.red,
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors
-                                      .grey, // You can customize the border color
-                                  // width: 2.0, // You can customize the border width
-                                ),
-                              ),
+                                  border: Border.all(
+                                    color:
+                                        secondaryColor20LightTheme, // You can customize the border color
+                                    // width: 2.0, // You can customize the border width
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
 
                               child: Text(
                                 'View and Edit All 9 Attributes',
@@ -481,8 +519,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                           children: [
                             Text("Operating hours",
                                 style: TextStyle(
-                                  fontSize: 30,
-                                )),
+                                    fontSize: 24, fontWeight: FontWeight.w600)),
                             GestureDetector(
                                 onTap: () {
                                   // data.getMongoBusinessData();
@@ -495,30 +532,39 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                           height: 10,
                         ),
                         operatingHours == null
-                          ? Text("No operating hours available")
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: operatingHours.toJson().entries.map((entry) {
-                                var day = entry.key;
-                                var hours = entry.value;
-                                return Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(day, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
-                                    SizedBox(width: 10),
-                                    Text("Open: ${hours['open'] ?? 'N/A'}", ),
-                                    // Text("Close: ${hours['close'] ?? 'N/A'}"),
-                                    // Text("Closed: ${hours['closed'] ? 'Yes' : 'No'}"),
-                                    // Text("Open 24 hours: ${hours['open24'] ? 'Yes' : 'No'}"),
-                                    SizedBox(height: 10),
-                                  ],
-                                );
-                              }).toList(),
-                            ),
+                            ? Text("No operating hours available")
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: operatingHours
+                                    .toJson()
+                                    .entries
+                                    .map((entry) {
+                                  var day = entry.key;
+                                  var hours = entry.value;
+                                  return Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(day,
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        "Open: ${hours['open'] ?? 'N/A'}",
+                                      ),
+                                      // Text("Close: ${hours['close'] ?? 'N/A'}"),
+                                      // Text("Closed: ${hours['closed'] ? 'Yes' : 'No'}"),
+                                      // Text("Open 24 hours: ${hours['open24'] ? 'Yes' : 'No'}"),
+                                      SizedBox(height: 10),
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
                         // data.BusinessData?.operatingHours == null ? Text(""): Text("Update Operating Hours "),
                         // Padding(
                         //   padding: const EdgeInsets.all(16.0),
-                        //   child: 
+                        //   child:
                         //   Column(
                         //     crossAxisAlignment: CrossAxisAlignment.start,
                         //     children: data.BusinessData!
@@ -530,7 +576,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                         //               .map((hour) =>
                         //                   '${_formatTime(hour.startTime!)} - ${_formatTime(hour.endTime!)}')
                         //               .join(', ')
-                        //           : 
+                        //           :
                         //           'Closed';
                         //       return Row(
                         //         mainAxisAlignment:
@@ -572,7 +618,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                     builder: (context, scrollController) {
                                       return SafeArea(
                                         child: Container(
-                                          color: Colors.white,
+                                            color: Colors.white,
                                             padding: EdgeInsets.all(15),
                                             width: double.infinity,
                                             // child: HoursOfOperations());
@@ -589,12 +635,12 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                               height: 40,
                               // color: Colors.red,
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors
-                                      .grey, // You can customize the border color
-                                  // width: 2.0, // You can customize the border width
-                                ),
-                              ),
+                                  border: Border.all(
+                                    color: Colors
+                                        .grey, // You can customize the border color
+                                    // width: 2.0, // You can customize the border width
+                                  ),
+                                  borderRadius: BorderRadius.circular(5)),
 
                               child: Text(
                                 'View and Edit All Attributes',
@@ -622,7 +668,10 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                               )),
                         ),
                         ListTile(
-                            title: Text("Address"),
+                            title: Text(
+                              "Address",
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
                             subtitle: Text(
                                 businessdata.BusinessData![0].address == null
                                     ? "Please add address"
@@ -649,7 +698,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                       1.0, // Maximum height to stop at (same as initialChildSize)
                                   builder: (context, scrollController) {
                                     return Container(
-                                      color: Colors.white,
+                                        color: Colors.white,
                                         padding: EdgeInsets.all(15),
                                         width: double.infinity,
                                         child: BasicInfoForm());
@@ -662,19 +711,31 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                               child: Column(
                             children: [
                               ListTile(
-                                  title: Text("Call"),
+                                  title: Text(
+                                    "Call",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
                                   // subtitle: Text("9912277968"),
                                   subtitle: Text(businessdata
                                       .BusinessData![0].contactInformation),
                                   trailing: Icon(Icons.arrow_forward_ios)),
                               ListTile(
-                                  title: Text("Website"),
+                                  title: Text(
+                                    "Website",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
                                   subtitle: Text(
                                       "add a link to your business website",
                                       style: TextStyle(color: Colors.blue)),
                                   trailing: Icon(Icons.arrow_forward_ios)),
                               ListTile(
-                                  title: Text("Menu"),
+                                  title: Text(
+                                    "Menu",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
                                   subtitle: Text(
                                       "Let your customers see what's on the menu",
                                       style: TextStyle(color: Colors.blue)),
