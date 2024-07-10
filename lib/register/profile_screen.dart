@@ -22,7 +22,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String onboardBusinessMessage =
-      "Hello! It seems like you haven't listed any businesses yet. Click here to onboard your business and start reaching new customers!";
+      "Hi there! Let's get your business on board. Click here to add your business and start reaching new customers!";
 
   @override
   void initState() {
@@ -38,12 +38,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void checkBusiness() async {
     final user = FirebaseAuth.instance.currentUser;
     print(user?.uid);
-    print("profile_redirect_26");
+    // print("profile_redirect_26");
     if (user != null) {
       var dataBusiness =
           Provider.of<BusinessDataProvider>(context, listen: false);
       dataBusiness.getBusinessData("userid", user.uid);
-      print("getting already business");
+      // print("getting already business");
     } else {
       print("elseeeeeeeeeeeeeeeeeeeee");
     }
@@ -55,6 +55,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // You can return a placeholder widget or loader here if needed
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.keyboard_arrow_left_rounded)),
         title: Text('Profile'),
         backgroundColor: tgAccentColor,
       ),
@@ -136,7 +141,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     height: double.infinity,
                                     child: Image.network(
                                         fit: BoxFit.fill,
-                                        data.BusinessData![int].profileImageUrl ?? "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg"
+                                        data.BusinessData![int]
+                                                .profileImageUrl ??
+                                            "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg"
                                         // "https://img.jagrantv.com/webstories/ws4044/1683862688-9.jpg"
                                         ),
                                   ),
@@ -168,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         final String? action = prefs.getString('businessUid');
                         // await prefs.setString('businessUid', "VHAClcXeT7MAuIS24zb5rIha2J22");
                         print(action);
-                        print("businessUid from shared preferences");
+                        // print("businessUid from shared preferences");
 
                         // Navigator.of(context).pushReplacement(MaterialPageRoute(
                         //     builder: (context) => BusinessSelector()));

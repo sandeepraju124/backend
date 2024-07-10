@@ -1,14 +1,10 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:backendapp/register/onboardingService.dart';
-import 'package:backendapp/register/location_search_screen.dart';
 import 'package:backendapp/screens/redirection.dart';
-// import 'package:backendapp/screens/map.dart';
+
 import 'package:backendapp/utils/constants.dart';
-import 'package:backendapp/utils/navigators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -58,7 +54,7 @@ class _RegisterState extends State<Register> {
       _isLoading = true;
     });
 
-    print('Sign up clicked');
+    // print('Sign up clicked');
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailcontroller.text.trim(),
@@ -88,8 +84,8 @@ class _RegisterState extends State<Register> {
       request.fields.addAll(body);
 
       final response = await request.send();
-      print(response.statusCode);
-      print(response);
+      // print(response.statusCode);
+      // print(response);
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         print(responseBody);
@@ -106,7 +102,7 @@ class _RegisterState extends State<Register> {
         //fetch data and store on provider
         // userpro.userProvider();
 
-        print('user created successfully');
+        // print('user created successfully');
         return responseBody;
       } else {
         throw Exception('Failed to create user');
@@ -132,143 +128,158 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       appBar: AppBar(
           elevation: 1,
-          backgroundColor: Colors.white,
+          backgroundColor: tgPrimaryColor,
+          leading: IconButton(
+            icon: Icon(
+              Icons.keyboard_arrow_left_rounded,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           title: const Text(
-            "REGISTRATION",
-            style: TextStyle(color: Colors.black),
+            "Sign Up for a Business Account",
+            style: TextStyle(
+                color: Colors.black87,
+                fontSize: 17,
+                fontWeight: FontWeight.w500),
           )),
       body: SafeArea(
-          child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 65,
-                child: Container(
-                  // color: Colors.red,
-                  height: 150,
-                  child: Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          TextField(
-                            controller: _firstnamecontroller,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(10),
-                              border: OutlineInputBorder(),
-                              labelText: 'First name',
+          child: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  flex: 65,
+                  child: Container(
+                    // color: Colors.red,
+                    height: 150,
+                    child: Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TextField(
+                              controller: _firstnamecontroller,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(10),
+                                border: OutlineInputBorder(),
+                                labelText: 'First name',
+                              ),
+                              autofocus: false,
+                              maxLines: null,
+                              keyboardType: TextInputType.text,
                             ),
-                            autofocus: false,
-                            maxLines: null,
-                            keyboardType: TextInputType.text,
-                          ),
-                          TextField(
-                            controller: _lastnamecontroller,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(10),
-                              border: OutlineInputBorder(),
-                              labelText: 'Last name',
+                            TextField(
+                              controller: _lastnamecontroller,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(10),
+                                border: OutlineInputBorder(),
+                                labelText: 'Last name',
+                              ),
+                              autofocus: false,
+                              maxLines: null,
+                              keyboardType: TextInputType.text,
                             ),
-                            autofocus: false,
-                            maxLines: null,
-                            keyboardType: TextInputType.text,
-                          ),
-                        ]),
+                          ]),
+                    ),
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  imagePicker(ImageSource.gallery);
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  color: Colors.grey[200],
-                  height: 150,
-                  child:
-                      // Image.network(
-                      // "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg")
-                      _profile_image_url == null
-                          ? CircleAvatar(
-                              radius: 50,
-                              backgroundImage:
-                                  AssetImage("assets/defaulltdp.png"))
-                          : CircleAvatar(
-                              radius: 50,
-                              backgroundImage: FileImage(_profile_image_url!),
-                            ),
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 13,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildGenderOption(Gender.male, "Male"),
-              _buildGenderOption(Gender.female, "Female"),
-              _buildGenderOption(Gender.preferNotToSay, "prefer not to say")
-            ],
-          ),
-          SizedBox(
-            height: 6,
-          ),
-          const Divider(
-            height: 4,
-            thickness: 3,
-            color: secondaryColor10LightTheme,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: TextField(
-              controller: _emailcontroller,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(10),
-                border: OutlineInputBorder(),
-                labelText: ' Email',
-              ),
-              autofocus: false,
-              maxLines: null,
-              keyboardType: TextInputType.emailAddress,
+                GestureDetector(
+                  onTap: () {
+                    imagePicker(ImageSource.gallery);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    color: Colors.grey[200],
+                    height: 150,
+                    child:
+                        // Image.network(
+                        // "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg")
+                        _profile_image_url == null
+                            ? CircleAvatar(
+                                radius: 50,
+                                backgroundImage:
+                                    AssetImage("assets/defaulltdp.png"))
+                            : CircleAvatar(
+                                radius: 50,
+                                backgroundImage: FileImage(_profile_image_url!),
+                              ),
+                  ),
+                )
+              ],
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: TextField(
-              obscureText: _obscureText,
-              controller: _passwordcontroller,
-              decoration: InputDecoration(
+            SizedBox(
+              height: 13,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildGenderOption(Gender.male, "Male"),
+                _buildGenderOption(Gender.female, "Female"),
+                _buildGenderOption(Gender.preferNotToSay, "prefer not to say")
+              ],
+            ),
+            SizedBox(
+              height: 6,
+            ),
+            const Divider(
+              height: 4,
+              thickness: 3,
+              color: secondaryColor10LightTheme,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: TextField(
+                controller: _emailcontroller,
+                decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(10),
                   border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                    icon: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                    ),
-                  )),
-              autofocus: false,
-              maxLines: 1,
-              // expands:true,
-              // minLines: 1,
-              maxLength: 250,
-              keyboardType: TextInputType.visiblePassword,
+                  labelText: ' Email',
+                ),
+                autofocus: false,
+                maxLines: null,
+                keyboardType: TextInputType.emailAddress,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: TextField(
+                obscureText: _obscureText,
+                controller: _passwordcontroller,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                      icon: Icon(
+                        _obscureText ? Icons.visibility : Icons.visibility_off,
+                      ),
+                    )),
+                autofocus: false,
+                maxLines: 1,
+                // expands:true,
+                // minLines: 1,
+                maxLength: 250,
+                keyboardType: TextInputType.visiblePassword,
+              ),
+            ),
+          ],
+        ),
       )),
       bottomNavigationBar: InkWell(
         onTap: () {
