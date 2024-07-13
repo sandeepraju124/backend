@@ -65,51 +65,70 @@ class _CommunityState extends State<Community> {
         body: Column(
           children: [
             Container(
-              margin: EdgeInsets.all(10),
-              height: 55,
-              decoration: BoxDecoration(
-                  color: Color(0xFF292639),
-                  borderRadius: BorderRadius.circular(8)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TabBar(
-                    // isScrollable: true,
+              margin: EdgeInsets.only(top: 20),
+              height: 41.4,
+              child: Stack(
+                children: [
+                  TabBar(
                     dividerColor: Colors.transparent,
-
-                    // isScrollable: true,
                     indicatorSize: TabBarIndicatorSize.tab,
                     indicatorPadding: EdgeInsets.symmetric(horizontal: 12),
-                    // indicatorWeight: 4,
                     indicator: BoxDecoration(
-                        color: Colors.blue.shade700,
-                        borderRadius: BorderRadius.circular(8)),
+                      // color: Colors.blue.shade700,
+                      color: Colors.teal[200],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     tabs: [
-                      Text(
-                        "Ask Community",
-                        style: TextStyle(color: Colors.white),
+                      Tab(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            "Ask Community",
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                        ),
                       ),
-                      Text("Comments", style: TextStyle(color: Colors.white)),
-                    ]),
+                      Tab(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            "Comments",
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Center(
+                    child: VerticalDivider(
+                      color: Colors.black.withOpacity(0.5),
+                      thickness: 1.3,
+                      width: 1,
+                      indent: 10,
+                      endIndent: 10,
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(
-                child: TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                RefreshIndicator(
-                  onRefresh: _refreshAsk,
-                  child: AskForCommunityWidget(
-                    uid: '',
-                    Questionid: "",
+              child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  RefreshIndicator(
+                    onRefresh: _refreshAsk,
+                    child: AskForCommunityWidget(
+                      uid: '',
+                      Questionid: "",
+                    ),
                   ),
-                ),
-                // Text("first"),
-                // Text("second"),
-                // PaymentPage(),
-                RefreshIndicator(
-                    onRefresh: _refreshComments, child: NewShowRewviewPage())
-              ],
-            ))
+                  RefreshIndicator(
+                    onRefresh: _refreshComments,
+                    child: NewShowRewviewPage(),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

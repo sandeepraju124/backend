@@ -126,7 +126,11 @@ class _AskForCommunityWidgetState extends State<AskForCommunityWidget> {
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Column(
                       children: [
-                        Image.asset("assets/pool.png", height: 100),
+                        // Image.asset("assets/empty.json", height: 100),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 50),
+                          child: Lottie.asset("assets/Empty.json", height: 200),
+                        ),
                         // Lottie.asset("assets/Ask.json", height: 260),
                         SizedBox(height: 13),
                         Text(

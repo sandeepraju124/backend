@@ -38,14 +38,13 @@ class _BusinessSelectorState extends State<BusinessSelector> {
   // ];
 
   final List<Map<String, dynamic>> businessNames = [
-    {"Auto Mobile":"Car Repair"},
-    {"Home Service":"Home Cleaning"},
-    {"Lifestyle":"Gym"},
-    {"Health":"Hospital"},
-    {"Home Service":"Plumbing"},
-    {"Food":"Restaurant"},
+    {"Auto Mobile": "Car Repair"},
+    {"Home Service": "Home Cleaning"},
+    {"Lifestyle": "Gym"},
+    {"Health": "Hospital"},
+    {"Home Service": "Plumbing"},
+    {"Food": "Restaurant"},
   ];
-
 
   // Define a mapping between image paths and screen route
   //  final Map<String, Widget> screenRoutes = {
@@ -68,7 +67,7 @@ class _BusinessSelectorState extends State<BusinessSelector> {
               },
               icon: Icon(Icons.keyboard_arrow_left_outlined)),
           title: Text(
-            "Pick your business",
+            "Onboard business of your choice effortlessly",
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
           ),
         ),
@@ -92,12 +91,19 @@ class _BusinessSelectorState extends State<BusinessSelector> {
                     onTap: () {
                       print("tapped");
                       print(businessNames[index]);
-                //       Navigator.of(context).pushReplacement(
-                // MaterialPageRoute(builder: (context) => OnboardingService(
-                //   category:businessNames[index] 
-                // //  category: "Beauty & Spas > Barbers"
-                //   ,)));
-                   navigatorPush(context, CustomOnboardingService(category: businessNames[index].keys.first.toString(),Subcategory: businessNames[index].values.first.toString(),));
+                      //       Navigator.of(context).pushReplacement(
+                      // MaterialPageRoute(builder: (context) => OnboardingService(
+                      //   category:businessNames[index]
+                      // //  category: "Beauty & Spas > Barbers"
+                      //   ,)));
+                      navigatorPush(
+                          context,
+                          CustomOnboardingService(
+                            category:
+                                businessNames[index].keys.first.toString(),
+                            Subcategory:
+                                businessNames[index].values.first.toString(),
+                          ));
                       // Navigator.of(context).pushReplacement(MaterialPageRoute(
                       //     builder: (context) => OnboardingService(
                       //           category: businessNames[index]
@@ -215,8 +221,6 @@ class PointedCornerClipper extends CustomClipper<Path> {
     return false;
   }
 }
-
-
 
 // bkp
 // // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import

@@ -61,7 +61,7 @@ class _HomepageState extends State<Homepage> {
   void getBusinessData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? businessUid = prefs.getString('businessUid');
-    print("Business_uid = $businessUid");
+    // print("Business_uid = $businessUid");
     var dataBusiness =
         Provider.of<BusinessDataProvider>(context, listen: false);
     await dataBusiness.getBusinessData("business_uid", businessUid!);
@@ -143,8 +143,8 @@ class _HomepageState extends State<Homepage> {
             BottomNavigationBarItem(
               icon: Icon(
                 _selectedIndex == 2
-                    ? Icons.add_business_outlined
-                    : Icons.add_business_rounded,
+                    ? Icons.add_business_rounded
+                    : Icons.add_business_outlined,
                 size: 26,
               ),
               label: "",

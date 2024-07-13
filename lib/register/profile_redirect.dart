@@ -10,7 +10,7 @@ class ProfileRedirect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("in stream");
+    // print("in stream");
     return StreamBuilder<String?>(
       stream: SharedPreferences.getInstance()
           .then((prefs) => prefs.getString('businessUid'))

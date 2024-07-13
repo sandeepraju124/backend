@@ -44,8 +44,11 @@ class _FirstpageState extends State<Firstpage> {
 
           automaticallyImplyLeading: false,
           // elevation: 10,
-          title:
-              Container(width: 95, child: Image.asset("assets/nearme2.png",)),
+          title: Container(
+              width: 95,
+              child: Image.asset(
+                "assets/nearme2.png",
+              )),
           actions: [
             GestureDetector(
               onTap: () {
@@ -67,7 +70,10 @@ class _FirstpageState extends State<Firstpage> {
           ],
         ),
         body: data.isLoading
-            ? CircularProgressIndicator()
+            ? Center(
+                child: CircularProgressIndicator(
+                color: tgPrimaryColor,
+              ))
             : SingleChildScrollView(
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.start,
@@ -173,10 +179,11 @@ class _FirstpageState extends State<Firstpage> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: (){
-                                showSnackBar(context, "feature not available yet, stay tuned");
-                              },
-                              child: RetangularBorderBox("POST")),
+                                onTap: () {
+                                  showSnackBar(context,
+                                      "feature not available yet, stay tuned");
+                                },
+                                child: RetangularBorderBox("POST")),
                             SizedBox(
                               height: 10,
                             ),
@@ -184,10 +191,7 @@ class _FirstpageState extends State<Firstpage> {
                         ),
                       ),
                     ),
-                    GestureDetector(
-                        onTap: () {
-                        },
-                        child: Text("click")),
+                    GestureDetector(onTap: () {}, child: Text("click")),
 
                     //   SliverToBoxAdapter(
                     //   child: Padding(
@@ -213,7 +217,6 @@ class _FirstpageState extends State<Firstpage> {
                           // await prefs.setString('businessUid', "VHAClcXeT7MAuIS24zb5rIha2J22");
                           print("businessUid: $action");
                           showSnackBar(context, action!);
-
                         },
                         child: Text("Print BusinessUid")),
                     // Text(data.BusinessData![0].businessDescription)

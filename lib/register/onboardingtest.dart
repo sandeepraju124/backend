@@ -332,7 +332,7 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
             if (value == true) {
               // navigatorPush(context, WaitingScreen());
               print(value);
-              
+
               print("house data uploaded");
             } else {
               showSnackBar(context, "error please try again");
@@ -413,15 +413,20 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
 
   @override
   Widget build(BuildContext context) {
-    print("category ${widget.category}");
-    print("subcategoey ${widget.Subcategory}");
+    // print("category ${widget.category}");
+    // print("subcategoey ${widget.Subcategory}");
     var data = Provider.of<RegistrationProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal,
+        backgroundColor: tgPrimaryColor,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.keyboard_arrow_left_rounded)),
         title: Text(
           'Onboarding Details',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black87, fontSize: 20),
         ),
       ),
       body: PageView(
@@ -481,7 +486,14 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
             SizedBox(
               height: 16,
             ),
-            Text("Funiture type"),
+
+            Divider(),
+            Column(
+              children: [
+                Text("Funiture type",
+                    style: TextStyle(fontWeight: FontWeight.w500)),
+              ],
+            ),
             SizedBox(
               height: 16,
             ),
@@ -1729,17 +1741,23 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                   curve: Curves.ease,
                 );
               },
-              child: Text('Back'),
+              child: Text(
+                'Back',
+                style: TextStyle(color: tgDarkPrimaryColor),
+              ),
             ),
           if (_currentStep < 2)
             TextButton(
               onPressed: () {
                 _pageController.nextPage(
-                  duration: Duration(milliseconds: 300),
+                  duration: Duration(milliseconds: 420),
                   curve: Curves.ease,
                 );
               },
-              child: Text('Next'),
+              child: Text(
+                'Next',
+                style: TextStyle(color: tgDarkPrimaryColor),
+              ),
             ),
           if (_currentStep == 2)
             ElevatedButton(
@@ -1784,8 +1802,8 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                 // // Remove any entries with null values
                 // businessdata.removeWhere((key, value) => value == null);
 
-                _generated_business_uid =
-                    await generateRandomString(widget.category!, widget.Subcategory!);
+                _generated_business_uid = await generateRandomString(
+                    widget.category!, widget.Subcategory!);
                 // data.updateBusinessData(businessdata);
                 // print("pressed $businessdata");
                 postBusiness(widget.category!, widget.Subcategory!)
@@ -1797,7 +1815,12 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                         // navigatorPush(context, WaitingScreen());
                         print("images uploaded");
                         // navigatorPush(context, SearchLocationScreen(businessUid: _generated_business_uid,));
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SearchLocationScreen(businessUid: _generated_business_uid,)));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchLocationScreen(
+                                      businessUid: _generated_business_uid,
+                                    )));
                       }
                     });
                     print(value);
@@ -1820,12 +1843,11 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                 // navigatorPush(context, SearchLocationScreen());
               },
               child: _isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                        backgroundColor: Colors.white,
-                      ))
-                    : Text('Save & Continue'),
-
+                  ? Center(
+                      child: CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                    ))
+                  : Text('Save & Continue'),
             ),
         ],
       ),
