@@ -106,16 +106,22 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                           color: Colors.white,
                         ),
                         child: ClipOval(
-                            child: Image.network(
-                                businessdata.BusinessData![0].profileImageUrl ??
-                                    "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg",
-                                fit: BoxFit.cover)
-                            // Image.network(
-                            //   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            //   fit: BoxFit
-                            //       .cover, // Use BoxFit.cover to make the image cover the entire circular container
-                            // ),
-                            ),
+                          child: Image.network(
+                            (businessdata.BusinessData != null &&
+                                    businessdata.BusinessData!.isNotEmpty)
+                                ? businessdata
+                                        .BusinessData![0].profileImageUrl ??
+                                    "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg"
+                                : "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        // child: ClipOval(
+                        //     child: Image.network(
+                        //         businessdata.BusinessData![0].profileImageUrl ??
+                        //             "https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg",
+                        //         fit: BoxFit.cover)
+                        //     ),
                       ),
                     ),
                   )
@@ -148,10 +154,14 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                   GestureDetector(
                                     onTap: () {
                                       // Community();
-                                      
+
                                       // navigatorPush(
                                       //     context, Homepage(initialIndex: 3));
-                                      Navigator.pushReplacement( context, MaterialPageRoute(builder: (context) => Homepage(initialIndex: 3)));
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Homepage(initialIndex: 3)));
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(10),
@@ -240,8 +250,20 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                 ),
                 // Text("Sandeep Raju"),
                 // Text(businessdata.BusinessData![0].businessName),
+                // Text(
+                //   businessdata.BusinessData![0].businessName,
+                //   style: TextStyle(
+                //     fontSize: 25,
+                //     fontWeight: FontWeight.bold,
+                //     // color: Colors.grey, // Example color
+                //     // Add more properties as needed
+                //   ),
+                // ),
                 Text(
-                  businessdata.BusinessData![0].businessName,
+                  (businessdata.BusinessData != null &&
+                          businessdata.BusinessData!.isNotEmpty)
+                      ? businessdata.BusinessData![0].businessName
+                      : 'Default Business Name',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
@@ -249,6 +271,7 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                     // Add more properties as needed
                   ),
                 ),
+
                 SizedBox(
                   height: 10,
                 ),
@@ -673,13 +696,25 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                               "Address",
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
+                            // subtitle: Text(
+                            //     businessdata.BusinessData![0].address == null
+                            //         ? "Please add address"
+                            //         : businessdata.BusinessData![0].address
+                            //             .toString()
+                            //     // "National Packaging Consortium National Packaging Consortium Rome, Rome Italy"
+                            //     ),
                             subtitle: Text(
-                                businessdata.BusinessData![0].address == null
-                                    ? "Please add address"
-                                    : businessdata.BusinessData![0].address
-                                        .toString()
-                                // "National Packaging Consortium National Packaging Consortium Rome, Rome Italy"
-                                ),
+                              (businessdata.BusinessData != null &&
+                                      businessdata.BusinessData!.isNotEmpty &&
+                                      businessdata.BusinessData![0].address !=
+                                          null)
+                                  ? businessdata
+                                          .BusinessData![0].address!.isNotEmpty
+                                      ? businessdata.BusinessData![0].address!
+                                      : "Please add address"
+                                  : "Please add address",
+                              // "National Packaging Consortium National Packaging Consortium Rome, Rome Italy"
+                            ),
                             trailing: Icon(Icons.arrow_forward_ios)),
                         Divider(endIndent: 20, indent: 20),
                         GestureDetector(
@@ -718,8 +753,20 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                         TextStyle(fontWeight: FontWeight.w500),
                                   ),
                                   // subtitle: Text("9912277968"),
-                                  subtitle: Text(businessdata
-                                      .BusinessData![0].contactInformation),
+                                  subtitle: Text(
+                                    (businessdata.BusinessData != null &&
+                                            businessdata
+                                                .BusinessData!.isNotEmpty)
+                                        ? businessdata.BusinessData![0]
+                                                .contactInformation.isNotEmpty
+                                            ? businessdata.BusinessData![0]
+                                                .contactInformation
+                                            : "Please add contact information"
+                                        : "Please add contact information",
+                                  ),
+                                  // Text(businessdata.BusinessData![0].contactInformation),
+                                  // subtitle: Text(businessdata
+                                  //     .BusinessData![0].contactInformation),
                                   trailing: Icon(Icons.arrow_forward_ios)),
                               ListTile(
                                   title: Text(

@@ -2,9 +2,11 @@
 
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
+import 'package:backendapp/screens/home/homepage.dart';
 import 'package:backendapp/screens/progressbar.dart';
 import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/utils/constants.dart';
+import 'package:backendapp/utils/navigators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +34,20 @@ class _FirstpageState extends State<Firstpage> {
     await prefs.remove('businessUid');
   }
 
+  String getGreeting() {
+  final now = DateTime.now();
+  final hour = now.hour;
+
+  if (hour < 12) {
+    return 'Good morning';
+  } else if (hour < 17) {
+    return 'Good afternoon';
+  } else {
+    return 'Good evening';
+  }
+}
+
+
   // double getProgress() {
   //   int totalTasks = 3; // Example: operating hours, amenities, profile information
   //   int completedTasks = 0;
@@ -47,6 +63,10 @@ class _FirstpageState extends State<Firstpage> {
   Widget build(BuildContext context) {
     var data = Provider.of<BusinessDataProvider>(context);
     var data2 = Provider.of<ServicesProvider>(context);
+    // String name = data.BusinessData![0].businessName ?? "Guest";
+     String name = (data.BusinessData != null && data.BusinessData!.isNotEmpty)
+        ? data.BusinessData![0].businessName
+        : "";
 
     double getProgress() {
       int totalTasks =
@@ -136,54 +156,57 @@ class _FirstpageState extends State<Firstpage> {
                       height: 10,
                     ),
                     Divider(
-                      thickness: 1,
-                      height: 2,
+                      color: Colors.grey[200],
+                      thickness: 5,
                     ),
-                    Container(
-                      width: double.infinity,
-                      height: 75,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 100,
-                            // color: Colors.blue,
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "3,567",
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  Text(
-                                    "followers",
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.grey),
-                                  ),
-                                ]),
-                          ),
-                          Container(
-                            width: 100,
-                            // color: Colors.lime,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("123",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    )),
-                                Text("Profile Views",
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.grey)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      // color: Colors.grey,
-                    ),
+                    introduction(name),
+                    // Container(
+                    //   color: Colors.grey[200],
+                    //   width: double.infinity,
+                    //   height: 75,
+                    //   child: Row(
+                    //     children: [
+                    //       Container(
+                    //         width: 100,
+                    //         // color: Colors.blue,
+                    //         child: Column(
+                    //             mainAxisAlignment: MainAxisAlignment.center,
+                    //             children: [
+                    //               Text(
+                    //                 "3,567",
+                    //                 style: TextStyle(fontSize: 20),
+                    //               ),
+                    //               Text(
+                    //                 "followers",
+                    //                 style: TextStyle(
+                    //                     fontSize: 13, color: Colors.grey),
+                    //               ),
+                    //             ]),
+                    //       ),
+                    //       Container(
+                    //         width: 100,
+                    //         // color: Colors.lime,
+                    //         child: Column(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           children: [
+                    //             Text("123",
+                    //                 style: TextStyle(
+                    //                   fontSize: 20,
+                    //                 )),
+                    //             Text("Profile Views",
+                    //                 style: TextStyle(
+                    //                     fontSize: 13, color: Colors.grey)),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    //   // color: Colors.grey,
+                    // ),
+                    
                     Divider(
-                      thickness: 1,
-                      height: 2,
+                      color: Colors.grey[200],
+                      thickness: 5,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -263,9 +286,29 @@ class _FirstpageState extends State<Firstpage> {
                     //           Questionid: "",
                     //         ),
 
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Divider(
+                      color: Colors.grey[200],
+                      thickness: 5,
+                    ),
+                    activity(),
+                    Divider(
+                      color: Colors.grey[200],
+                      thickness: 5,
+                    ),
                     Center(
                       // child: EnhancedHalfCircleProgressBar(0.3),
                       child: EnhancedHalfCircleProgressBar(getProgress()),
+                    ),
+
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Divider(
+                      color: Colors.grey[200],
+                      thickness: 5,
                     ),
 
                     GestureDetector(
@@ -278,9 +321,287 @@ class _FirstpageState extends State<Firstpage> {
                           showSnackBar(context, action!);
                         },
                         child: Text("Print BusinessUid")),
+
                     // Text(data.BusinessData![0].businessDescription)
                   ],
                 ),
               ));
   }
+
+  Widget activity() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                'Activity',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Homepage(initialIndex: 1)));
+                  // showSnackBar(context, "feature not available yet, stay tuned");
+                },
+                child: Text(
+                  'View all insights...',
+                  style: TextStyle(
+                    color: tgDarkPrimaryColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Text(
+          //   'Activity',
+          //   style: TextStyle(
+          //     fontSize: 24,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+          // ListTile(
+          //   leading: Text(
+          //     'Activity',
+          //     style: TextStyle(
+          //       fontSize: 24.0,
+          //       fontWeight: FontWeight.bold,
+          //       // color: Colors.blue,
+          //       // decoration: TextDecoration.underline,
+          //       decorationColor: Colors.blue,
+          //     ),
+          //   ),
+          //   trailing: Icon(
+          //     Icons.arrow_forward_ios,
+          //     color: Colors.grey,
+          //     size: 20.0,
+          //   ),
+          // ),
+          SizedBox(height: 8),
+          Text(
+            'Last 30 days',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey,
+            ),
+          ),
+          SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Nearme page visits',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.red,
+                      thickness: 2,
+                    ),
+                    Text(
+                      '--',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Leads',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                      thickness: 2,
+                    ),
+                    Text(
+                      '--',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
+          Text(
+            "We've just started tracking your page's activity, and we can't wait to share the results. Check back tomorrow to see more.",
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  Widget introduction (String name){
+    String greet =  getGreeting();
+    
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            // 'Good afternoon, $name',
+            '$greet, $name',
+            // '$greet, ${name ?? "Guest"}',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 8),
+          GestureDetector(
+            onTap: (){
+              // navigatorPush(context, Homepage(initialIndex: 3));
+              Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Homepage(initialIndex: 3)));
+              // navigatorPush(context, Homepage(initialIndex: 3));
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'nearme restaurent',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    // Row(
+                    //   children: [
+                    //     Icon(Icons.star_border, color: Colors.grey),
+                    //     Icon(Icons.star_border, color: Colors.grey),
+                    //     Icon(Icons.star_border, color: Colors.grey),
+                    //     Icon(Icons.star_border, color: Colors.grey),
+                    //     Icon(Icons.star_border, color: Colors.grey),
+                    //     SizedBox(width: 8),
+                    //     Text(
+                    //       '0 reviews',
+                    //       style: TextStyle(
+                    //         fontSize: 16,
+                    //         color: Colors.teal,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    Row(
+                    children: [
+                      // star 1
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(3)),
+                        padding: EdgeInsets.all(5),
+                        child:
+                            Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      // star 2
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(3)),
+                        padding: EdgeInsets.all(5),
+                        child:
+                            Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      // star 3
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(3)),
+                        padding: EdgeInsets.all(5),
+                        child:
+                            Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      // star 4
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            // color: tgDarkPrimaryColor,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(3)),
+                        padding: EdgeInsets.all(5),
+                        child:
+                            Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      // sar 5
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(3)),
+                        padding: EdgeInsets.all(5),
+                        child:
+                            Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                      ),
+                      SizedBox(width: 8),
+                        Text(
+                          '0 reviews',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.teal,
+                          ),
+                        ),
+                    ],
+                  ),
+                  ],
+                ),
+                Icon(Icons.arrow_forward),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
+
+

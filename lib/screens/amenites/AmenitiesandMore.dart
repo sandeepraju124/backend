@@ -58,8 +58,8 @@ class _AmenitiesandMoreSheetState extends State<AmenitiesandMoreSheet> {
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<BusinessDataProvider>(context);
-    print(data.BusinessData![0].category);
-    print(data.BusinessData![0].subCategory);
+    // print(data.BusinessData![0].category);
+    // print(data.BusinessData![0].subCategory);
     return Scaffold(
       // backgroundColor: Colors.grey[100],
       appBar: AppBar(toolbarHeight: 120, title: Text("Amenities and more")),
