@@ -41,7 +41,7 @@ class redirection extends StatelessWidget {
             // LogIn();
           }
           return throw (e) {
-            print("through in redirection");
+            // print("through in redirection");
             print(e);
           };
         }));

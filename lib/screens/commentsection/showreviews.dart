@@ -73,84 +73,85 @@ class _NewShowRewviewPageState extends State<NewShowRewviewPage> {
 
     return ListView(children: [
       Padding(
-        padding: const EdgeInsets.only(top: 7),
+        padding: const EdgeInsets.only(top: 24),
         child: Column(
           children: [
-            Row(
-              children: [
-                SizedBox(width: 10),
-                Text(
-                  "Reviews",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-                ),
-                SizedBox(
-                    width:
-                        10), // Add some space between the text and the rating bar
-                Expanded(
-                  child: Row(
-                    children: [
-                      // Text(
-                      //   "(",
-                      //   style: TextStyle(
-                      //       fontSize: 16, fontWeight: FontWeight.w400),
-                      // ),
-                      RatingBar.builder(
-                        initialRating:
-                            Provider.of<CommentSectionProvider>(context)
-                                .averageRating,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 0.1),
-                        itemSize: 11,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber[700],
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        "(",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        Provider.of<CommentSectionProvider>(context)
-                            .averageRating
-                            .toStringAsFixed(1),
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        ")",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        "(",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        data.getCommentsData?.reviews.length.toString() ?? "0"
-
-                      ),
-                      Text(
-                        ")",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400),
-                      ),
-                    ],
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Row(
+                children: [
+                  SizedBox(width: 10),
+                  Text(
+                    "Reviews",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
-                ),
-              ],
+                  SizedBox(
+                      width:
+                          10), // Add some space between the text and the rating bar
+                  Expanded(
+                    child: Row(
+                      children: [
+                        // Text(
+                        //   "(",
+                        //   style: TextStyle(
+                        //       fontSize: 16, fontWeight: FontWeight.w400),
+                        // ),
+                        RatingBar.builder(
+                          initialRating:
+                              Provider.of<CommentSectionProvider>(context)
+                                  .averageRating,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemPadding: EdgeInsets.symmetric(horizontal: 0.1),
+                          itemSize: 11,
+                          itemBuilder: (context, _) => Icon(
+                            Icons.star,
+                            color: Colors.amber[700],
+                          ),
+                          onRatingUpdate: (rating) {
+                            print(rating);
+                          },
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          "(",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                        Text(
+                          Provider.of<CommentSectionProvider>(context)
+                              .averageRating
+                              .toStringAsFixed(1),
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        Text(
+                          ")",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          "(",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                        Text(data.getCommentsData?.reviews.length.toString() ??
+                            "0"),
+                        Text(
+                          ")",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             Container(
               margin: EdgeInsets.only(right: 280),
@@ -278,12 +279,14 @@ class _NewShowRewviewPageState extends State<NewShowRewviewPage> {
                     children: [
                       SizedBox(height: 30),
                       // Lottie.asset("images/reviews.json", height: 210),
-                      Image.asset("assets/pool.png", height: 100),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 50),
+                        child: Lottie.asset("assets/Empty.json", height: 200),
+                      ),
                       Text(
                         "Your opinion matters.\nPlease consider being the first to share your review",
                         style: TextStyle(
-                            color: secondaryColor20LightTheme,
-                            fontSize: 10.8),
+                            color: secondaryColor20LightTheme, fontSize: 10.8),
                       ),
                     ],
                   ),
@@ -293,22 +296,21 @@ class _NewShowRewviewPageState extends State<NewShowRewviewPage> {
                   shrinkWrap: true,
                   // itemCount: data.getCommentsData!.reviews.length,
                   itemCount: data.getCommentsData?.reviews.length,
-    
+
                   // _showAllReviews
                   //     ? (data.getCommentsData?.reviews.length ?? 0)
                   //     : ((data.getCommentsData?.reviews.length ?? 0) > 2
                   //         ? 2
                   //         : (data.getCommentsData?.reviews.length ?? 0)),
-    
-    
+
                   itemBuilder: (BuildContext context, int int) {
                     var review = data.getCommentsData!.reviews[int];
-    
+
                     // String stars(rating) {
                     //   return List<String>.generate(rating, (index) => '⭐')
                     //       .join();
                     // }
-    
+
                     return Container(
                       margin: EdgeInsets.all(8.0),
                       padding: EdgeInsets.all(8.0),

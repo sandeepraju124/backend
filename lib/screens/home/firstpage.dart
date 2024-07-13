@@ -123,7 +123,10 @@ class _FirstpageState extends State<Firstpage> {
           ],
         ),
         body: data.isLoading
-            ? CircularProgressIndicator()
+            ? Center(
+                child: CircularProgressIndicator(
+                color: tgPrimaryColor,
+              ))
             : SingleChildScrollView(
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.start,
