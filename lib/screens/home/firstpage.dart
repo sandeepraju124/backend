@@ -1,13 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
-import 'package:backendapp/screens/askcommunity.dart';
+import 'package:backendapp/provider/businessmongo_provider.dart';
+import 'package:backendapp/screens/progressbar.dart';
 import 'package:backendapp/screens/redirection.dart';
-import 'package:backendapp/screens/amenites/amenity_selector.dart';
-import 'package:backendapp/screens/graphs/review_insight.dart';
 import 'package:backendapp/utils/constants.dart';
-import 'package:backendapp/utils/navigators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,17 +32,76 @@ class _FirstpageState extends State<Firstpage> {
     await prefs.remove('businessUid');
   }
 
+  // double getProgress() {
+  //   int totalTasks = 3; // Example: operating hours, amenities, profile information
+  //   int completedTasks = 0;
+
+  //   if (_businessData.operatingHours != null) completedTasks++;
+  //   if (_businessData.amenities != null) completedTasks++;
+  //   if (_businessData.profileInformation != null) completedTasks++;
+
+  //   return completedTasks / totalTasks;
+  // }
+
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<BusinessDataProvider>(context);
+    var data2 = Provider.of<ServicesProvider>(context);
+
+    double getProgress() {
+      int totalTasks =
+          7; // Example: operating hours, amenities, profile information
+      int completedTasks = 0;
+
+      // Safely check if the properties are not null before accessing them
+      if (data.BusinessData != null) {
+        if (data.BusinessData!.isNotEmpty) {
+          if (data.BusinessData![0].contactInformation?.isNotEmpty ?? false)
+            completedTasks++;
+          if (data.BusinessData![0].businessEmail?.isNotEmpty ?? false)
+            completedTasks++;
+          if (data.BusinessData![0].address?.isNotEmpty ?? false)
+            completedTasks++;
+          if (data.BusinessData![0].businessDescription?.isNotEmpty ?? false)
+            completedTasks++;
+          print("...................");
+          print("phone number ${data.BusinessData![0].contactInformation}");
+          print("email ${data.BusinessData![0].businessEmail}");
+          print("address ${data.BusinessData![0].address}");
+          print("business desp ${data.BusinessData![0].businessDescription}");
+          print("...................");
+        }
+      }
+
+      if (data2.BusinessData != null) {
+        if (data2.BusinessData!.amenities != null) completedTasks++;
+        if (data2.BusinessData!.operatingHours != null) completedTasks++;
+        if (data2.BusinessData!.images != null) completedTasks++;
+
+        print("...................");
+        print("amenities ${data2.BusinessData!.amenities}");
+        print("operatingHours ${data2.BusinessData!.operatingHours}");
+        print("operatingHours ${data2.BusinessData!.operatingHours != null}");
+        print("images ${data2.BusinessData!.images}");
+        print("...................");
+        print("completedTasks $completedTasks");
+        print("totalTasks $totalTasks");
+        print("completedTasks / totalTasks ${completedTasks / totalTasks}");
+      }
+
+      return completedTasks / totalTasks;
+    }
+
     return Scaffold(
         appBar: AppBar(
           // leading: Center(child: Text("NearMe")),
-
           automaticallyImplyLeading: false,
           // elevation: 10,
-          title:
-              Container(width: 95, child: Image.asset("assets/nearme2.png",)),
+          title: Container(
+              width: 95,
+              child: Image.asset(
+                "assets/nearme2.png",
+              )),
           actions: [
             GestureDetector(
               onTap: () {
@@ -173,10 +229,11 @@ class _FirstpageState extends State<Firstpage> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: (){
-                                showSnackBar(context, "feature not available yet, stay tuned");
-                              },
-                              child: RetangularBorderBox("POST")),
+                                onTap: () {
+                                  showSnackBar(context,
+                                      "feature not available yet, stay tuned");
+                                },
+                                child: RetangularBorderBox("POST")),
                             SizedBox(
                               height: 10,
                             ),
@@ -184,10 +241,7 @@ class _FirstpageState extends State<Firstpage> {
                         ),
                       ),
                     ),
-                    GestureDetector(
-                        onTap: () {
-                        },
-                        child: Text("click")),
+                    // GestureDetector(onTap: () {}, child: Text("click")),
 
                     //   SliverToBoxAdapter(
                     //   child: Padding(
@@ -205,6 +259,12 @@ class _FirstpageState extends State<Firstpage> {
                     //           uid: '',
                     //           Questionid: "",
                     //         ),
+
+                    Center(
+                      // child: EnhancedHalfCircleProgressBar(0.3),
+                      child: EnhancedHalfCircleProgressBar(getProgress()),
+                    ),
+
                     GestureDetector(
                         onTap: () async {
                           final SharedPreferences prefs =
@@ -213,7 +273,6 @@ class _FirstpageState extends State<Firstpage> {
                           // await prefs.setString('businessUid', "VHAClcXeT7MAuIS24zb5rIha2J22");
                           print("businessUid: $action");
                           showSnackBar(context, action!);
-
                         },
                         child: Text("Print BusinessUid")),
                     // Text(data.BusinessData![0].businessDescription)

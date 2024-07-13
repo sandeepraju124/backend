@@ -63,6 +63,8 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   web_socket_channel: ^2.4.0
   shared_preferences: ^2.2.2
+  percent_indicator: ^4.2.3
+  syncfusion_flutter_gauges: ^24.2.9
   
 
 
