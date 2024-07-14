@@ -2,11 +2,13 @@
 
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
+import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/screens/home/homepage.dart';
 import 'package:backendapp/screens/progressbar.dart';
 import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
+import 'package:backendapp/widgets/rating.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,18 +37,17 @@ class _FirstpageState extends State<Firstpage> {
   }
 
   String getGreeting() {
-  final now = DateTime.now();
-  final hour = now.hour;
+    final now = DateTime.now();
+    final hour = now.hour;
 
-  if (hour < 12) {
-    return 'Good morning';
-  } else if (hour < 17) {
-    return 'Good afternoon';
-  } else {
-    return 'Good evening';
+    if (hour < 12) {
+      return 'Good morning';
+    } else if (hour < 17) {
+      return 'Good afternoon';
+    } else {
+      return 'Good evening';
+    }
   }
-}
-
 
   // double getProgress() {
   //   int totalTasks = 3; // Example: operating hours, amenities, profile information
@@ -63,8 +64,9 @@ class _FirstpageState extends State<Firstpage> {
   Widget build(BuildContext context) {
     var data = Provider.of<BusinessDataProvider>(context);
     var data2 = Provider.of<ServicesProvider>(context);
+    // var data3 = Provider.of<CommentSectionProvider>(context);
     // String name = data.BusinessData![0].businessName ?? "Guest";
-     String name = (data.BusinessData != null && data.BusinessData!.isNotEmpty)
+    String name = (data.BusinessData != null && data.BusinessData!.isNotEmpty)
         ? data.BusinessData![0].businessName
         : "";
 
@@ -203,7 +205,7 @@ class _FirstpageState extends State<Firstpage> {
                     //   ),
                     //   // color: Colors.grey,
                     // ),
-                    
+
                     Divider(
                       color: Colors.grey[200],
                       thickness: 5,
@@ -458,10 +460,12 @@ class _FirstpageState extends State<Firstpage> {
     );
   }
 
+  Widget introduction(String name) {
+    var data = Provider.of<CommentSectionProvider>(context);
+    String greet = getGreeting();
+    String _ratingString = Provider.of<CommentSectionProvider>(context).averageRating.toStringAsFixed(0) ?? "0";
+    int _rating = int.parse(_ratingString);
 
-  Widget introduction (String name){
-    String greet =  getGreeting();
-    
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -478,12 +482,12 @@ class _FirstpageState extends State<Firstpage> {
           ),
           SizedBox(height: 8),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               // navigatorPush(context, Homepage(initialIndex: 3));
               Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Homepage(initialIndex: 3)));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Homepage(initialIndex: 3)));
               // navigatorPush(context, Homepage(initialIndex: 3));
             },
             child: Row(
@@ -518,80 +522,88 @@ class _FirstpageState extends State<Firstpage> {
                     //   ],
                     // ),
                     Row(
-                    children: [
-                      // star 1
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(3)),
-                        padding: EdgeInsets.all(5),
-                        child:
-                            Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
-                      ),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      // star 2
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(3)),
-                        padding: EdgeInsets.all(5),
-                        child:
-                            Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
-                      ),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      // star 3
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(3)),
-                        padding: EdgeInsets.all(5),
-                        child:
-                            Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
-                      ),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      // star 4
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            // color: tgDarkPrimaryColor,
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(3)),
-                        padding: EdgeInsets.all(5),
-                        child:
-                            Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
-                      ),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      // sar 5
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(3)),
-                        padding: EdgeInsets.all(5),
-                        child:
-                            Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
-                      ),
-                      SizedBox(width: 8),
+                      children: [
+                        // star 1
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //       border: Border.all(color: Colors.grey),
+                        //       color: Colors.white,
+                        //       borderRadius: BorderRadius.circular(3)),
+                        //   padding: EdgeInsets.all(5),
+                        //   child:
+                        //       Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                        // ),
+                        // SizedBox(
+                        //   width: 4,
+                        // ),
+                        // // star 2
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //       border: Border.all(color: Colors.grey),
+                        //       color: Colors.white,
+                        //       borderRadius: BorderRadius.circular(3)),
+                        //   padding: EdgeInsets.all(5),
+                        //   child:
+                        //       Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                        // ),
+                        // SizedBox(
+                        //   width: 4,
+                        // ),
+                        // // star 3
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //       border: Border.all(color: Colors.grey),
+                        //       color: Colors.white,
+                        //       borderRadius: BorderRadius.circular(3)),
+                        //   padding: EdgeInsets.all(5),
+                        //   child:
+                        //       Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                        // ),
+                        // SizedBox(
+                        //   width: 4,
+                        // ),
+                        // // star 4
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //       border: Border.all(color: Colors.grey),
+                        //       // color: tgDarkPrimaryColor,
+                        //       color: Colors.white,
+                        //       borderRadius: BorderRadius.circular(3)),
+                        //   padding: EdgeInsets.all(5),
+                        //   child:
+                        //       Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                        // ),
+                        // SizedBox(
+                        //   width: 4,
+                        // ),
+                        // // sar 5
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //       border: Border.all(color: Colors.grey),
+                        //       color: Colors.white,
+                        //       borderRadius: BorderRadius.circular(3)),
+                        //   padding: EdgeInsets.all(5),
+                        //   child:
+                        //       Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                        // ),
+                        StarRating(
+                          rating: _rating,
+                          // rating: 4,
+                          filledStarColor:
+                              tgDarkPrimaryColor, // Adjust as needed
+                          unfilledStarColor: Colors.grey, // Adjust as needed
+                        ),
+                        SizedBox(width: 8),
                         Text(
-                          '0 reviews',
+                          // '0 reviews',
+                         "${data.getCommentsData!.reviews.length.toString()} reviews",
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.teal,
                           ),
                         ),
-                    ],
-                  ),
+                      ],
+                    ),
                   ],
                 ),
                 Icon(Icons.arrow_forward),
@@ -603,5 +615,3 @@ class _FirstpageState extends State<Firstpage> {
     );
   }
 }
-
-

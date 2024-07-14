@@ -4,7 +4,6 @@ import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/screens/askcommunity.dart';
 import 'package:backendapp/screens/commentsection/showreviews.dart';
-import 'package:backendapp/screens/home/s1.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

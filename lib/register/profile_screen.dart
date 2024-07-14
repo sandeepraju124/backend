@@ -52,11 +52,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // You can return a placeholder widget or loader here if needed
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              // Navigator.pop(context);
-            },
-            icon: Icon(Icons.keyboard_arrow_left_rounded)),
+        // leading: IconButton(
+        //     onPressed: () {
+        //       // Navigator.pop(context);
+        //     },
+        //     icon: Icon(Icons.keyboard_arrow_left_rounded)
+        //     ),
         title: Text('Profile'),
         backgroundColor: tgAccentColor,
       ),

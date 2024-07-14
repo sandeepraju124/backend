@@ -2,6 +2,7 @@
 
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
+import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/screens/add_photos.dart';
 import 'package:backendapp/screens/amenites/diaplay_amenities.dart';
 import 'package:backendapp/screens/home/homepage.dart';
@@ -11,6 +12,8 @@ import 'package:backendapp/screens/amenites/AmenitiesandMore.dart';
 import 'package:backendapp/widgets/Businessinfo.dart';
 import 'package:backendapp/widgets/HoursofOperations.dart';
 import 'package:backendapp/widgets/operating_hours_test.dart';
+import 'package:backendapp/widgets/rating.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -50,6 +53,11 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
   Widget build(BuildContext context) {
     var data = Provider.of<ServicesProvider>(context);
     var businessdata = Provider.of<BusinessDataProvider>(context);
+    String _ratingString = Provider.of<CommentSectionProvider>(context).averageRating.toStringAsFixed(0) ?? "0";
+    int _rating = int.parse(_ratingString);
+    print("Rating: $_rating");
+    print("RatingString: $_ratingString");
+
     print("hereeeeeeeee");
     print(data.BusinessData?.operatingHours);
     print(data.BusinessData?.businessUid);
@@ -85,15 +93,16 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
               padding: EdgeInsets.all(10),
               children: [
                 Stack(clipBehavior: Clip.none, children: [
-                  Container(
-                      height: 140,
-                      width: double.infinity,
-                      // color: Colors.blue,
-                      child: Image(
-                        image: NetworkImage(
-                            "https://images.unsplash.com/photo-1501862700950-18382cd41497?auto=format&fit=crop&q=80&w=2019&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-                        fit: BoxFit.cover,
-                      )),
+                  SlidingCoverImages(),
+                  // Container(
+                  //     height: 140,
+                  //     width: double.infinity,
+                  //     // color: Colors.blue,
+                  //     child: Image(
+                  //       image: NetworkImage(
+                  //           "https://images.unsplash.com/photo-1501862700950-18382cd41497?auto=format&fit=crop&q=80&w=2019&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
+                  //       fit: BoxFit.cover,
+                  //     )),
                   Positioned(
                     bottom: -70,
                     child: Container(
@@ -275,78 +284,105 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                 SizedBox(
                   height: 10,
                 ),
+                // Text(
+                //   Provider.of<CommentSectionProvider>(context)
+                //       .averageRating
+                //       .toStringAsFixed(1),
+                //   style: TextStyle(
+                //       color: Colors.black87,
+                //       fontSize: 13,
+                //       fontWeight: FontWeight.w400),
+                // ),
+                // Text(
+                //   Provider.of<CommentSectionProvider>(context)
+                //       .averageRating
+                //       .toStringAsFixed(0),
+                //   style: TextStyle(
+                //       color: Colors.black87,
+                //       fontSize: 13,
+                //       fontWeight: FontWeight.w400),
+                // ),
+
+                StarRating(
+                  rating: _rating,
+                  filledStarColor: tgDarkPrimaryColor, // Adjust as needed
+                  unfilledStarColor: Colors.grey, // Adjust as needed
+                ),
 
                 // Text("***********"),
-                Row(
-                  children: [
-                    // star 1
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3)),
-                      padding: EdgeInsets.all(5),
-                      child:
-                          Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    // star 2
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3)),
-                      padding: EdgeInsets.all(5),
-                      child:
-                          Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    // star 3
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3)),
-                      padding: EdgeInsets.all(5),
-                      child:
-                          Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    // star 4
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          // color: tgDarkPrimaryColor,
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3)),
-                      padding: EdgeInsets.all(5),
-                      child:
-                          Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    // sar 5
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3)),
-                      padding: EdgeInsets.all(5),
-                      child:
-                          Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
-                    )
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     // star 1
+                //     Container(
+                //       decoration: BoxDecoration(
+                //           border: Border.all(color: Colors.grey),
+                //           color: Colors.white,
+                //           borderRadius: BorderRadius.circular(3)),
+                //       padding: EdgeInsets.all(5),
+                //       child:
+                //           Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                //     ),
+                //     SizedBox(
+                //       width: 4,
+                //     ),
+                //     // star 2
+                //     Container(
+                //       decoration: BoxDecoration(
+                //           border: Border.all(color: Colors.grey),
+                //           color: Colors.white,
+                //           borderRadius: BorderRadius.circular(3)),
+                //       padding: EdgeInsets.all(5),
+                //       child:
+                //           Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                //     ),
+                //     SizedBox(
+                //       width: 4,
+                //     ),
+                //     // star 3
+                //     Container(
+                //       decoration: BoxDecoration(
+                //           border: Border.all(color: Colors.grey),
+                //           color: Colors.white,
+                //           borderRadius: BorderRadius.circular(3)),
+                //       padding: EdgeInsets.all(5),
+                //       child:
+                //           Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                //     ),
+                //     SizedBox(
+                //       width: 4,
+                //     ),
+                //     // star 4
+                //     Container(
+                //       decoration: BoxDecoration(
+                //           border: Border.all(color: Colors.grey),
+                //           // color: tgDarkPrimaryColor,
+                //           color: Colors.white,
+                //           borderRadius: BorderRadius.circular(3)),
+                //       padding: EdgeInsets.all(5),
+                //       child:
+                //           Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                //     ),
+                //     SizedBox(
+                //       width: 4,
+                //     ),
+                //     // sar 5
+                //     Container(
+                //       decoration: BoxDecoration(
+                //           border: Border.all(color: Colors.grey),
+                //           color: Colors.white,
+                //           borderRadius: BorderRadius.circular(3)),
+                //       padding: EdgeInsets.all(5),
+                //       child:
+                //           Icon(Icons.star, color: tgDarkPrimaryColor, size: 24),
+                //     )
+                //   ],
+                // ),
                 SizedBox(
                   height: 10,
                 ),
+
+                // SlidingCoverImages(),
+
                 Container(
                   padding: EdgeInsets.all(10),
                   color: Colors.white,
@@ -795,6 +831,34 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                 )
               ],
             )),
+    );
+  }
+
+  Widget SlidingCoverImages() {
+    var data = Provider.of<ServicesProvider>(context);
+    var images = data.BusinessData?.images;
+
+    if (images == null || images.isEmpty) {
+      return Center(
+        child: Text('No images available'),
+      );
+    }
+    return CarouselSlider.builder(
+      itemCount: data.BusinessData!.images!.length,
+      itemBuilder: (BuildContext context, int index, int realIndex) {
+        return Image.network(
+          // data.BusinessData!.images![index],
+          images[index],
+          fit: BoxFit.cover,
+          width: double.infinity,
+        );
+      },
+      options: CarouselOptions(
+        height: 150,
+        autoPlay: false,
+        aspectRatio: 2.0,
+        enlargeCenterPage: true,
+      ),
     );
   }
 }
