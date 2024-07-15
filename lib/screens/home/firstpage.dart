@@ -463,7 +463,10 @@ class _FirstpageState extends State<Firstpage> {
   Widget introduction(String name) {
     var data = Provider.of<CommentSectionProvider>(context);
     String greet = getGreeting();
-    String _ratingString = Provider.of<CommentSectionProvider>(context).averageRating.toStringAsFixed(0) ?? "0";
+    String _ratingString = Provider.of<CommentSectionProvider>(context)
+            .averageRating
+            .toStringAsFixed(0) ??
+        "0";
     int _rating = int.parse(_ratingString);
 
     return Padding(
@@ -594,14 +597,23 @@ class _FirstpageState extends State<Firstpage> {
                           unfilledStarColor: Colors.grey, // Adjust as needed
                         ),
                         SizedBox(width: 8),
+                        // Text(
+                        //   // '0 reviews',
+                        //   "${data.getCommentsData!.reviews.length.toString()} reviews",
+                        //   style: TextStyle(
+                        //     fontSize: 16,
+                        //     color: Colors.teal,
+                        //   ),
+                        // ),
                         Text(
-                          // '0 reviews',
-                         "${data.getCommentsData!.reviews.length.toString()} reviews",
-                          style: TextStyle(
+                          data.getCommentsData?.reviews != null
+                              ? "${data.getCommentsData!.reviews.length} reviews"
+                              : " reviews",
+                              style: TextStyle(
                             fontSize: 16,
                             color: Colors.teal,
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ],

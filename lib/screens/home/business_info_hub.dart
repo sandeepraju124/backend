@@ -53,7 +53,10 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
   Widget build(BuildContext context) {
     var data = Provider.of<ServicesProvider>(context);
     var businessdata = Provider.of<BusinessDataProvider>(context);
-    String _ratingString = Provider.of<CommentSectionProvider>(context).averageRating.toStringAsFixed(0) ?? "0";
+    String _ratingString = Provider.of<CommentSectionProvider>(context)
+            .averageRating
+            .toStringAsFixed(0) ??
+        "0";
     int _rating = int.parse(_ratingString);
     print("Rating: $_rating");
     print("RatingString: $_ratingString");
@@ -800,6 +803,30 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                                             : "Please add contact information"
                                         : "Please add contact information",
                                   ),
+                                  // Text(businessdata.BusinessData![0].contactInformation),
+                                  // subtitle: Text(businessdata
+                                  //     .BusinessData![0].contactInformation),
+                                  trailing: Icon(Icons.arrow_forward_ios)),
+                              ListTile(
+                                  title: Text(
+                                    "Email",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  // subtitle: Text("9912277968"),
+                                  subtitle: Text(
+                                      // (businessdata.BusinessData != null &&
+                                      //         businessdata
+                                      //             .BusinessData!.isNotEmpty)
+                                      //     ? businessdata.BusinessData![0]
+                                      //             .businessEmail.isNotEmpty
+                                      //         ? businessdata.BusinessData![0]
+                                      //             .businessEmail
+                                      //         : "Please add email address"
+                                      //     : "Please add email address",
+                                      (businessdata.BusinessData![0].businessEmail !=null && businessdata.BusinessData![0].businessEmail.isNotEmpty)
+                                          ? businessdata.BusinessData![0].businessEmail
+                                          : "Please add email address"),
                                   // Text(businessdata.BusinessData![0].contactInformation),
                                   // subtitle: Text(businessdata
                                   //     .BusinessData![0].contactInformation),

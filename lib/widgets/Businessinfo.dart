@@ -15,6 +15,7 @@ class BasicInfoForm extends StatefulWidget {
 class _BasicInfoFormState extends State<BasicInfoForm> {
 
   final TextEditingController businessNameController = TextEditingController();
+  final TextEditingController businessEmailController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController websiteLinkController = TextEditingController();
   final TextEditingController menuLinksController = TextEditingController();
@@ -24,6 +25,7 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
     // TODO: implement initState
      var data = Provider.of<BusinessDataProvider>(context,listen: false);
      businessNameController.text = data.BusinessData![0].businessName ?? '';
+     businessEmailController.text = data.BusinessData![0].businessEmail ?? '';
     addressController.text = data.BusinessData![0].address ?? '';
     phoneNumberController.text = data.BusinessData![0].contactInformation ?? '';
     // websiteLinkController.text = data.BusinessData[0]. ?? '';
@@ -82,6 +84,22 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
                   controller: businessNameController,
                   decoration: const InputDecoration(
                     labelText: "Business name",
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(8.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: TextFormField(
+                  controller: businessEmailController,
+                  decoration: const InputDecoration(
+                    labelText: "Business email",
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(8.0),
                   ),
@@ -168,6 +186,7 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
                     'business_name': businessNameController.text,
                     'address': addressController.text,
                     'contact_information': phoneNumberController.text,
+                    'business_email': businessEmailController.text,
                     // 'websiteLink': websiteLinkController.text,
                     // 'menuLinks': menuLinks,
                   };

@@ -85,8 +85,9 @@ Future<AskTheCommunityModels> fetchAskCommunity(String uri) async {
 Future<List<BusinessDataModels>> fetchBusinessData(String uri) async {
   var url = Uri.parse(uri);
   var response = await http.get(url);
-  print(response.body);
+  // print(response.body);
   print("data from http");
+  log(response.body);
   if (response.statusCode == 200) {
     // Parse the response JSON into a list of BusinessDataModels
     List<dynamic> data = json.decode(response.body);
