@@ -11,6 +11,7 @@ import 'package:backendapp/utils/navigators.dart';
 import 'package:backendapp/screens/amenites/AmenitiesandMore.dart';
 import 'package:backendapp/widgets/Businessinfo.dart';
 import 'package:backendapp/widgets/HoursofOperations.dart';
+import 'package:backendapp/widgets/house_overview.dart';
 import 'package:backendapp/widgets/operating_hours_test.dart';
 import 'package:backendapp/widgets/rating.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -380,6 +381,10 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                 //     )
                 //   ],
                 // ),
+                SizedBox(
+                  height: 10,
+                ),
+                BusinessSpecific(businessdata.BusinessData![0].subCategory),
                 SizedBox(
                   height: 10,
                 ),
@@ -867,7 +872,9 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
 
     if (images == null || images.isEmpty) {
       return Center(
-        child: Text('No images available'),
+        // child: Text('No images available'),
+        child: Image.network(height: 100,
+          "https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg",fit: BoxFit.cover,),
       );
     }
     return CarouselSlider.builder(
@@ -888,4 +895,24 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
       ),
     );
   }
+
+
+  Widget BusinessSpecific(String subcategory) {
+    switch (subcategory) {
+      case "Fullhouse":
+        return OverviewScreen();
+      case "Plumbers":
+        return OverviewScreen();
+      case 'Carpenters':
+        return Column(children: const [
+          Text("this is 4"),
+          Text("this is 5"),
+        ]);
+      default:
+        return Text("No Specific data available");
+    }
+  }
+
+
+
 }
