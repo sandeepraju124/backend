@@ -110,6 +110,16 @@ class NetworkCalling {
     // print("response");
     return response;
   }
+// updating Housing data
+  // Future<http.Response> patchHouseData(String uri, dynamic data) async {
+  //   var url = Uri.parse(uri);
+  //   final headers = {'Content-Type': 'application/json'};
+  //   var response =
+  //       await http.patch(url, body: jsonEncode(data), headers: headers);
+  //   // print(response.body);
+  //   // print("response");
+  //   return response;
+  // }
 
 // this is for getting business oprational data from mongodb database
 // services data

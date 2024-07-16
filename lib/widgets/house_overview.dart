@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/house_provider.dart';
+import 'package:backendapp/utils/navigators.dart';
+import 'package:backendapp/widgets/house_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,9 +41,14 @@ class _OverviewScreenState extends State<OverviewScreen> {
               ),
             ),
             Spacer(),
-            Text(
-              "Edit Details",
-              style: TextStyle(color: Colors.teal),
+            GestureDetector(
+              onTap: (){
+                navigatorPush(context, HouseUpdate());
+              },
+              child: Text(
+                "Edit Details",
+                style: TextStyle(color: Colors.teal),
+              ),
             )
             // Icon(Icons.edit),
           ],

@@ -56,7 +56,6 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
   Widget build(BuildContext context) {
     var data = Provider.of<ServicesProvider>(context);
     var businessdata = Provider.of<BusinessDataProvider>(context);
-    // var Housedata = Provider.of<HouseProvider>(context);
     String _ratingString = Provider.of<CommentSectionProvider>(context)
             .averageRating
             .toStringAsFixed(0) ??
