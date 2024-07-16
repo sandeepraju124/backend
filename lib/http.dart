@@ -5,13 +5,11 @@ import "package:backendapp/models/businessdata_models.dart";
 import 'package:backendapp/models/services_model.dart';
 import "package:backendapp/models/commentsection_models.dart";
 import 'package:backendapp/provider/registrationdata_provider.dart';
-import "package:http/http.dart"as http;
+import "package:http/http.dart" as http;
 import "package:provider/provider.dart";
 import 'dart:developer';
 
-class NetworkCalling{
-
-
+class NetworkCalling {
 //   Future<String?> postBusinessData(uri, body)async{
 //   final headers = {'Content-Type': 'application/json'};
 //     final response = await http.post(uri, headers: headers, body: body);
@@ -22,38 +20,40 @@ class NetworkCalling{
 //     }
 // }
 
-Future<String> getLocationName(double latitude, double longitude, String apiKey) async{
-  final String baseurl = "https://maps.googleapis.com/maps/api/geocode/json";
-  final String endpoint = "$baseurl?latlng=$latitude,$longitude&key=$apiKey";
+  Future<String> getLocationName(
+      double latitude, double longitude, String apiKey) async {
+    final String baseurl = "https://maps.googleapis.com/maps/api/geocode/json";
+    final String endpoint = "$baseurl?latlng=$latitude,$longitude&key=$apiKey";
 
-  final response = await http.get(Uri.parse(endpoint));
+    final response = await http.get(Uri.parse(endpoint));
 
-  if(response.statusCode == 200){
-    final Map<String, dynamic> data = json.decode(response.body);
-    // print(response.body);
-    print("body");
-    // print(data["results"][0]["formatted_address"]);
-    // print(data["results"][0]["address_components"][0]["short_name"]);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      // print(response.body);
+      print("body");
+      // print(data["results"][0]["formatted_address"]);
+      // print(data["results"][0]["address_components"][0]["short_name"]);
 
-    if (data.containsKey("results") && (data["results"] as List).isNotEmpty ){
-      List<dynamic> addressComponents = data["results"][0]["address_components"];
-      String shortName = addressComponents.isNotEmpty ? addressComponents[0]["short_name"] : "N/A";
-      // String formatted_address = data["results"][0]["formatted_address"]
-      print(shortName);
-      print(data["results"][0]["formatted_address"]);
-      // return shortName;
-      return data["results"][0]["formatted_address"];
+      if (data.containsKey("results") && (data["results"] as List).isNotEmpty) {
+        List<dynamic> addressComponents =
+            data["results"][0]["address_components"];
+        String shortName = addressComponents.isNotEmpty
+            ? addressComponents[0]["short_name"]
+            : "N/A";
+        // String formatted_address = data["results"][0]["formatted_address"]
+        print(shortName);
+        print(data["results"][0]["formatted_address"]);
+        // return shortName;
+        return data["results"][0]["formatted_address"];
+      } else {
+        throw Exception("location not found");
+      }
     } else {
-      throw Exception("location not found");
+      throw Exception("Failed to load data");
     }
-
-  }else {
-    throw Exception("Failed to load data");
   }
 
-}
-
-Future<AskTheCommunityModels> fetchAskCommunity(String uri) async {
+  Future<AskTheCommunityModels> fetchAskCommunity(String uri) async {
     var url = Uri.parse(uri);
     var response = await http.get(url);
     if (response.statusCode == 200) {
@@ -65,8 +65,6 @@ Future<AskTheCommunityModels> fetchAskCommunity(String uri) async {
       throw Exception('Failed to load business profile');
     }
   }
-
-
 
   Future<CommentSectionModels> fetchComments(String uri) async {
     var url = Uri.parse(uri);
@@ -82,44 +80,36 @@ Future<AskTheCommunityModels> fetchAskCommunity(String uri) async {
   }
 
   // this is for getting business data from pg admin database business table
-Future<List<BusinessDataModels>> fetchBusinessData(String uri) async {
-  var url = Uri.parse(uri);
-  var response = await http.get(url);
-  // print(response.body);
-  print("data from http");
-  log(response.body);
-  if (response.statusCode == 200) {
-    // Parse the response JSON into a list of BusinessDataModels
-    List<dynamic> data = json.decode(response.body);
-    print("businessDataList");
-    List<BusinessDataModels> businessDataList = data
-        .map((json) => BusinessDataModels.fromJson(json))
-        .toList();
-        // print(businessDataList);
-        // print("businessDataList");
-    return businessDataList;
-  } else {
-    throw Exception('Failed to fetch business data');
+  Future<List<BusinessDataModels>> fetchBusinessData(String uri) async {
+    var url = Uri.parse(uri);
+    var response = await http.get(url);
+    // print(response.body);
+    // print("data from http");
+    // // log(response.body);
+    if (response.statusCode == 200) {
+      // Parse the response JSON into a list of BusinessDataModels
+      List<dynamic> data = json.decode(response.body);
+      // print("businessDataList");
+      List<BusinessDataModels> businessDataList =
+          data.map((json) => BusinessDataModels.fromJson(json)).toList();
+      // print(businessDataList);
+      // print("businessDataList");
+      return businessDataList;
+    } else {
+      throw Exception('Failed to fetch business data');
+    }
   }
-}
 
 // updating business data
-Future<http.Response> patchBusinessData(String uri, dynamic data) async {
+  Future<http.Response> patchBusinessData(String uri, dynamic data) async {
     var url = Uri.parse(uri);
     final headers = {'Content-Type': 'application/json'};
-    var response = await http.patch(
-      url,
-      body: jsonEncode(data),
-      headers:headers
-    );
+    var response =
+        await http.patch(url, body: jsonEncode(data), headers: headers);
     // print(response.body);
     // print("response");
     return response;
   }
-
-
-  
-
 
 // this is for getting business oprational data from mongodb database
 // services data
@@ -137,54 +127,52 @@ Future<http.Response> patchBusinessData(String uri, dynamic data) async {
 //     print(data);
 //     // print("http business mongo data");
 //     return data;
-    
+
 //   }else{
 //     throw Exception("Failed to load mongo business data");
 //   }
 // }
 
-Future<ServicesModels> fetchMongoBusinessData(String uri) async {
-  try {
-    var url = Uri.parse(uri);
-    var response = await http.get(url);
-    log(response.body);
+  Future<ServicesModels> fetchMongoBusinessData(String uri) async {
+    try {
+      var url = Uri.parse(uri);
+      var response = await http.get(url);
+      log(response.body);
 
-    if (response.statusCode == 200) {
-      return ServicesModels.fromJson(json.decode(response.body));
-    } else {
+      if (response.statusCode == 200) {
+        return ServicesModels.fromJson(json.decode(response.body));
+      } else {
+        throw Exception("Failed to load mongo business data");
+      }
+    } catch (e) {
+      // Handle any exceptions that occur during the HTTP request
+      print("Error fetching mongo business data: $e");
       throw Exception("Failed to load mongo business data");
     }
-  } catch (e) {
-    // Handle any exceptions that occur during the HTTP request
-    print("Error fetching mongo business data: $e");
-    throw Exception("Failed to load mongo business data");
   }
-}
 
 // this is used to delete images from database and azure
-Future<Map<String, dynamic>> deleteImage(String uri) async {
-  try {
-    var url = Uri.parse(uri);
-    print(uri);
-    final response = await http.delete(url);
-    print(response.body);
-    print("response");
+  Future<Map<String, dynamic>> deleteImage(String uri) async {
+    try {
+      var url = Uri.parse(uri);
+      print(uri);
+      final response = await http.delete(url);
+      print(response.body);
+      print("response");
 
-    if (response.statusCode == 200) {
-      print("Image deleted successfully");
-       return {'success': true, 'statusCode': response.statusCode};
-    } else {
-      print("Image deletion failed");
-      return {'success': false, 'statusCode': response.statusCode};
+      if (response.statusCode == 200) {
+        print("Image deleted successfully");
+        return {'success': true, 'statusCode': response.statusCode};
+      } else {
+        print("Image deletion failed");
+        return {'success': false, 'statusCode': response.statusCode};
+      }
+    } catch (e) {
+      // Error occurred during the HTTP request
+      print('Error deleting image: $e');
+      return {'success': false, 'statusCode': -1};
     }
-  } catch (e) {
-    // Error occurred during the HTTP request
-    print('Error deleting image: $e');
-    return {'success': false, 'statusCode': -1};
   }
-}
-
-
 
 // Future<String?> postBusiness() async {
 //   // var data = Provider.of<RegistrationProvider>;
@@ -228,5 +216,4 @@ Future<Map<String, dynamic>> deleteImage(String uri) async {
 //       throw Exception('Failed to create service: $e');
 //     }
 //   }
-
 }

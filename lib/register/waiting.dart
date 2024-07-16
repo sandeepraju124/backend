@@ -52,11 +52,16 @@ class WaitingScreen extends StatelessWidget {
                   height: 20,
                 ),
                 GestureDetector(
-                  onTap: (){
-                    // navigatorPush(context, Homepage());
-                    navigatorReplace(context, ProfileScreen());
-                  },
-                  child: Text("click"))
+                    onTap: () {
+                      // navigatorPush(context, Homepage());
+                      navigatorReplace(
+                          context,
+                          ProfileScreen(
+                            showBackButton: false,
+                            showlogoutbutton: true,
+                          ));
+                    },
+                    child: Text("click"))
               ],
             ),
           ),

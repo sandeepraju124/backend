@@ -13,7 +13,6 @@ class BasicInfoForm extends StatefulWidget {
 }
 
 class _BasicInfoFormState extends State<BasicInfoForm> {
-
   final TextEditingController businessNameController = TextEditingController();
   final TextEditingController businessEmailController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
@@ -23,20 +22,16 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
   @override
   void initState() {
     // TODO: implement initState
-     var data = Provider.of<BusinessDataProvider>(context,listen: false);
-     businessNameController.text = data.BusinessData![0].businessName ?? '';
-     businessEmailController.text = data.BusinessData![0].businessEmail ?? '';
+    var data = Provider.of<BusinessDataProvider>(context, listen: false);
+    businessNameController.text = data.BusinessData![0].businessName ?? '';
+    businessEmailController.text = data.BusinessData![0].businessEmail ?? '';
     addressController.text = data.BusinessData![0].address ?? '';
     phoneNumberController.text = data.BusinessData![0].contactInformation ?? '';
     // websiteLinkController.text = data.BusinessData[0]. ?? '';
     // menuLinksController.text = data.BusinessData[0]. ?? '';
 
-     
-
     super.initState();
   }
-  
-  
 
   // @override
   // void dispose() {
@@ -50,7 +45,6 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<BusinessDataProvider>(context);
-    
 
     // Set initial values if available
     // businessNameController.text = data.BusinessData![0].businessName ?? '';
@@ -58,8 +52,6 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
     // phoneNumberController.text = data.BusinessData![0].contactInformation ?? '';
     // websiteLinkController.text = data.BusinessData[0]. ?? '';
     // menuLinksController.text = data.BusinessData[0]. ?? '';
-
-
 
     return Scaffold(
       // backgroundColor: Colors.grey[100],
@@ -172,15 +164,15 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () async {
-          
                   // Print or process the form data as needed
                   print("Business Name: ${businessNameController.text}");
                   print("Phone Number: ${phoneNumberController.text}");
                   print("Website Link: ${websiteLinkController.text}");
                   print("Menu Links: ${menuLinksController.text}");
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
                   String? businessUid = prefs.getString('businessUid');
-          
+
                   Map<String, dynamic> updatedData = {
                     'business_uid': businessUid,
                     'business_name': businessNameController.text,
@@ -190,17 +182,21 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
                     // 'websiteLink': websiteLinkController.text,
                     // 'menuLinks': menuLinks,
                   };
-          
+
                   // Call the update method from the provider
-                  bool response = await Provider.of<BusinessDataProvider>(context, listen: false)
+                  bool response = await Provider.of<BusinessDataProvider>(
+                          context,
+                          listen: false)
                       .updateBusinessData(updatedData);
-                      if (response){
-                        showSnackBar(context,"Profile Updated Sucessfully" );
-                        Navigator.pop(context);
-                      }
-                      // Navigator.pop(context);
+                  if (response) {
+                    showSnackBar(context, "Profile Updated Sucessfully");
+                    Navigator.pop(context);
+                  }
+                  // Navigator.pop(context);
                 },
-                child: data.isLoadingPatch ? CircularProgressIndicator(): Text("Submit"),
+                child: data.isLoadingPatch
+                    ? CircularProgressIndicator()
+                    : Text("Submit"),
               ),
             ],
           ),

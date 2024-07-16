@@ -19,10 +19,11 @@ class BusinessDataProvider extends ChangeNotifier {
     _businessdata = [];
     try {
       var uri = '$baseUrl/pg/business/where?$key=$value';
-      List<BusinessDataModels> businessdata = await NetworkCalling().fetchBusinessData(uri);
+      List<BusinessDataModels> businessdata =
+          await NetworkCalling().fetchBusinessData(uri);
       _businessdata = businessdata;
-      print(businessdata);
-      print("businessdata");
+      // print(businessdata);
+      // print("businessdata");
     } catch (e) {
       print('Error fetching business data: $e');
     } finally {
@@ -36,11 +37,11 @@ class BusinessDataProvider extends ChangeNotifier {
     notifyListeners();
     try {
       var uri = '$baseUrl/pg/business';
-      print(updatedData);
-      print("updatedData");
+      // print(updatedData);
+      // print("updatedData");
       var response = await NetworkCalling().patchBusinessData(uri, updatedData);
-      print(response.body);
-      print("response body");
+      // print(response.body);
+      // print("response body");
 
       // After the PATCH request is successful, update the local data
       // For example:
@@ -49,18 +50,17 @@ class BusinessDataProvider extends ChangeNotifier {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String? businessUid = prefs.getString('businessUid');
         getBusinessData("business_uid", businessUid!);
-        print('Updated Business Data: $updatedData');
+        // print('Updated Business Data: $updatedData');
         return true;
 
         // _businessdata = updatedData;
         // Or you can update specific fields in the data
         // _businessdata[index] = updatedData;
-      }else {
-      print('Failed to update business data: ${response.body}');
-      return false; // Return false indicating failure
-    }
+      } else {
+        print('Failed to update business data: ${response.body}');
+        return false; // Return false indicating failure
+      }
       // For demonstration, let's print the updated data
-      
     } catch (e) {
       print('Error updating business data: $e');
       return false;

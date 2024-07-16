@@ -29,7 +29,7 @@ class StarRating extends StatelessWidget {
             child: Icon(
               Icons.star,
               color: index < rating ? filledStarColor : unfilledStarColor,
-              size: 24,
+              size: 17,
             ),
           ),
         );

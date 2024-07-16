@@ -35,7 +35,10 @@ class ProfileRedirect extends StatelessWidget {
           } else {
             // print("in stream 30");
             // If businessUid is not present, navigate to ProfileRedirect page
-            return ProfileScreen();
+            return ProfileScreen(
+              showBackButton: false,
+              showlogoutbutton: true,
+            );
           }
         }
       },

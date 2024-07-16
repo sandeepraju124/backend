@@ -17,11 +17,12 @@ class EnhancedHalfCircleProgressBar extends StatelessWidget {
         // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(children: [
+          Row(
+            children: [
               Text(
                 'Progress Indicator',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -37,7 +38,8 @@ class EnhancedHalfCircleProgressBar extends StatelessWidget {
                   ),
                 ),
               ),
-            ],),
+            ],
+          ),
           // Text('Progress Indicator'),
           // ListTile(
           //   leading: Text(
@@ -60,7 +62,7 @@ class EnhancedHalfCircleProgressBar extends StatelessWidget {
             onTap: () {
               // Handle tap event
               print('Progress bar clicked');
-              navigatorPush(context,  TasksScreen());
+              navigatorPush(context, TasksScreen());
             },
             child: SfRadialGauge(
               // backgroundColor: Colors.teal,
@@ -128,5 +130,3 @@ class EnhancedHalfCircleProgressBar extends StatelessWidget {
     );
   }
 }
-
-

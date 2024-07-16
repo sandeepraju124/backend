@@ -31,7 +31,7 @@ class _FirstpageState extends State<Firstpage> {
     super.initState();
   }
 
-  void RemoveBusinessUid() async {
+  Future<void> RemoveBusinessUid() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('businessUid');
   }
@@ -126,16 +126,13 @@ class _FirstpageState extends State<Firstpage> {
               )),
           actions: [
             GestureDetector(
-              onTap: () {
-                FirebaseAuth.instance.signOut().then((_) {
-                  RemoveBusinessUid();
-                  // Navigate to the login page after signing out
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => redirection()));
-                }).catchError((error) {
-                  // Handle sign-out errors if any
-                  print("Error signing out: $error");
-                });
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                await RemoveBusinessUid();
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => redirection()),
+                  (Route<dynamic> route) => false,
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 10),
@@ -479,7 +476,7 @@ class _FirstpageState extends State<Firstpage> {
             '$greet, $name',
             // '$greet, ${name ?? "Guest"}',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 21.2,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -597,20 +594,13 @@ class _FirstpageState extends State<Firstpage> {
                           unfilledStarColor: Colors.grey, // Adjust as needed
                         ),
                         SizedBox(width: 8),
-                        // Text(
-                        //   // '0 reviews',
-                        //   "${data.getCommentsData!.reviews.length.toString()} reviews",
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     color: Colors.teal,
-                        //   ),
-                        // ),
+
                         Text(
                           data.getCommentsData?.reviews != null
                               ? "${data.getCommentsData!.reviews.length} reviews"
                               : " reviews",
-                              style: TextStyle(
-                            fontSize: 16,
+                          style: TextStyle(
+                            fontSize: 13,
                             color: Colors.teal,
                           ),
                         )
@@ -618,7 +608,7 @@ class _FirstpageState extends State<Firstpage> {
                     ),
                   ],
                 ),
-                Icon(Icons.arrow_forward),
+                Icon(Icons.keyboard_arrow_right_rounded),
               ],
             ),
           ),
