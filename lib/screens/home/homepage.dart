@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:developer';
+
 import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
+import 'package:backendapp/provider/house_provider.dart';
 import 'package:backendapp/provider/insights_provider.dart';
 import 'package:backendapp/screens/home/firstpage.dart';
 import 'package:backendapp/screens/home/Community.dart';
@@ -59,9 +62,20 @@ class _HomepageState extends State<Homepage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? businessUid = prefs.getString('businessUid');
     // print("Business_uid = $businessUid");
-    var dataBusiness =
-        Provider.of<BusinessDataProvider>(context, listen: false);
-    await dataBusiness.getBusinessData("business_uid", businessUid!);
+    var dataBusiness =Provider.of<BusinessDataProvider>(context, listen: false);
+    await dataBusiness.getBusinessData("business_uid", businessUid!).then((onValue) {
+      print(onValue);
+      if (onValue == true) {
+        if (dataBusiness.BusinessData![0].subCategory == "Fullhouse") {
+          log("this is full house");
+          var houseData = Provider.of<HouseProvider>(context, listen: false)
+              .fetchHouseData(businessUid);
+        }
+      } else {
+        print("Failed to fetch house details Data");
+      }
+    });
+    // await dataBusiness.getBusinessData("business_uid", businessUid!);
     var commentsData =
         Provider.of<CommentSectionProvider>(context, listen: false)
             .commentSectionProvider(businessUid);

@@ -14,7 +14,7 @@ class BusinessDataProvider extends ChangeNotifier {
   bool _isLoadingPatch = false;
   bool get isLoadingPatch => _isLoadingPatch;
 
-  Future<void> getBusinessData(String key, String value) async {
+  Future<bool> getBusinessData(String key, String value) async {
     _isLoading = true;
     _businessdata = [];
     try {
@@ -24,8 +24,10 @@ class BusinessDataProvider extends ChangeNotifier {
       _businessdata = businessdata;
       // print(businessdata);
       // print("businessdata");
+      return true;
     } catch (e) {
       print('Error fetching business data: $e');
+      return false;
     } finally {
       _isLoading = false;
       notifyListeners();
