@@ -86,12 +86,12 @@ class _FirstpageState extends State<Firstpage> {
             completedTasks++;
           if (data.BusinessData![0].businessDescription?.isNotEmpty ?? false)
             completedTasks++;
-          print("...................");
-          print("phone number ${data.BusinessData![0].contactInformation}");
-          print("email ${data.BusinessData![0].businessEmail}");
-          print("address ${data.BusinessData![0].address}");
-          print("business desp ${data.BusinessData![0].businessDescription}");
-          print("...................");
+          // print("...................");
+          // print("phone number ${data.BusinessData![0].contactInformation}");
+          // print("email ${data.BusinessData![0].businessEmail}");
+          // print("address ${data.BusinessData![0].address}");
+          // print("business desp ${data.BusinessData![0].businessDescription}");
+          // print("...................");
         }
       }
 
@@ -100,15 +100,15 @@ class _FirstpageState extends State<Firstpage> {
         if (data2.BusinessData!.operatingHours != null) completedTasks++;
         if (data2.BusinessData!.images != null) completedTasks++;
 
-        print("...................");
-        print("amenities ${data2.BusinessData!.amenities}");
-        print("operatingHours ${data2.BusinessData!.operatingHours}");
-        print("operatingHours ${data2.BusinessData!.operatingHours != null}");
-        print("images ${data2.BusinessData!.images}");
-        print("...................");
-        print("completedTasks $completedTasks");
-        print("totalTasks $totalTasks");
-        print("completedTasks / totalTasks ${completedTasks / totalTasks}");
+        // print("...................");
+        // print("amenities ${data2.BusinessData!.amenities}");
+        // print("operatingHours ${data2.BusinessData!.operatingHours}");
+        // print("operatingHours ${data2.BusinessData!.operatingHours != null}");
+        // print("images ${data2.BusinessData!.images}");
+        // print("...................");
+        // print("completedTasks $completedTasks");
+        // print("totalTasks $totalTasks");
+        // print("completedTasks / totalTasks ${completedTasks / totalTasks}");
       }
 
       return completedTasks / totalTasks;

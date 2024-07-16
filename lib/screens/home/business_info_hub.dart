@@ -3,6 +3,7 @@
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
+import 'package:backendapp/provider/house_provider.dart';
 import 'package:backendapp/screens/add_photos.dart';
 import 'package:backendapp/screens/amenites/diaplay_amenities.dart';
 import 'package:backendapp/screens/home/homepage.dart';
@@ -10,7 +11,6 @@ import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:backendapp/screens/amenites/AmenitiesandMore.dart';
 import 'package:backendapp/widgets/Businessinfo.dart';
-import 'package:backendapp/widgets/HoursofOperations.dart';
 import 'package:backendapp/widgets/house_overview.dart';
 import 'package:backendapp/widgets/operating_hours_test.dart';
 import 'package:backendapp/widgets/rating.dart';
@@ -50,10 +50,13 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
   String _operatingHoursMsg =
       "Choose the amenities that you provide your customers, and we'll showcase this to your potential customers on your Yelp page and when you come up on search results";
 
+  
+
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<ServicesProvider>(context);
     var businessdata = Provider.of<BusinessDataProvider>(context);
+    // var Housedata = Provider.of<HouseProvider>(context);
     String _ratingString = Provider.of<CommentSectionProvider>(context)
             .averageRating
             .toStringAsFixed(0) ??

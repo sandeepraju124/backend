@@ -14,17 +14,19 @@ class BusinessDataProvider extends ChangeNotifier {
   bool _isLoadingPatch = false;
   bool get isLoadingPatch => _isLoadingPatch;
 
-  Future<void> getBusinessData(String key, String value) async {
+  Future<bool> getBusinessData(String key, String value) async {
     _isLoading = true;
     _businessdata = [];
     try {
       var uri = '$baseUrl/pg/business/where?$key=$value';
       List<BusinessDataModels> businessdata = await NetworkCalling().fetchBusinessData(uri);
       _businessdata = businessdata;
-      print(businessdata);
-      print("businessdata");
+      // print(businessdata);
+      // print("businessdata");
+      return true;
     } catch (e) {
       print('Error fetching business data: $e');
+      return false;
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -36,11 +38,11 @@ class BusinessDataProvider extends ChangeNotifier {
     notifyListeners();
     try {
       var uri = '$baseUrl/pg/business';
-      print(updatedData);
-      print("updatedData");
+      // print(updatedData);
+      // print("updatedData");
       var response = await NetworkCalling().patchBusinessData(uri, updatedData);
-      print(response.body);
-      print("response body");
+      // print(response.body);
+      // print("response body");
 
       // After the PATCH request is successful, update the local data
       // For example:

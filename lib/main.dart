@@ -3,6 +3,7 @@ import 'package:backendapp/firebase_options.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
+import 'package:backendapp/provider/house_provider.dart';
 import 'package:backendapp/provider/insights_provider.dart';
 import 'package:backendapp/register/onboardingtest.dart';
 import 'package:backendapp/register/postbusiness.dart';
@@ -65,6 +66,9 @@ void main()async {
     ),
     ChangeNotifierProvider<HoursProvider>(
       create: (_) => HoursProvider(),
+    ),
+    ChangeNotifierProvider<HouseProvider>(
+      create: (_) => HouseProvider(),
     ),
     ],
     
