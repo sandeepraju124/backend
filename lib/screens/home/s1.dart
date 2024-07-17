@@ -1,12 +1,17 @@
+import 'dart:convert';
+
+import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/register/profile_screen.dart';
 import 'package:backendapp/screens/home/homepage.dart';
 import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:http/http.dart' as http;
 
 class PaymentPage extends StatefulWidget {
   @override
@@ -24,6 +29,14 @@ class _PaymentPageState extends State<PaymentPage> {
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
   // void RemoveBusinessUid() async {
   //   final SharedPreferences prefs = await SharedPreferences.getInstance();
   //   await prefs.remove('businessUid');
@@ -34,22 +47,108 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void _processPayment() {
-    print('Processing payment...');
+    var data = Provider.of<BusinessDataProvider>(context, listen: false);
+    String email =
+        data.BusinessData![0].businessEmail ?? "noemailaddress@gmail.com";
+    String phone = data.BusinessData![0].contactInformation ?? "1234567890";
+
     var options = {
-      'key': 'rzp_test_mtmrHL6yjG7sVJ',
-      'amount': 1 * 100,
-      'name': 'SSSV1',
-      'description': 'Fine T-Shirt',
+      'key': 'rzp_live_dWg1NHlcZci9lj',
+      'amount':
+          1000, // Amount in the smallest currency unit (e.g., 5000 paise = INR 50)
+      'name': 'NearMe Premium',
+      'description': 'Premium Account Payment',
+      'prefill': {
+        // 'contact': '1234567890',
+        'contact': phone,
+        // 'email': 'user@example.com'
+        'email': email
+      },
+      'external': {
+        'wallets': ['paytm']
+      }
     };
+
     _razorpay.open(options);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isPremium', true);
+
+    setState(() {
+      isPremium = true;
+    });
+
+    // Update the database
+    // final businessId = await prefs.getString('businessUid');
+    String businessUid = await getBusinessUid(context);
+
+    if (businessUid != null) {
+      Map<String, dynamic> updatedData = {
+        'business_uid': businessUid,
+        'is_premium': true,
+        'premium_expiry':
+            DateTime.now().add(Duration(days: 10)).toIso8601String(),
+      };
+      print(updatedData);
+
+      bool response =
+          await Provider.of<BusinessDataProvider>(context, listen: false)
+              .updateBusinessData(updatedData);
+      if (response) {
+        showSnackBar(context, "Payment successful! You are now a premium user");
+        // Navigator.pop(context);
+      } else {
+        showSnackBar(
+            context, "Failed to update premium status in the database.");
+      }
+    }
+  }
+  // void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setBool('isPremium', true);
+
+  //   setState(() {
+  //     isPremium = true;
+  //   });
+
+  //   // Update the database
+  //   final businessId = await prefs.getString('businessUid');
+
+  //   if (businessId != null) {
+  //     final response = await http.post(
+  //       Uri.parse('https://your-api-endpoint.com/updatePremiumStatus'),
+  //       body: jsonEncode({
+  //         'businessId': businessId,
+  //         'isPremium': true,
+  //         'premiumExpiry': DateTime.now().add(Duration(days: 10)).toIso8601String(),
+  //       }),
+  //       headers: {'Content-Type': 'application/json'},
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text("Payment successful! You are now a premium user.")),
+  //       );
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text("Failed to update premium status in the database.")),
+  //       );
+  //     }
+  //   }
+  // }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Payment failed. Please try again.")),
+    );
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("External wallet selected.")),
+    );
   }
 
   @override
@@ -58,20 +157,9 @@ class _PaymentPageState extends State<PaymentPage> {
     super.dispose();
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    print("succeeds");
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    print("fails");
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    print("external wallet");
-  }
-
   @override
   Widget build(BuildContext context) {
+    var data = Provider.of<BusinessDataProvider>(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -227,30 +315,47 @@ class _PaymentPageState extends State<PaymentPage> {
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(height: 20),
-              ListTile(
+              (data.BusinessData != null &&
+                        data.BusinessData!.isNotEmpty) ?ListTile(
+                // splashColor: Colors.deepPurple,
+                tileColor: Colors.green[50],
                 title: Text('Premium Account'),
-                subtitle: isPremium
-                    ? Text('You currently have a premium account.')
-                    : Text(
-                        'Upgrade to a premium account for additional benefits.'),
+                subtitle: (data.BusinessData != null &&
+                        data.BusinessData!.isNotEmpty)
+                    ? (data.BusinessData![0].isPremium
+                        ? Text('You currently have a premium account.')
+                        : Text(
+                            'Upgrade to a premium account for additional benefits.'))
+                    : Text('No business data available.'),
+                // data.BusinessData![0].isPremium
+                //     ? Text('You currently have a premium account.')
+                //     : Text(
+                //         'Upgrade to a premium account for additional benefits.'),
                 trailing: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStateProperty.all(tgLightPrimaryColor),
-                  ),
+                          backgroundColor:
+                              WidgetStateProperty.all(tgLightPrimaryColor),
+                        ),
                   onPressed: _togglePremium,
-                  child: isPremium ? Text('Downgrade') : Text('Upgrade'),
+                  child: data.BusinessData![0].isPremium
+                      ? Text('Downgrade')
+                      : Text('Upgrade'),
                 ),
-              ),
+              ): Text("No Business Data Available"),
               SizedBox(height: 20),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(tgLightPrimaryColor),
                 ),
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Feature not available yet")),
-                  );
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(content: Text("Feature not available yet")
+                  //   ),
+                  // );
+                  data.BusinessData![0].isPremium == true
+                      ? showSnackBar(context, "You are already a premium user")
+                      : _processPayment();
+                  //  _processPayment();
                 },
                 child: Text('Pay Now'),
               ),

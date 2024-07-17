@@ -116,6 +116,7 @@ class _FirstpageState extends State<Firstpage> {
 
     return Scaffold(
         appBar: AppBar(
+          
           // leading: Center(child: Text("NearMe")),
           automaticallyImplyLeading: false,
           // elevation: 10,

@@ -22,6 +22,8 @@ class BusinessDataModels {
     String? profileImageUrl;
     String subCategory;
     String userid;
+    bool isPremium;
+    String premiumExpiry;
 
     BusinessDataModels({
         required this.address,
@@ -37,6 +39,8 @@ class BusinessDataModels {
         required this.profileImageUrl,
         required this.subCategory,
         required this.userid,
+        required this.isPremium,
+        required this.premiumExpiry,
     });
 
     factory BusinessDataModels.fromJson(Map<String, dynamic> json) => BusinessDataModels(
@@ -53,6 +57,8 @@ class BusinessDataModels {
         profileImageUrl: json["profile_image_url"],
         subCategory: json["sub_category"],
         userid: json["userid"],
+        premiumExpiry: json["premium_expiry"],
+        isPremium: json["is_premium"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -69,5 +75,7 @@ class BusinessDataModels {
         "profile_image_url": profileImageUrl,
         "sub_category": subCategory,
         "userid": userid,
+        "is_premium": isPremium,
+        "premium_expiry": premiumExpiry,
     };
 }
