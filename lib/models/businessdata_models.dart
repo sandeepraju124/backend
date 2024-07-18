@@ -23,7 +23,7 @@ class BusinessDataModels {
     String subCategory;
     String userid;
     bool isPremium;
-    String premiumExpiry;
+    dynamic premiumExpiry;
 
     BusinessDataModels({
         required this.address,
