@@ -86,7 +86,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    navigatorPush(context, Register());
+                    navigatorPush(context, SignupPage());
                   },
                   child: Container(
                     height: 40,

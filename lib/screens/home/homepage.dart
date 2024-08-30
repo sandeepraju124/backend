@@ -62,8 +62,11 @@ class _HomepageState extends State<Homepage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? businessUid = prefs.getString('businessUid');
     // print("Business_uid = $businessUid");
-    var dataBusiness =Provider.of<BusinessDataProvider>(context, listen: false);
-    await dataBusiness.getBusinessData("business_uid", businessUid!).then((onValue) {
+    var dataBusiness =
+        Provider.of<BusinessDataProvider>(context, listen: false);
+    await dataBusiness
+        .getBusinessData("business_uid", businessUid!)
+        .then((onValue) {
       print(onValue);
       if (onValue == true) {
         if (dataBusiness.BusinessData![0].subCategory == "Fullhouse") {
@@ -105,7 +108,7 @@ class _HomepageState extends State<Homepage> {
             //   // elevation: 0,
 
             //   currentIndex: _selectedIndex,
-            //   onTap: (value) {
+            //   onTap: (value) {f
             //     setState(() {
             //       _selectedIndex = value;
             //     print(value);

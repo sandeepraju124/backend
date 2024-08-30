@@ -114,8 +114,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       Center(
-                          child:
-                              Lottie.asset("assets/analyst.json", height: 200)),
+                          child: Column(
+                        children: [
+                          if (data.BusinessData != null &&
+                              data.BusinessData!.isNotEmpty)
+                            Lottie.asset("assets/analyst.json", height: 200),
+                        ],
+                      )),
                       SizedBox(
                         height: 20,
                       ),

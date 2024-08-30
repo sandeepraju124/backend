@@ -816,145 +816,202 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     );
   }
 
+  // Widget _basicInfoStep() {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(20.0),
+  //     child: SingleChildScrollView(
+  //       child: Column(
+  //         // mainAxisAlignment: MainAxisAlignment.start,
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+
+  //         children: [
+  //           Text('Step 1: Basic Info'),
+  //           SizedBox(
+  //             height: 26,
+  //           ),
+  //           // Text("${widget.category} > ${widget.Subcategory}", style:TextStyle(overflow: TextOverflow.fade) ),
+  //           TextField(
+  //             decoration: InputDecoration(
+  //               border: OutlineInputBorder(),
+  //               contentPadding: EdgeInsets.all(10),
+  //               labelText: 'Selected category',
+  //             ),
+  //             controller: TextEditingController(
+  //               text: "${widget.category} > ${widget.Subcategory}",
+  //             ),
+  //             enabled: false, // Makes the TextField non-editable
+  //           ),
+
+  //           SizedBox(height: 16),
+  //           TextField(
+  //             controller: _businessName,
+  //             decoration: const InputDecoration(
+  //               border: OutlineInputBorder(),
+  //               labelStyle: TextStyle(),
+  //               contentPadding: EdgeInsets.all(10),
+  //               labelText: 'Business Name or Owner Name',
+  //             ),
+  //           ),
+  //           const SizedBox(
+  //             height: 10,
+  //           ),
+  //           TextField(
+  //             controller: _businessEmail,
+  //             decoration: const InputDecoration(
+  //               border: OutlineInputBorder(),
+  //               contentPadding: EdgeInsets.all(10),
+  //               labelText: 'Email',
+  //             ),
+  //           ),
+  //           const SizedBox(
+  //             height: 10,
+  //           ),
+  //           const SizedBox(
+  //             height: 10,
+  //           ),
+  //           TextField(
+  //             controller: _description,
+  //             decoration: InputDecoration(
+  //               contentPadding: EdgeInsets.all(10),
+  //               border: OutlineInputBorder(),
+  //               labelText: 'Business description',
+  //             ),
+  //             autofocus: false,
+  //             // focusNode: _focusnode,
+  //             maxLines: null,
+  //             // controller: _newreplycontroller,
+  //             keyboardType: TextInputType.text,
+  //           ),
+  //           const SizedBox(
+  //             height: 16,
+  //           ),
+  //           TextField(
+  //             controller: _contactInfo,
+  //             decoration: const InputDecoration(
+  //               contentPadding: EdgeInsets.all(10),
+  //               border: OutlineInputBorder(),
+  //               labelText: 'Contact info',
+  //             ),
+  //             autofocus: false,
+  //             maxLines: null,
+  //             keyboardType: TextInputType.phone,
+  //           ),
+  //           const SizedBox(
+  //             height: 16,
+  //           ),
+  //           TextField(
+  //             controller: _address,
+  //             decoration: const InputDecoration(
+  //               contentPadding: EdgeInsets.all(10),
+  //               border: OutlineInputBorder(),
+  //               labelText: 'Address',
+  //             ),
+  //             autofocus: false,
+  //             // focusNode: _focusnode,
+  //             maxLines: null,
+  //             // controller: _newreplycontroller,
+  //             keyboardType: TextInputType.text,
+  //           ),
+  //           const SizedBox(
+  //             height: 16,
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
   Widget _basicInfoStep() {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-
           children: [
-            Text('Step 1: Basic Info'),
-            SizedBox(
-              height: 26,
+            Text(
+              'Step 1: Basic Info',
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(fontWeight: FontWeight.bold),
             ),
-            // Text("${widget.category} > ${widget.Subcategory}", style:TextStyle(overflow: TextOverflow.fade) ),
-            TextField(
+            const SizedBox(height: 20),
+
+            // Selected Category Field
+            TextFormField(
+              initialValue: "${widget.category} > ${widget.Subcategory}",
               decoration: InputDecoration(
+                labelText: 'Selected Category',
                 border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.all(10),
-                labelText: 'Selected category',
+                filled: true,
+                fillColor: Colors.grey[200],
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey[300]!),
+                ),
               ),
-              controller: TextEditingController(
-                text: "${widget.category} > ${widget.Subcategory}",
-              ),
-              enabled: false, // Makes the TextField non-editable
+              enabled: false,
             ),
 
-            SizedBox(height: 16),
-            TextField(
+            const SizedBox(height: 20),
+
+            // Business Name Field
+            _buildTextField(
               controller: _businessName,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelStyle: TextStyle(),
-                contentPadding: EdgeInsets.all(10),
-                labelText: 'Business Name or Owner Name',
-              ),
+              labelText: 'Business Name or Owner Name',
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            TextField(
-              controller: _businessEmail,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.all(10),
-                labelText: 'Email',
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            TextField(
-              controller: _description,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(10),
-                border: OutlineInputBorder(),
-                labelText: 'Business description',
-              ),
-              autofocus: false,
-              // focusNode: _focusnode,
-              maxLines: null,
-              // controller: _newreplycontroller,
-              keyboardType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            TextField(
-              controller: _contactInfo,
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(10),
-                border: OutlineInputBorder(),
-                labelText: 'Contact info',
-              ),
-              autofocus: false,
-              maxLines: null,
-              keyboardType: TextInputType.phone,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            TextField(
-              controller: _address,
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(10),
-                border: OutlineInputBorder(),
-                labelText: 'Address',
-              ),
-              autofocus: false,
-              // focusNode: _focusnode,
-              maxLines: null,
-              // controller: _newreplycontroller,
-              keyboardType: TextInputType.phone,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            // TypeAheadField(
-            //   textFieldConfiguration: TextFieldConfiguration(
-            //       // controller: _serviceEditingController,
-            //       decoration: const InputDecoration(
-            //     contentPadding: EdgeInsets.all(10),
-            //     labelText: "Select a Service",
-            //     border: OutlineInputBorder(),
-            //   )),
-            //   suggestionsCallback: (pattern) {
-            //     if (pattern.isEmpty) {
-            //       return List<String>.empty();
-            //     } else {
-            //       return services.where((service) =>
-            //           service.toLowerCase().contains(pattern.toLowerCase()));
-            //     }
-            //   },
-            //   itemBuilder: (context, service) {
-            //     return ListTile(
-            //       title: Text(service),
-            //     );
-            //   },
-            //   onSuggestionSelected: (service) {
-            //     _serviceEditingController.text = service;
-            //     List<String> cat = service.split(">");
-            //     // _category = cat[0].trim();
-            //     // _sub_category = cat[1].trim();
+            const SizedBox(height: 20),
 
-            //     setState(() {
-            //       _selectedField = service;
-            //     });
-            //     print("this is $_selectedField");
-            //     print(cat[0]);
-            //     print(cat[1]);
-            //   },
-            // ),
-            // _selectedField != null
-            //     ? displayServiceField(_selectedField)
-            //     : Text("no")
+            // Email Field
+            _buildTextField(
+              controller: _businessEmail,
+              labelText: 'Email',
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 20),
+
+            // Business Description Field
+            _buildTextField(
+              controller: _description,
+              labelText: 'Business Description',
+              maxLines: 4,
+            ),
+            const SizedBox(height: 20),
+
+            // Contact Info Field
+            _buildTextField(
+              controller: _contactInfo,
+              labelText: 'Contact Info',
+              keyboardType: TextInputType.phone,
+            ),
+            const SizedBox(height: 20),
+
+            // Address Field
+            _buildTextField(
+              controller: _address,
+              labelText: 'Address',
+              maxLines: 3,
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String labelText,
+    TextInputType keyboardType = TextInputType.text,
+    int maxLines = 1,
+  }) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      maxLines: maxLines,
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
       ),
     );
   }
@@ -1308,15 +1365,6 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
       ),
     );
   }
-
-  // Widget Page2Display(String category){
-  //   switch (category){
-  //     case "house":
-  //       return _houseInfo();
-
-  //   }
-
-  //  }
 
   Widget Page2Display(String subcategory) {
     switch (subcategory) {
@@ -1784,23 +1832,6 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                   businessdata['aadhar_front'] = _aadharfront;
                   businessdata['aadhar_back'] = _aadharback;
                 }
-                // Adding additional fields
-                // if (_selectedField.isNotEmpty) {
-                //   businessdata['selectedField'] = _selectedField;
-                // }
-
-                // businessdata['carParking'] = carParking;
-                // businessdata['twoWheelerParking'] = twoWheelerParking;
-
-                // if (_selectedType != null) {
-                //   businessdata['selectedType'] = _selectedType.toString();
-                // }
-
-                // if (rent != 0) {
-                //   businessdata['rent'] = rent;
-                // }
-                // // Remove any entries with null values
-                // businessdata.removeWhere((key, value) => value == null);
 
                 _generated_business_uid = await generateRandomString(
                     widget.category!, widget.Subcategory!);
@@ -1828,19 +1859,6 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                     showSnackBar(context, "error please try again");
                   }
                 });
-                // navigatorPush(context, SearchLocationScreen());
-                // if (widget.Subcategory == "Fullhouse") {
-                //   postHouseData().then((value) {
-                //     if (value == true) {
-                //       // navigatorPush(context, WaitingScreen());
-                //       print(value);
-                //       print("house data uploaded");
-                //     } else {
-                //       showSnackBar(context, "error please try again");
-                //     }
-                //   });
-                // }
-                // navigatorPush(context, SearchLocationScreen());
               },
               child: _isLoading
                   ? Center(

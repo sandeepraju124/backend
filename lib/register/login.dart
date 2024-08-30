@@ -202,10 +202,14 @@ class _LoginState extends State<Login> {
                     // color: Color(0xFF6D64FF),
                     color: Color.fromARGB(245, 59, 80, 198),
                     child: isLoading
-                        ? Center(
-                            child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                          ))
+                        ? SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: Center(
+                                child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            )),
+                          )
                         : Center(
                             child: Text(
                             "Login",
