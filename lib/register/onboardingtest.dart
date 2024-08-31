@@ -426,7 +426,8 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
             icon: Icon(Icons.keyboard_arrow_left_rounded)),
         title: Text(
           'Onboarding Details',
-          style: TextStyle(color: Colors.black87, fontSize: 20),
+          style: TextStyle(
+              color: Colors.black87, fontSize: 17, fontWeight: FontWeight.w500),
         ),
       ),
       body: PageView(
@@ -1003,15 +1004,34 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     TextInputType keyboardType = TextInputType.text,
     int maxLines = 1,
   }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      maxLines: maxLines,
-      decoration: InputDecoration(
-        labelText: labelText,
-        border: OutlineInputBorder(),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+    FocusNode focusNode = FocusNode();
+
+    return Focus(
+      focusNode: focusNode,
+      child: Builder(
+        builder: (context) {
+          final isFocused = focusNode.hasFocus;
+          return TextFormField(
+            controller: controller,
+            keyboardType: keyboardType,
+            maxLines: maxLines,
+            decoration: InputDecoration(
+              labelText: labelText,
+              labelStyle: TextStyle(
+                  color: isFocused ? tgDarkPrimaryColor : Colors.grey[800],
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
+              border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: tgDarkPrimaryColor,
+                ),
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+            ),
+          );
+        },
       ),
     );
   }
@@ -1038,124 +1058,226 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
         )));
   }
 
+  // Widget _multiSelectUpload() {
+  //   return Column(
+  //     children: [
+  //       const Align(
+  //           alignment: Alignment.topLeft,
+  //           child: Text(
+  //             "Upload Business images (Max 10)",
+  //             style: TextStyle(fontSize: 23),
+  //           )),
+  //       const SizedBox(
+  //         height: 2,
+  //       ),
+  //       const Align(
+  //           alignment: Alignment.topLeft,
+  //           child: Text(
+  //             "upload all the images that will be shown in the profile",
+  //             style: TextStyle(color: Colors.grey),
+  //           )),
+  //       const SizedBox(
+  //         height: 8,
+  //       ),
+  //       Stack(
+  //         alignment: AlignmentDirectional.center,
+  //         children: [
+  //           DottedBorder(
+  //               // dashPattern: [1,3],
+  //               strokeWidth: 1,
+  //               color: Colors.grey,
+  //               child: Container(
+  //                 height: 120,
+  //                 // color: Colors.grey,
+  //               )),
+  //           _images.length == 0
+  //               ? InkWell(
+  //                   onTap: () {
+  //                     // pickImage(ImageSource.gallery,"_ffsaiImage" );
+  //                     // pickImage();
+  //                     multiImagePick();
+  //                   },
+  //                   child:
+  //                       // _ffsaiImage == null ?
+  //                       DottedBorder(
+  //                     strokeWidth: 1,
+  //                     color: Colors.grey,
+  //                     child: Container(
+  //                       color: Colors.blue[50],
+  //                       height: 75,
+  //                       width: 75,
+  //                       child: Column(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                           // crossAxisAlignment:CrossAxisAlignment.stretch ,
+  //                           children: const [
+  //                             Icon(Icons.camera_alt),
+  //                             Text("Add Photo"),
+  //                           ]),
+  //                     ),
+  //                   ))
+  //               : SingleChildScrollView(
+  //                   scrollDirection: Axis.horizontal,
+  //                   child: Row(
+  //                     children: [
+  //                       InkWell(
+  //                         onTap: () {
+  //                           pickImageExtra();
+  //                         },
+  //                         child: DottedBorder(
+  //                           strokeWidth: 1,
+  //                           color: Colors.grey,
+  //                           child: Container(
+  //                             color: Colors.blue[50],
+  //                             height: 75,
+  //                             width: 75,
+  //                             child: Column(
+  //                                 mainAxisAlignment:
+  //                                     MainAxisAlignment.spaceEvenly,
+  //                                 // crossAxisAlignment:CrossAxisAlignment.stretch ,
+  //                                 children: const [
+  //                                   Icon(Icons.camera_alt),
+  //                                   Text("Add Photo"),
+  //                                 ]),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       SizedBox(
+  //                         width: 10,
+  //                       ),
+  //                       for (int i = 0; i < _images.length; i++)
+  //                         Stack(
+  //                           children: [
+  //                             Padding(
+  //                               padding: const EdgeInsets.all(8.0),
+  //                               child: DottedBorder(
+  //                                 strokeWidth: 1,
+  //                                 color: Colors.grey,
+  //                                 child: Row(
+  //                                   children: [
+  //                                     Image.file(
+  //                                       _images[i],
+  //                                       width: 100,
+  //                                       height: 100,
+  //                                       fit: BoxFit.cover,
+  //                                     ),
+  //                                   ],
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                             IconButton(
+  //                               icon: Icon(Icons.clear),
+  //                               onPressed: () => removeImage(i),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                     ],
+  //                   ),
+  //                 )
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
+
   Widget _multiSelectUpload() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              "Upload Business images (Max 10)",
-              style: TextStyle(fontSize: 23),
-            )),
-        const SizedBox(
-          height: 2,
+        Text(
+          "Upload Business images (Max 10)",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              "upload all the images that will be shown in the profile",
-              style: TextStyle(color: Colors.grey),
-            )),
-        const SizedBox(
-          height: 8,
+        SizedBox(height: 4),
+        Text(
+          "Upload all the images that will be shown in the profile",
+          style: TextStyle(color: Colors.grey[600], fontSize: 15),
         ),
-        Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            DottedBorder(
-                // dashPattern: [1,3],
-                strokeWidth: 1,
-                color: Colors.grey,
-                child: Container(
-                  height: 120,
-                  // color: Colors.grey,
-                )),
-            _images.length == 0
-                ? InkWell(
-                    onTap: () {
-                      // pickImage(ImageSource.gallery,"_ffsaiImage" );
-                      // pickImage();
-                      multiImagePick();
-                    },
-                    child:
-                        // _ffsaiImage == null ?
-                        DottedBorder(
-                      strokeWidth: 1,
-                      color: Colors.grey,
-                      child: Container(
-                        color: Colors.blue[50],
-                        height: 75,
-                        width: 75,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            // crossAxisAlignment:CrossAxisAlignment.stretch ,
-                            children: const [
-                              Icon(Icons.camera_alt),
-                              Text("Add Photo"),
-                            ]),
-                      ),
-                    ))
-                : SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            pickImageExtra();
-                          },
-                          child: DottedBorder(
-                            strokeWidth: 1,
-                            color: Colors.grey,
-                            child: Container(
-                              color: Colors.blue[50],
-                              height: 75,
-                              width: 75,
-                              child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  // crossAxisAlignment:CrossAxisAlignment.stretch ,
-                                  children: const [
-                                    Icon(Icons.camera_alt),
-                                    Text("Add Photo"),
-                                  ]),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        for (int i = 0; i < _images.length; i++)
-                          Stack(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: DottedBorder(
-                                  strokeWidth: 1,
-                                  color: Colors.grey,
-                                  child: Row(
-                                    children: [
-                                      Image.file(
-                                        _images[i],
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () => removeImage(i),
-                              ),
-                            ],
-                          ),
-                      ],
-                    ),
-                  )
-          ],
+        SizedBox(height: 16),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: DottedBorder(
+            borderType: BorderType.RRect,
+            radius: Radius.circular(12),
+            color: Colors.grey[400]!,
+            strokeWidth: 1,
+            dashPattern: [8, 4],
+            child: Container(
+              height: 150,
+              padding: EdgeInsets.all(16),
+              child: _images.length == 0
+                  ? _buildAddPhotoButton()
+                  : _buildImageList(),
+            ),
+          ),
         ),
       ],
+    );
+  }
+
+  Widget _buildAddPhotoButton() {
+    return InkWell(
+      onTap: () {
+        multiImagePick();
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.blue[50],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add_photo_alternate, size: 38, color: Colors.blue[700]),
+            SizedBox(height: 8),
+            Text(
+              "Add Images",
+              style: TextStyle(
+                  color: Colors.blue[700], fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageList() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          _buildAddPhotoButton(),
+          SizedBox(width: 16),
+          for (int i = 0; i < _images.length; i++)
+            Padding(
+              padding: EdgeInsets.only(right: 16),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(
+                      _images[i],
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                    top: -8,
+                    right: -8,
+                    child: IconButton(
+                      icon: Icon(Icons.cancel, color: Colors.black),
+                      onPressed: () => removeImage(i),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
     );
   }
 

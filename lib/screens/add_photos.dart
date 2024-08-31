@@ -1,112 +1,396 @@
-// ignore_for_file: prefer_const_constructors
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import 'package:backendapp/provider/businessmongo_provider.dart';
+// import 'package:backendapp/utils/constants.dart';
+// import 'package:dotted_border/dotted_border.dart';
+// import 'dart:io';
+// import 'package:image_picker/image_picker.dart';
 
-import 'package:backendapp/provider/businessmongo_provider.dart';
-import 'package:backendapp/utils/constants.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// class AddPhotos extends StatefulWidget {
+//   @override
+//   State<AddPhotos> createState() => _AddPhotosState();
+// }
 
-// class AddPhotos extends StatelessWidget {
+// class _AddPhotosState extends State<AddPhotos> {
+//   List<File> _images = [];
+//   bool _isLoading = false;
+
+//   void uploadImage() async {
+//     setState(() {
+//       _isLoading = true;
+//     });
+//     String businessUid = await getBusinessUid(context);
+//     bool isSuccess = await Provider.of<ServicesProvider>(context, listen: false)
+//         .uploadImagesToServer(_images, businessUid);
+//     if (isSuccess) {
+//       setState(() {
+//         _images.clear();
+//       });
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//           content: Text("Images uploaded successfully"),
+//           backgroundColor: Colors.black54,
+//           behavior: SnackBarBehavior.floating,
+//         ),
+//       );
+//     } else {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//           content: Text("Failed to upload images"),
+//           backgroundColor: Colors.red,
+//         ),
+//       );
+//     }
+//     setState(() {
+//       _isLoading = false;
+//     });
+//   }
+
+//   Future<void> multiImagePick() async {
+//     List<XFile> pickedFiles = await ImagePicker().pickMultiImage();
+//     setState(() {
+//       _images.addAll(pickedFiles.map((file) => File(file.path)).toList());
+//     });
+//   }
+
+//   void removeImage(int index) {
+//     setState(() {
+//       _images.removeAt(index);
+//     });
+//   }
+
 //   @override
 //   Widget build(BuildContext context) {
 //     var data = Provider.of<ServicesProvider>(context);
 //     return Scaffold(
-//       backgroundColor: Colors.grey[200],
-//       // backgroundColor: Colors.white,
+//       backgroundColor: Colors.grey[100],
+//       appBar: AppBar(
+//         automaticallyImplyLeading: false,
+//         title: Text(
+//           'Add Photos',
+//           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+//         ),
+//         backgroundColor: tgPrimaryColor,
+//         elevation: 0,
+//         leading: IconButton(
+//             onPressed: () {
+//               Navigator.pop(context);
+//             },
+//             icon: Icon(Icons.keyboard_arrow_left_rounded)),
+//       ),
 //       body: SafeArea(
 //         child: Column(
 //           children: [
 //             Expanded(
-//               // flex: 2,
-//               child: Container(
-//                 decoration: BoxDecoration(
-//                   // color: Colors.blue,
-//                   // borderRadius: BorderRadius.only(
-//                   //   bottomLeft: Radius.circular(30),
-//                   //   bottomRight: Radius.circular(30),
-//                   // ),
-//                 ),
-//                 child: Center(
-//                   child: Padding(
-//                     padding: const EdgeInsets.all(20.0),
-//                     child: DottedBorder(
-//                           borderType: BorderType.RRect,
-//                           // strokeCap: StrokeCap.round,
-//                           radius: Radius.circular(12),
-//                           // dashPattern: [1,3],
-//                           strokeWidth: 1,
-//                           color: Colors.grey,
-//                           child: Container(
-//                             height: 70,
-//                             decoration: BoxDecoration(
-//                               color: Colors.white,
-//                               borderRadius: BorderRadius.circular(10),
-//                               // border: Border.all(
-//                               //   color: Colors.grey
-//                               // )
-//                             ),
-//                             // color: Colors.white,
-//                             child: Center(
-//                               child: Icon(Icons.add_circle_sharp),
-//                             ),
-//                           )),
-//                   ),
-//                   // Text(
-//                   //   'Top Content',
-//                   //   style: TextStyle(
-//                   //     color: Colors.white,
-//                   //     fontSize: 24,
-//                   //     fontWeight: FontWeight.bold,
-//                   //   ),
-//                   // ),
-//                 ),
-//               ),
+//               flex: 3,
+//               child: _buildImagePickerSection(),
 //             ),
-
+//             Expanded(
+//               flex: 7,
+//               child: _buildExistingImagesSection(data),
+//             ),
 //           ],
 //         ),
 //       ),
-//       bottomNavigationBar: Container(
-//         decoration: BoxDecoration(
-//                   color: Colors.white,
-//                   borderRadius: BorderRadius.only(
-//                     topLeft: Radius.circular(30),
-//                     topRight: Radius.circular(30),
-//                   ),
-//                 ),
-//         height: MediaQuery.of(context).size.height * 0.8,
-//         child: SingleChildScrollView(
+//       bottomNavigationBar: _buildUploadButton(),
+//     );
+//   }
+
+//   Widget _buildImagePickerSection() {
+//     return Container(
+//       margin: EdgeInsets.all(16),
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(15),
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.grey.withOpacity(0.1),
+//             spreadRadius: 1,
+//             blurRadius: 5,
+//             offset: Offset(0, 3),
+//           ),
+//         ],
+//       ),
+//       child: Column(
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.all(16.0),
+//             child: Text(
+//               "Add New Photos",
+//               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+//             ),
+//           ),
+//           Expanded(
+//             child: _images.isEmpty
+//                 ? _buildAddPhotoButton()
+//                 : _buildSelectedImagesGrid(),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   Widget _buildAddPhotoButton() {
+//     return InkWell(
+//       onTap: multiImagePick,
+//       child: DottedBorder(
+//         borderType: BorderType.RRect,
+//         radius: Radius.circular(12),
+//         color: tgAccentColor,
+//         strokeWidth: 2,
+//         dashPattern: [8, 4],
+//         child: Center(
 //           child: Column(
-//             // mainAxisAlignment: MainAxisAlignment.start,
-//             crossAxisAlignment: CrossAxisAlignment.start,
+//             mainAxisAlignment: MainAxisAlignment.center,
 //             children: [
-//               SizedBox(height: 30,),
-//               Padding(
-//                 padding: const EdgeInsets.only(left: 16),
-//                 child: Text("Total Images ${data.BusinessData!.images!.length}", style: TextStyle(fontSize: 17, color: Colors.grey),),
+//               Icon(Icons.add_photo_alternate,
+//                   size: 40, color: Colors.teal.shade800),
+//               SizedBox(height: 8),
+//               Text("Add Photos", style: TextStyle(color: tgAccentColor)),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildSelectedImagesGrid() {
+//     return GridView.builder(
+//       padding: EdgeInsets.all(8),
+//       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//         crossAxisCount: 3,
+//         crossAxisSpacing: 8,
+//         mainAxisSpacing: 8,
+//       ),
+//       itemCount: _images.length + 1,
+//       itemBuilder: (context, index) {
+//         if (index == _images.length) {
+//           return _buildAddMoreButton();
+//         }
+//         return _buildImageTile(index);
+//       },
+//     );
+//   }
+
+//   Widget _buildAddMoreButton() {
+//     return InkWell(
+//       onTap: multiImagePick,
+//       child: DottedBorder(
+//         borderType: BorderType.RRect,
+//         radius: Radius.circular(12),
+//         color: tgAccentColor,
+//         strokeWidth: 2,
+//         dashPattern: [8, 4],
+//         child: Center(
+//           child: Icon(Icons.add, color: tgAccentColor),
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildImageTile(int index) {
+//     return Stack(
+//       children: [
+//         ClipRRect(
+//           borderRadius: BorderRadius.circular(12),
+//           child: Image.file(
+//             _images[index],
+//             fit: BoxFit.cover,
+//             width: double.infinity,
+//             height: double.infinity,
+//           ),
+//         ),
+//         Positioned(
+//           top: 4,
+//           right: 4,
+//           child: InkWell(
+//             onTap: () => removeImage(index),
+//             child: Container(
+//               padding: EdgeInsets.all(4),
+//               decoration: BoxDecoration(
+//                 color: Colors.black.withOpacity(0.5),
+//                 shape: BoxShape.circle,
 //               ),
-//               // Add your scrollable bottom navigation bar items here
-//                GridView.builder(
-//                 physics: NeverScrollableScrollPhysics(),
-//                 padding: EdgeInsets.all(16),
-//                 shrinkWrap: true,
-//                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                   crossAxisCount: 3,
-//                 ),
-//                 // itemCount: 16,
-//                 itemCount: data.BusinessData!.images!.length,
-//                 itemBuilder: (BuildContext context, int index) {
-//                   return GridTile(
-//                     child: Container(
-//                       color: Colors.blue,
-//                       margin: EdgeInsets.all(4),
-//                       child:
-//                       Image.network(data.BusinessData!.images![index], fit: BoxFit.cover,)
+//               child: Icon(Icons.close, color: Colors.white, size: 16),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+
+//   Widget _buildExistingImagesSection(ServicesProvider data) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.only(
+//           topLeft: Radius.circular(30),
+//           topRight: Radius.circular(30),
+//         ),
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.all(16),
+//             child: Text(
+//               "Existing Images (${data.BusinessData?.images?.length ?? 0})",
+//               style: TextStyle(fontSize: 15.5, fontWeight: FontWeight.bold),
+//             ),
+//           ),
+//           Expanded(
+//             child: data.BusinessData?.images != null &&
+//                     data.BusinessData!.images!.isNotEmpty
+//                 ? GridView.builder(
+//                     padding: EdgeInsets.all(16),
+//                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                       crossAxisCount: 3,
+//                       crossAxisSpacing: 8,
+//                       mainAxisSpacing: 8,
 //                     ),
+//                     itemCount: data.BusinessData!.images!.length,
+//                     itemBuilder: (BuildContext context, int index) {
+//                       return _buildExistingImageTile(
+//                           data.BusinessData!.images![index]);
+//                     },
+//                   )
+//                 : Center(
+//                     child: Text("No existing images"),
+//                   ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   Widget _buildExistingImageTile(String imageUrl) {
+//     return GestureDetector(
+//       onTap: () {
+//         Navigator.push(
+//           context,
+//           MaterialPageRoute(
+//             builder: (context) => FullScreenImage(imageUrl: imageUrl),
+//           ),
+//         );
+//       },
+//       child: ClipRRect(
+//         borderRadius: BorderRadius.circular(12),
+//         child: Image.network(
+//           imageUrl,
+//           fit: BoxFit.cover,
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildUploadButton() {
+//     return Visibility(
+//       visible: _images.isNotEmpty,
+//       child: Container(
+//         padding: EdgeInsets.all(16),
+//         child: ElevatedButton(
+//           onPressed: _isLoading ? null : uploadImage,
+//           style: ElevatedButton.styleFrom(
+//             backgroundColor: tgAccentColor,
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(10),
+//             ),
+//             padding: EdgeInsets.symmetric(vertical: 16),
+//           ),
+//           child: SizedBox(
+//             height: 20,
+//             child: _isLoading
+//                 ? SizedBox(
+//                     height: 20,
+//                     width: 20,
+//                     child: CircularProgressIndicator(
+//                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+//                       strokeWidth: 2.0,
+//                     ),
+//                   )
+//                 : Text(
+//                     "Upload Images",
+//                     style: TextStyle(fontSize: 15, color: Colors.white),
+//                   ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class FullScreenImage extends StatelessWidget {
+//   final String imageUrl;
+
+//   const FullScreenImage({Key? key, required this.imageUrl}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.black,
+//       appBar: AppBar(
+//         backgroundColor: Colors.transparent,
+//         elevation: 0,
+//         leading: IconButton(
+//           icon: Icon(Icons.arrow_back, color: Colors.white),
+//           onPressed: () => Navigator.pop(context),
+//         ),
+//         actions: [
+//           IconButton(
+//             icon: Icon(Icons.delete, color: Colors.white),
+//             onPressed: () async {
+//               bool confirm = await showDialog(
+//                 context: context,
+//                 builder: (BuildContext context) {
+//                   return AlertDialog(
+//                     title: Text("Delete Image"),
+//                     content:
+//                         Text("Are you sure you want to delete this image?"),
+//                     actions: [
+//                       TextButton(
+//                         child: Text("Cancel"),
+//                         onPressed: () => Navigator.of(context).pop(false),
+//                       ),
+//                       TextButton(
+//                         child: Text("Delete"),
+//                         onPressed: () => Navigator.of(context).pop(true),
+//                       ),
+//                     ],
 //                   );
 //                 },
-//               ),
-//             ],
+//               );
+
+//               if (confirm) {
+//                 String businessUid = await getBusinessUid(context);
+//                 await Provider.of<ServicesProvider>(context, listen: false)
+//                     .deleteImage(businessUid, imageUrl);
+//                 Navigator.pop(context);
+//               }
+//             },
+//           ),
+//         ],
+//       ),
+//       body: Center(
+//         child: InteractiveViewer(
+//           panEnabled: true,
+//           boundaryMargin: EdgeInsets.all(20),
+//           minScale: 0.5,
+//           maxScale: 4,
+//           child: Image.network(
+//             imageUrl,
+//             fit: BoxFit.contain,
+//             loadingBuilder: (BuildContext context, Widget child,
+//                 ImageChunkEvent? loadingProgress) {
+//               if (loadingProgress == null) return child;
+//               return Center(
+//                 child: CircularProgressIndicator(
+//                   value: loadingProgress.expectedTotalBytes != null
+//                       ? loadingProgress.cumulativeBytesLoaded /
+//                           loadingProgress.expectedTotalBytes!
+//                       : null,
+//                 ),
+//               );
+//             },
 //           ),
 //         ),
 //       ),
@@ -117,9 +401,12 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
+import 'package:backendapp/utils/constants.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class AddPhotos extends StatefulWidget {
   @override
@@ -129,35 +416,42 @@ class AddPhotos extends StatefulWidget {
 class _AddPhotosState extends State<AddPhotos> {
   List<File> _images = [];
   bool _isLoading = false;
+  int _currentImageIndex = 0;
 
-  void UploadImage() async {
-    String businessUid = await getBusinessUid(context);
-    print('Business UID: $businessUid');
-    bool isSuccess = await Provider.of<ServicesProvider>(context, listen: false)
-        .uploadImagesToServer(_images,businessUid );
-        print(isSuccess);
-        // print("dataaaaaaaaaaaaaaaaaaaaaa");
-        if (isSuccess){
-          _images.clear();
-          showSnackBar(context, "Images Uploaded successfully");
-        }
-    // Navigator.pop(context);
-  }
-
-  Future<void> multiImagePick() async {
-    List pickedFiles = await ImagePicker().pickMultiImage();
+  void uploadImage() async {
     setState(() {
-      _images = pickedFiles.map((file) => File(file.path)).toList();
+      _isLoading = true;
+    });
+    String businessUid = await getBusinessUid(context);
+    bool isSuccess = await Provider.of<ServicesProvider>(context, listen: false)
+        .uploadImagesToServer(_images, businessUid);
+    if (isSuccess) {
+      setState(() {
+        _images.clear();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Images uploaded successfully"),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to upload images"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+    setState(() {
+      _isLoading = false;
     });
   }
 
-  Future<void> pickImageExtra() async {
-    List pickedFiles = await ImagePicker().pickMultiImage();
+  Future<void> multiImagePick() async {
+    List<XFile> pickedFiles = await ImagePicker().pickMultiImage();
     setState(() {
-      // List<File> _extraImages = [];
-      List<File> _extraImages =
-          pickedFiles.map((file) => File(file.path)).toList();
-      _images.addAll(_extraImages);
+      _images.addAll(pickedFiles.map((file) => File(file.path)).toList());
     });
   }
 
@@ -167,318 +461,400 @@ class _AddPhotosState extends State<AddPhotos> {
     });
   }
 
-
-//   Future<void> uploadImagesToServer(List<File> images) async {
-//   final url = Uri.parse('https://supernova1137.azurewebsites.net/post_multiple_images');
-//   var request = http.MultipartRequest('POST', url);
-//   String businessUid = await getBusinessUid(context);
-//     print('Business UID from add_photos screen: $businessUid');
-//   request.fields['business_uid'] = businessUid;
-//   if (images.isNotEmpty) {
-//       for (File image in images) {
-//         request.files.add(await http.MultipartFile.fromPath('images', image.path));
-//           }
-//         }
-
-//   // Send the request
-//   var response = await request.send();
-//   print(response);
-
-//   // Check the status code of the response
-//   if (response.statusCode == 200) {
-//     print('Images uploaded successfully');
-//   } else {
-//     print('Failed to upload images. Status code: ${response.statusCode}');
-//   }  
-// }
-
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<ServicesProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Add Photos',
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+        ),
+        backgroundColor: tgPrimaryColor,
+        elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.keyboard_arrow_left_rounded)),
+      ),
       body: SafeArea(
         child: Column(
           children: [
+            _buildImageCarousel(data),
             Expanded(
-              flex: 20,
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Stack(
-                  alignment: AlignmentDirectional.center,
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    Container(
-                      height: 110,
-                      // color: Colors.white,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                    ),
-                    _images.length == 0
-                        ? InkWell(
-                            onTap: () {
-                              // pickImage(ImageSource.gallery,"_ffsaiImage" );
-                              // pickImage();
-                              multiImagePick();
-                            },
-                            child: Container(
-                              // color: Colors.blue[50],
-
-                              height: 75,
-                              width: 75,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  // crossAxisAlignment:CrossAxisAlignment.stretch ,
-                                  children: const [
-                                    Icon(Icons.camera_alt),
-                                    Text("Add Photo"),
-                                  ]),
-                            ))
-                        : SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    pickImageExtra();
-                                  },
-                                  child: DottedBorder(
-                                    strokeWidth: 1,
-                                    color: Colors.grey,
-                                    child: Container(
-                                      color: Colors.blue[50],
-                                      height: 75,
-                                      width: 75,
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          // crossAxisAlignment:CrossAxisAlignment.stretch ,
-                                          children: const [
-                                            Icon(Icons.camera_alt),
-                                            Text("Add Photo"),
-                                          ]),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                for (int i = 0; i < _images.length; i++)
-                                  Stack(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: DottedBorder(
-                                          strokeWidth: 1,
-                                          color: Colors.grey,
-                                          child: Row(
-                                            children: [
-                                              Image.file(
-                                                _images[i],
-                                                width: 100,
-                                                height: 100,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.clear),
-                                        onPressed: () => removeImage(i),
-                                      ),
-                                    ],
-                                  ),
-                              ],
-                            ),
-                          )
+                    _buildImagePickerSection(),
+                    _buildExistingImagesSection(data),
                   ],
-                ),
-              ),
-            ),
-            // Expanded(
-            //   flex: 20,
-            //   child: Container(
-            //     child: Center(
-            //       child: Padding(
-            //         padding: const EdgeInsets.all(20.0),
-            //         child: GestureDetector(
-            //           onTap: () {
-            //             // Implement logic to add photos here
-            //           },
-            //           child: Container(
-            //             height: 70,
-            //             decoration: BoxDecoration(
-            //               color: Colors.white,
-            //               borderRadius: BorderRadius.circular(10),
-            //             ),
-            //             child: Center(
-            //               child: Icon(Icons.add_circle_sharp),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            Expanded(
-              flex: 80,
-              child: Container(
-                width: double.infinity ,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          // "Total Images ${data.BusinessData!.images!.length}",
-                          "Total Images ${data.BusinessData?.images?.length ?? 0}",
-                          style: TextStyle(fontSize: 17, color: Colors.grey),
-                        ),
-                      ),
-                      if (data.BusinessData?.images != null && data.BusinessData!.images!.isNotEmpty)
-                      GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.all(16),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                        ),
-                        itemCount: data.BusinessData!.images!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              // Navigate to fullscreen image
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FullScreenImage(
-                                      imageUrl: data.BusinessData!.images![index]),
-                                ),
-                              );
-                            },
-                            child: GridTile(
-                              child: Container(
-                                color: Colors.blue,
-                                margin: EdgeInsets.all(4),
-                                child: Image.network(
-                                  data.BusinessData!.images![index],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
                 ),
               ),
             ),
           ],
         ),
       ),
-      
-      bottomNavigationBar: Visibility(
-        visible: _images.isNotEmpty,
-        child: InkWell(
-          onTap: () {
-            UploadImage();
-            // signup();
-            // navigatorPush(context,AddService() );
-            // navigatorPush(context,SearchLocationScreen() );
+      bottomNavigationBar: _buildUploadButton(),
+    );
+  }
+
+  Widget _buildImageCarousel(ServicesProvider data) {
+    var images = data.BusinessData?.images ?? [];
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        CarouselSlider.builder(
+          itemCount: images.isEmpty ? 1 : images.length,
+          itemBuilder: (BuildContext context, int index, int realIndex) {
+            return images.isEmpty
+                ? Image.network(
+                    "https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg",
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  )
+                : Image.network(
+                    images[index],
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  );
           },
-          child: Container(
-            height: 55,
-            width: double.infinity,
-            color: tgAccentColor,
-            child: Center(
-                child: _isLoading ? Center(child: CircularProgressIndicator(backgroundColor: Colors.white,)):
-                Text(
-              "Post",
-              style: TextStyle(color: Colors.white, fontSize: 17),
-            )),
+          options: CarouselOptions(
+            height: 200,
+            viewportFraction: 1.0,
+            enlargeCenterPage: false,
+            autoPlay: true,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _currentImageIndex = index;
+              });
+            },
+          ),
+        ),
+        Positioned(
+          bottom: 10,
+          child: AnimatedSmoothIndicator(
+            activeIndex: _currentImageIndex,
+            count: images.isEmpty ? 1 : images.length,
+            effect: WormEffect(
+              dotWidth: 10,
+              dotHeight: 10,
+              activeDotColor: Colors.grey[600]!,
+              dotColor: Colors.white.withOpacity(0.5),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildImagePickerSection() {
+    return Container(
+      margin: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              "Add New Photos",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          _images.isEmpty ? _buildAddPhotoButton() : _buildSelectedImagesGrid(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddPhotoButton() {
+    return InkWell(
+      onTap: multiImagePick,
+      child: DottedBorder(
+        borderType: BorderType.RRect,
+        radius: Radius.circular(12),
+        color: tgAccentColor,
+        strokeWidth: 2,
+        dashPattern: [8, 4],
+        child: Container(
+          height: 100,
+          width: double.infinity,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.add_photo_alternate, size: 40, color: tgAccentColor),
+                SizedBox(height: 8),
+                Text("Add Photos", style: TextStyle(color: tgAccentColor)),
+              ],
+            ),
           ),
         ),
       ),
     );
-    
+  }
+
+  Widget _buildSelectedImagesGrid() {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.all(8),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+      ),
+      itemCount: _images.length + 1,
+      itemBuilder: (context, index) {
+        if (index == _images.length) {
+          return _buildAddMoreButton();
+        }
+        return _buildImageTile(index);
+      },
+    );
+  }
+
+  Widget _buildAddMoreButton() {
+    return InkWell(
+      onTap: multiImagePick,
+      child: DottedBorder(
+        borderType: BorderType.RRect,
+        radius: Radius.circular(12),
+        color: tgAccentColor,
+        strokeWidth: 2,
+        dashPattern: [8, 4],
+        child: Center(
+          child: Icon(Icons.add, color: tgAccentColor),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageTile(int index) {
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Image.file(
+            _images[index],
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+        ),
+        Positioned(
+          top: 4,
+          right: 4,
+          child: InkWell(
+            onTap: () => removeImage(index),
+            child: Container(
+              padding: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.close, color: Colors.white, size: 16),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildExistingImagesSection(ServicesProvider data) {
+    return Container(
+      margin: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              "Existing Images (${data.BusinessData?.images?.length ?? 0})",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          data.BusinessData?.images != null &&
+                  data.BusinessData!.images!.isNotEmpty
+              ? GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.all(16),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
+                  itemCount: data.BusinessData!.images!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _buildExistingImageTile(
+                        data.BusinessData!.images![index]);
+                  },
+                )
+              : Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text("No existing images"),
+                  ),
+                ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExistingImageTile(String imageUrl) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FullScreenImage(imageUrl: imageUrl),
+          ),
+        );
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUploadButton() {
+    return Visibility(
+      visible: _images.isNotEmpty,
+      child: Container(
+        padding: EdgeInsets.all(16),
+        child: ElevatedButton(
+          onPressed: _isLoading ? null : uploadImage,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: tgAccentColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: EdgeInsets.symmetric(vertical: 16),
+          ),
+          child: SizedBox(
+            height: 20,
+            child: _isLoading
+                ? SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      strokeWidth: 2.0,
+                    ),
+                  )
+                : Text(
+                    "Upload Images",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
-class FullScreenImage extends StatefulWidget {
+class FullScreenImage extends StatelessWidget {
   final String imageUrl;
 
   const FullScreenImage({Key? key, required this.imageUrl}) : super(key: key);
 
   @override
-  State<FullScreenImage> createState() => _FullScreenImageState();
-}
-
-class _FullScreenImageState extends State<FullScreenImage> {
-  void deleteImage() async {
-    String businessUid = await getBusinessUid(context);
-    print('Business UID: $businessUid');
-    var data = Provider.of<ServicesProvider>(context, listen: false)
-        .deleteImage(businessUid, widget.imageUrl);
-    Navigator.pop(context);
-  }
-
-
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              // Implement delete functionality
-              deleteImage();
+            icon: Icon(Icons.delete, color: Colors.white),
+            onPressed: () async {
+              bool confirm = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Delete Image"),
+                    content:
+                        Text("Are you sure you want to delete this image?"),
+                    actions: [
+                      TextButton(
+                        child: Text("Cancel"),
+                        onPressed: () => Navigator.of(context).pop(false),
+                      ),
+                      TextButton(
+                        child: Text("Delete"),
+                        onPressed: () => Navigator.of(context).pop(true),
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              if (confirm) {
+                String businessUid = await getBusinessUid(context);
+                await Provider.of<ServicesProvider>(context, listen: false)
+                    .deleteImage(businessUid, imageUrl);
+                Navigator.pop(context);
+              }
             },
           ),
         ],
       ),
-      body: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Center(
-          child: Container(
-            color: Colors.grey[200],
-            width: MediaQuery.of(context).size.width * 0.8, // Adjust as needed
-            height:
-                MediaQuery.of(context).size.height * 0.8, // Adjust as needed
-            child: Image.network(
-              widget.imageUrl,
-              fit: BoxFit.contain, // Ensure the entire image is visible
-            ),
+      body: Center(
+        child: InteractiveViewer(
+          panEnabled: true,
+          boundaryMargin: EdgeInsets.all(20),
+          minScale: 0.5,
+          maxScale: 4,
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.contain,
+            loadingBuilder: (BuildContext context, Widget child,
+                ImageChunkEvent? loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
+              );
+            },
           ),
         ),
       ),

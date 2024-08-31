@@ -7,18 +7,104 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../provider/chat_provider.dart';
 import 'package:intl/intl.dart';
 
-class ChatListScreen extends StatelessWidget {
-  final String userId;
+// class ChatListScreen extends StatelessWidget {
+//   final String BusinessID;
+//
+//   ChatListScreen({required this.BusinessID});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Conversations',
+//           // style: TextStyle(fontWeight: FontWeight.bold)
+//         ),
+//         backgroundColor: Colors.teal,
+//         elevation: 0,
+//       ),
+//       body: Consumer<ChatProvider>(
+//         builder: (context, provider, child) {
+//           if (provider.conversations.isEmpty) {
+//             return Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Icon(Icons.chat_bubble_outline, size: 80, color: Colors.grey),
+//                   SizedBox(height: 16),
+//                   Text('No conversations yet', style: TextStyle(fontSize: 18, color: Colors.grey)),
+//                 ],
+//               ),
+//             );
+//           }
+//
+//           return ListView.separated(
+//
+//             itemCount: provider.conversations.length,
+//             separatorBuilder: (context, index) => Divider(height: 1),
+//             itemBuilder: (context, index) {
+//               final conversation = provider.conversations[index];
+//               String? otherParticipantId = (conversation['participants'] as List<dynamic>)
+//                   .firstWhere((id) => id != BusinessID, orElse: () => null);
+//
+//               return ListTile(
+//                 leading: CircleAvatar(
+//                   backgroundColor: Colors.teal,
+//                   child: Text(
+//                     otherParticipantId?.substring(0, 1).toUpperCase() ?? '?',
+//                     style: TextStyle(color: Colors.white),
+//                   ),
+//                 ),
+//                 title: Text(
+//                   otherParticipantId ?? 'Unknown',
+//                   // style: TextStyle(fontWeight: FontWeight.bold),
+//                 ),
+//                 subtitle: Text(
+//                   conversation['last_message'],
+//                   maxLines: 1,
+//                   overflow: TextOverflow.ellipsis,
+//                   style: TextStyle(color: Colors.grey),
+//                 ),
+//                 trailing: Text(
+//                   // '2d',
+//                   DateFormat('MMM d').format(DateTime.parse(conversation['updated_at'])),
+//                   style: TextStyle(color: Colors.grey),
+//                 ),
+//                 onTap: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (context) => ChatScreen(
+//                         // businessId: otherParticipantId!,
+//                         businessId: "otherParticipantId",
+//                         userId: BusinessID,
+//                         conversationId: conversation['conversation_id'],
+//                       ),
+//                     ),
+//                   );
+//                 },
+//               );
+//             },
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
-  ChatListScreen({required this.userId});
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Import for DateFormat
+
+class ChatListScreen extends StatelessWidget {
+  final String BusinessID;
+
+  ChatListScreen({required this.BusinessID});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Conversations',
-          // style: TextStyle(fontWeight: FontWeight.bold)
-        ),
+        title: Text('Conversations'),
         backgroundColor: Colors.teal,
         elevation: 0,
       ),
@@ -42,20 +128,33 @@ class ChatListScreen extends StatelessWidget {
             separatorBuilder: (context, index) => Divider(height: 1),
             itemBuilder: (context, index) {
               final conversation = provider.conversations[index];
-              String? otherParticipantId = (conversation['participants'] as List<dynamic>)
-                  .firstWhere((id) => id != userId, orElse: () => null);
+
+              // Find the participant that is not the current user/business
+              final otherParticipant = (conversation['participants'] as List<dynamic>)
+                  .firstWhere(
+                    (participant) => (participant['user_id'] != BusinessID && participant['business_id'] != BusinessID),
+                orElse: () => null,
+              );
+
+              final otherParticipantName = otherParticipant?['user_name'] ?? otherParticipant?['business_name'] ?? 'Unknown';
+              final otherParticipantImage = otherParticipant?['user_image'] ?? otherParticipant?['business_image'];
 
               return ListTile(
                 leading: CircleAvatar(
                   backgroundColor: Colors.teal,
-                  child: Text(
-                    otherParticipantId?.substring(0, 1).toUpperCase() ?? '?',
+                  backgroundImage: otherParticipantImage != null
+                      ? NetworkImage(otherParticipantImage)
+                      : null,
+                  child: otherParticipantImage == null
+                      ? Text(
+                    otherParticipantName.substring(0, 1).toUpperCase(),
                     style: TextStyle(color: Colors.white),
-                  ),
+                  )
+                      : null,
                 ),
                 title: Text(
-                  otherParticipantId ?? 'Unknown',
-                  // style: TextStyle(fontWeight: FontWeight.bold),
+                  otherParticipantName,
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
                   conversation['last_message'],
@@ -64,7 +163,7 @@ class ChatListScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.grey),
                 ),
                 trailing: Text(
-                  '2d',
+                  "2d",
                   // DateFormat('MMM d').format(DateTime.parse(conversation['updated_at'])),
                   style: TextStyle(color: Colors.grey),
                 ),
@@ -73,8 +172,8 @@ class ChatListScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ChatScreen(
-                        businessId: otherParticipantId!,
-                        userId: userId,
+                        businessId: otherParticipant?['business_id'] ?? '', // Use empty string if business_id is null
+                        userId: BusinessID,
                         conversationId: conversation['conversation_id'],
                       ),
                     ),
@@ -88,6 +187,7 @@ class ChatListScreen extends StatelessWidget {
     );
   }
 }
+
 
 class ChatScreen extends StatefulWidget {
   final String userId;

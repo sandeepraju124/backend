@@ -68,6 +68,8 @@ dependencies:
   carousel_slider: ^4.2.1
   socket_io_client: ^2.0.3+1
   fl_chart: ^0.69.0
+  flutter_staggered_animations: ^1.1.1
+  smooth_page_indicator: ^1.2.0+3
   
 
 

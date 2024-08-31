@@ -382,6 +382,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.1"
+  flutter_staggered_animations:
+    dependency: "direct main"
+    description:
+      name: flutter_staggered_animations
+      sha256: "81d3c816c9bb0dca9e8a5d5454610e21ffb068aedb2bde49d2f8d04f75538351"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -1053,6 +1061,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  smooth_page_indicator:
+    dependency: "direct main"
+    description:
+      name: smooth_page_indicator
+      sha256: "3b28b0c545fa67ed9e5997d9f9720d486f54c0c607e056a1094544e36934dff3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0+3"
   socket_io_client:
     dependency: "direct main"
     description:

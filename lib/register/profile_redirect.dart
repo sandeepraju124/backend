@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:backendapp/register/profile_screen.dart';
-import 'package:backendapp/screens/home/homepage.dart';
+import 'package:backendapp/screens/home/bottomnav.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +31,7 @@ class ProfileRedirect extends StatelessWidget {
           if (snapshot.hasData &&
               snapshot.data != null &&
               snapshot.data!.isNotEmpty) {
-            return Homepage();
+            return BottomNav();
           } else {
             // print("in stream 30");
             // If businessUid is not present, navigate to ProfileRedirect page

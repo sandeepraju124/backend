@@ -5,7 +5,7 @@
 // import 'package:backendapp/provider/businessdata_provider.dart';
 // import 'package:backendapp/provider/businessmongo_provider.dart';
 // import 'package:backendapp/provider/commentprovider.dart';
-// import 'package:backendapp/screens/home/homepage.dart';
+// import 'package:backendapp/screens/home/bottomnav.dart';
 // import 'package:backendapp/screens/redirection.dart';
 // import 'package:backendapp/utils/constants.dart';
 // import 'package:backendapp/utils/navigators.dart';
@@ -335,7 +335,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
-import 'package:backendapp/screens/home/homepage.dart';
+import 'package:backendapp/screens/home/bottomnav.dart';
 import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
@@ -467,7 +467,7 @@ class _HomePageNewState extends State<HomePageNew> {
           icon: Icon(Icons.chat_bubble_outline),
           onPressed: () async {
             String? userId = await getUserId();
-            navigatorPush(context, ChatListScreen(userId: userId!));
+            navigatorPush(context, ChatListScreen(BusinessID: userId!));
           },
         ),
       ],
@@ -481,18 +481,18 @@ class _HomePageNewState extends State<HomePageNew> {
         _buildActionButton(Icons.edit, 'Edit Profile', () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Homepage(initialIndex: 3)),
+            MaterialPageRoute(builder: (context) => BottomNav(initialIndex: 3)),
           );
         }),
         _buildActionButton(Icons.insights, 'View Insights', () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Homepage(initialIndex: 1)),
+            MaterialPageRoute(builder: (context) => BottomNav(initialIndex: 1)),
           );
         }),
         _buildActionButton(Icons.message, 'Messages', () async {
           String? userId = await getUserId();
-          navigatorPush(context, ChatListScreen(userId: userId!));
+          navigatorPush(context, ChatListScreen(BusinessID: userId!));
         }),
       ],
     );
@@ -693,7 +693,7 @@ class _HomePageNewState extends State<HomePageNew> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => Homepage(initialIndex: 3)),
+                  MaterialPageRoute(builder: (context) => BottomNav(initialIndex: 3)),
                 );
               },
               style: ElevatedButton.styleFrom(

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/register/profile_screen.dart';
-import 'package:backendapp/screens/home/homepage.dart';
+import 'package:backendapp/screens/home/bottomnav.dart';
 import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -203,7 +203,7 @@ class _PaymentPageState extends State<PaymentPage> {
               onTap: () {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) {
-                  return Homepage(
+                  return BottomNav(
                     initialIndex: 0,
                   );
                 }));
@@ -218,7 +218,7 @@ class _PaymentPageState extends State<PaymentPage> {
               onTap: () {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) {
-                  return Homepage(
+                  return BottomNav(
                     initialIndex: 2,
                   );
                 }));

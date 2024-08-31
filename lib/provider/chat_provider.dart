@@ -41,7 +41,8 @@ class ChatProvider with ChangeNotifier {
   // }
   Future<void> refreshConversations(BuildContext context) async {
     String businessUid = await getBusinessUid(context);
-    await fetchConversations(businessUid);
+    // await fetchConversations(businessUid);
+    await fetchConversations("BIZPLUaYVJg3dqD9");
   }
 
 

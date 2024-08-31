@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:backendapp/register/profile_screen.dart';
-import 'package:backendapp/screens/home/homepage.dart';
+import 'package:backendapp/screens/home/bottomnav.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:flutter/material.dart';

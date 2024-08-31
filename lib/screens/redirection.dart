@@ -5,7 +5,7 @@ import 'package:backendapp/register/profile_screen.dart';
 import 'package:backendapp/register/profile_redirect.dart';
 import 'package:backendapp/register/register.dart';
 import 'package:backendapp/register/signup.dart';
-import 'package:backendapp/screens/home/homepage.dart';
+import 'package:backendapp/screens/home/bottomnav.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

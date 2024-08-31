@@ -23,7 +23,7 @@ import 'package:backendapp/provider/askcommunityprovider.dart';
 import 'package:backendapp/provider/registrationdata_provider.dart';
 import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/widgets/linechart.dart';
-import 'package:backendapp/screens/home/homepage.dart';
+import 'package:backendapp/screens/home/bottomnav.dart';
 import 'package:backendapp/register/select_location.dart';
 import 'package:backendapp/register/onboardingService.dart';
 import 'package:backendapp/screens/add_service_screens/amenities.dart';
@@ -39,27 +39,24 @@ import 'package:backendapp/register/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp( 
-    MultiProvider(
-    providers: [
-      ChangeNotifierProvider<RegistrationProvider>(
-      create: (_) => RegistrationProvider() ,
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<RegistrationProvider>(
+      create: (_) => RegistrationProvider(),
     ),
     ChangeNotifierProvider<AskCommunityProvider>(
-      create: (_) => AskCommunityProvider() ,
+      create: (_) => AskCommunityProvider(),
     ),
     ChangeNotifierProvider<ChatProvider>(create:(_) => ChatProvider()),
     ChangeNotifierProvider<CommentSectionProvider>(
-      create: (_) => CommentSectionProvider() ,
+      create: (_) => CommentSectionProvider(),
     ),
     ChangeNotifierProvider<BusinessDataProvider>(
-      create: (_) => BusinessDataProvider() ,
+      create: (_) => BusinessDataProvider(),
     ),
     ChangeNotifierProvider<ServicesProvider>(
       create: (_) => ServicesProvider(),
@@ -95,12 +92,11 @@ class MyApp extends StatelessWidget {
       // home: BusinessLineChart(yaxis: "reviews"),
       // home: SignUp(),
       // home: Homepage(),
-      home:redirection(), //this is default page
+      home: redirection(), //this is default page
       // home:CustomOnboardingService(category: "Beauty & Spas > Barbers"),
       // home:BusinessSelector(),
       // home:HouseUpdate(),
       // home: OverviewScreen(),
     );
-  } 
+  }
 }
-
