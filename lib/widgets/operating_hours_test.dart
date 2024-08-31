@@ -545,6 +545,8 @@ class OperatingHoursScreen extends StatelessWidget {
                     DayTimeSelector(day: 'Wednesday'),
                     DayTimeSelector(day: 'Thursday'),
                     DayTimeSelector(day: 'Friday'),
+                    DayTimeSelector(day: 'Saturday'),
+                    DayTimeSelector(day: 'Sunday'),
                   ],
                 ),
               ),
@@ -734,6 +736,7 @@ final List<String> _times = [
   '10:30 PM',
   '11:00 PM',
   '11:30 PM',
+  '11:59 PM'
 ];
 
 class HoursProvider with ChangeNotifier {
@@ -749,9 +752,9 @@ class HoursProvider with ChangeNotifier {
                 'closed': false
               },
               'Tuesday': {
-                'open': '3:00 AM',
-                'close': '3:00 AM',
-                'open24': false,
+                'open': '12:00 AM',
+                'close': '11:59 PM',
+                'open24': true,
                 'closed': false
               },
               'Wednesday': {
@@ -761,12 +764,24 @@ class HoursProvider with ChangeNotifier {
                 'closed': false
               },
               'Thursday': {
+                'open': '12:00 AM',
+                'close': '11:59 PM',
+                'open24': true,
+                'closed': false
+              },
+              'Friday': {
+                'open': '12:00 AM',
+                'close': '11:59 PM',
+                'open24': true,
+                'closed': false
+              },
+              'Saturday': {
                 'open': null,
                 'close': null,
                 'open24': false,
                 'closed': true
               },
-              'Friday': {
+              'Sunday': {
                 'open': null,
                 'close': null,
                 'open24': false,

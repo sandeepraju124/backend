@@ -144,44 +144,58 @@ class ServicesModels {
 
 
 class OperatingHours {
-  Day friday;
+
   Day monday;
-  Day thursday;
   Day tuesday;
   Day wednesday;
+  Day thursday;
+  Day friday;
+  Day saturday;
+  Day sunday;
 
   OperatingHours({
-    required this.friday,
+
     required this.monday,
-    required this.thursday,
     required this.tuesday,
     required this.wednesday,
+    required this.thursday,
+    required this.friday,
+    required this.saturday,
+    required this.sunday,
   });
 
   factory OperatingHours.fromJson(Map<String, dynamic> json) => OperatingHours(
-    friday: Day.fromJson(json["Friday"]),
+
     monday: Day.fromJson(json["Monday"]),
-    thursday: Day.fromJson(json["Thursday"]),
     tuesday: Day.fromJson(json["Tuesday"]),
     wednesday: Day.fromJson(json["Wednesday"]),
+    thursday: Day.fromJson(json["Thursday"]),
+    friday: Day.fromJson(json["Friday"]),
+    saturday: Day.fromJson(json["Saturday"]),
+    sunday: Day.fromJson(json["Sunday"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "Friday": friday.toJson(),
     "Monday": monday.toJson(),
-    "Thursday": thursday.toJson(),
     "Tuesday": tuesday.toJson(),
     "Wednesday": wednesday.toJson(),
+    "Thursday": thursday.toJson(),
+    "Friday": friday.toJson(),
+    "Saturday": saturday.toJson(),
+    "Sunday": sunday.toJson(),
   };
 
   // Method to convert OperatingHours to Map<String, Map<String, dynamic>>
   Map<String, Map<String, dynamic>> toMap() {
     return {
-      "Friday": friday.toMap(),
+
       "Monday": monday.toMap(),
-      "Thursday": thursday.toMap(),
       "Tuesday": tuesday.toMap(),
       "Wednesday": wednesday.toMap(),
+      "Thursday": thursday.toMap(),
+      "Friday": friday.toMap(),
+      "Saturday": saturday.toMap(),
+      "Sunday": sunday.toMap(),
     };
   }
 }

@@ -528,9 +528,16 @@ class _HomePageState extends State<HomePage>
               getGreeting(),
               style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
-            Text(
-              name,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            GestureDetector(
+              onTap: ()async {
+                String businessUid = await getBusinessUid(context);
+                print(businessUid);
+                showSnackBar(context, businessUid);
+              },
+              child: Text(
+                name,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),
