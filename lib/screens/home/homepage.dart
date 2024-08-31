@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../provider/chat_provider.dart';
+
 class Homepage extends StatefulWidget {
   final int initialIndex;
   Homepage({this.initialIndex = 0});
@@ -61,12 +63,9 @@ class _HomepageState extends State<Homepage> {
   void getBusinessData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? businessUid = prefs.getString('businessUid');
-    // print("Business_uid = $businessUid");
-    var dataBusiness =
-        Provider.of<BusinessDataProvider>(context, listen: false);
-    await dataBusiness
-        .getBusinessData("business_uid", businessUid!)
-        .then((onValue) {
+    print("Business_uid = $businessUid");
+    var dataBusiness = Provider.of<BusinessDataProvider>(context, listen: false);
+    await dataBusiness.getBusinessData("business_uid", businessUid!).then((onValue) {
       print(onValue);
       if (onValue == true) {
         if (dataBusiness.BusinessData![0].subCategory == "Fullhouse") {
@@ -92,7 +91,8 @@ class _HomepageState extends State<Homepage> {
         Provider.of<InsightsProvider>(context, listen: false)
             .fetchprofileVisitData(businessUid);
     print(DateTime.now().add(Duration(days: 10)).toIso8601String());
-    print(".......................................");
+    var chat = Provider.of<ChatProvider>(context, listen: false).fetchConversations(businessUid);
+    // print(".......................................");
   }
 
   @override

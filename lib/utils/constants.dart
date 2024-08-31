@@ -1,4 +1,5 @@
 import "package:backendapp/provider/businessdata_provider.dart";
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:shared_preferences/shared_preferences.dart";
@@ -69,6 +70,7 @@ void showSnackBar(BuildContext context, String message){
 // SharedPreferences prefs = await SharedPreferences.getInstance();
 // String? businessUid = prefs.getString('businessUid');
 
+// String businessUid = await getBusinessUid(context);
 Future<String> getBusinessUid(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? businessUid = prefs.getString('businessUid');
@@ -81,4 +83,19 @@ Future<String> getBusinessUid(BuildContext context) async {
   }
 
   return businessUid;
+}
+
+// String? userId = await getUserId();
+Future<String?> getUserId() async {
+  // Get the current user
+  User? user = FirebaseAuth.instance.currentUser;
+
+  // Return the userId (UID) if the user is signed in
+  if (user != null) {
+    return user.uid;
+  } else {
+    // User is not signed in
+    print('No user is currently signed in.');
+    return null;
+  }
 }

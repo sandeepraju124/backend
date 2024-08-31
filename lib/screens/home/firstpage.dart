@@ -14,6 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../chat.dart';
+import 'homepage_new.dart';
+
 class Firstpage extends StatefulWidget {
   const Firstpage({super.key});
 
@@ -120,11 +123,16 @@ class _FirstpageState extends State<Firstpage> {
           // leading: Center(child: Text("NearMe")),
           automaticallyImplyLeading: false,
           // elevation: 10,
-          title: Container(
-              width: 95,
-              child: Image.asset(
-                "assets/nearme2.png",
-              )),
+          title: GestureDetector(
+            onTap: (){
+              navigatorPush(context, HomePageNew());
+            },
+            child: Container(
+                width: 95,
+                child: Image.asset(
+                  "assets/nearme2.png",
+                )),
+          ),
           actions: [
             GestureDetector(
               onTap: () async {
@@ -139,7 +147,16 @@ class _FirstpageState extends State<Firstpage> {
                 padding: const EdgeInsets.only(right: 10),
                 child: Icon(Icons.notification_important_outlined),
               ),
-            )
+            ),
+            IconButton(
+              icon: Icon(Icons.chat_bubble_outline, color: Colors.grey, size: 20,),
+              onPressed: () async {
+                String? userId = await getUserId();
+                print("User id: $userId");
+                // navigatorPush(context, ChatListScreen(userId: '123',userType: 'customer',));
+                navigatorPush(context, ChatListScreen(userId: userId!,));
+              },
+            ),
           ],
         ),
         body: data.isLoading

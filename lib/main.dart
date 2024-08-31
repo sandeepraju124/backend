@@ -2,6 +2,7 @@
 import 'package:backendapp/firebase_options.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
+import 'package:backendapp/provider/chat_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/provider/house_provider.dart';
 import 'package:backendapp/provider/insights_provider.dart';
@@ -53,6 +54,7 @@ void main()async {
     ChangeNotifierProvider<AskCommunityProvider>(
       create: (_) => AskCommunityProvider() ,
     ),
+    ChangeNotifierProvider<ChatProvider>(create:(_) => ChatProvider()),
     ChangeNotifierProvider<CommentSectionProvider>(
       create: (_) => CommentSectionProvider() ,
     ),
@@ -71,6 +73,7 @@ void main()async {
     ChangeNotifierProvider<HouseProvider>(
       create: (_) => HouseProvider(),
     ),
+
     ],
     
     child: const MyApp()));
