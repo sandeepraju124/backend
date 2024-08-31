@@ -511,7 +511,7 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
                 width: 200,
                 child: ElevatedButton(
                   onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
+                    // if (_formKey.currentState!.validate()) {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       String? businessUid = prefs.getString('businessUid');
@@ -532,7 +532,7 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
                         showSnackBar(context, "Profile Updated Successfully");
                         Navigator.pop(context);
                       }
-                    }
+                    // }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,

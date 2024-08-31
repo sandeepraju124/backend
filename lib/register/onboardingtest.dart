@@ -1532,6 +1532,10 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
         ]);
       default:
         return Column(children: [
+          _profilePictureUpload(),
+          SizedBox(
+            height: 16,
+          ),
           _multiSelectUpload(),
         ]);
     }
@@ -1548,71 +1552,127 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     );
   }
 
+  // Widget _profilePictureUpload() {
+  //   return Column(
+  //     children: [
+  //       Align(
+  //           alignment: Alignment.topLeft,
+  //           child: Text(
+  //             "Profile picture (Optional)",
+  //             style: TextStyle(fontSize: 23),
+  //           )),
+  //       const SizedBox(
+  //         height: 2,
+  //       ),
+  //       const Align(
+  //           alignment: Alignment.topLeft,
+  //           child: Text(
+  //             "please upload a certification related your services",
+  //             style: TextStyle(color: Colors.grey),
+  //           )),
+  //       const SizedBox(
+  //         height: 8,
+  //       ),
+  //       Stack(
+  //         alignment: AlignmentDirectional.center,
+  //         children: [
+  //           DottedBorder(
+  //               // dashPattern: [1,3],
+  //               strokeWidth: 1,
+  //               color: Colors.grey,
+  //               child: Container(
+  //                 height: 120,
+  //                 // color: Colors.grey,
+  //               )),
+  //           InkWell(
+  //             onTap: () {
+  //               pickImage(ImageSource.gallery, "_profileimage");
+  //             },
+  //             child: _profileimage == null
+  //                 ? DottedBorder(
+  //                     strokeWidth: 1,
+  //                     color: Colors.grey,
+  //                     child: Container(
+  //                       color: Colors.blue[50],
+  //                       height: 75,
+  //                       width: 75,
+  //                       child: Column(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                           // crossAxisAlignment:CrossAxisAlignment.stretch ,
+  //                           children: const [
+  //                             Icon(Icons.camera_alt),
+  //                             Text("Add Photo"),
+  //                           ]),
+  //                     ),
+  //                   )
+  //                 : SizedBox(
+  //                     height: 75,
+  //                     width: 75,
+  //                     child: Image.file(_profileimage!, fit: BoxFit.fill),
+  //                   ),
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
   Widget _profilePictureUpload() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              "Profile picture (Optional)",
-              style: TextStyle(fontSize: 23),
-            )),
-        const SizedBox(
-          height: 2,
+        Text(
+          "Profile picture (Optional)",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              "please upload a certification related your services",
-              style: TextStyle(color: Colors.grey),
-            )),
-        const SizedBox(
-          height: 8,
+        SizedBox(height: 4),
+        Text(
+          "Please upload a certification related to your services",
+          style: TextStyle(color: Colors.grey[600], fontSize: 15),
         ),
-        Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            DottedBorder(
-                // dashPattern: [1,3],
-                strokeWidth: 1,
-                color: Colors.grey,
-                child: Container(
-                  height: 120,
-                  // color: Colors.grey,
-                )),
-            InkWell(
-              onTap: () {
-                pickImage(ImageSource.gallery, "_profileimage");
-              },
-              child: _profileimage == null
-                  ? DottedBorder(
-                      strokeWidth: 1,
-                      color: Colors.grey,
-                      child: Container(
-                        color: Colors.blue[50],
-                        height: 75,
-                        width: 75,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            // crossAxisAlignment:CrossAxisAlignment.stretch ,
-                            children: const [
-                              Icon(Icons.camera_alt),
-                              Text("Add Photo"),
-                            ]),
+        SizedBox(height: 16),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: DottedBorder(
+            borderType: BorderType.RRect,
+            radius: Radius.circular(12),
+            color: Colors.grey[400]!,
+            strokeWidth: 1,
+            dashPattern: [8, 4],
+            child: Container(
+              height: 150,
+              padding: EdgeInsets.all(16),
+              child: Center(
+                child: InkWell(
+                  onTap: () {
+                    pickImage(ImageSource.gallery, "_profileimage");
+                  },
+                  child: _profileimage == null
+                      ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.camera_alt, size: 40, color: Colors.grey[600]),
+                      SizedBox(height: 8),
+                      Text(
+                        "Add Photo",
+                        style: TextStyle(color: Colors.grey[600]),
                       ),
-                    )
-                  : SizedBox(
-                      height: 75,
-                      width: 75,
-                      child: Image.file(_profileimage!, fit: BoxFit.fill),
-                    ),
+                    ],
+                  )
+                      : ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(_profileimage!, fit: BoxFit.cover, width: 100, height: 100),
+                  ),
+                ),
+              ),
             ),
-          ],
+          ),
         ),
       ],
     );
   }
-
   Widget _certificationUpload() {
     return Column(
       children: [
