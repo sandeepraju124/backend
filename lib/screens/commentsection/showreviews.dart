@@ -375,9 +375,20 @@ import '../../utils/constants.dart';
 
 
 class ImprovedCommentSection extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<BusinessDataProvider>(context);
+    String _ratingString = "0";
+    int _rating = 0;
+
+    if (data.BusinessData != null &&
+        data.BusinessData!.isNotEmpty &&
+        data.BusinessData![0].avgRating != null) {
+      _ratingString = double.parse(data.BusinessData![0].avgRating).toStringAsFixed(0);
+      _rating = int.parse(_ratingString);
+    }
+
     return Consumer<CommentSectionProvider>(
       builder: (context, provider, child) {
         return CustomScrollView(
@@ -397,8 +408,8 @@ class ImprovedCommentSection extends StatelessWidget {
                       children: [
                         // _buildRatingStars(data.BusinessData[0].avgRating),
                         // _buildRatingStars(5),
-                        customStars(3),
-                        // customStars2(3),
+                        // customStars(3),
+                        customStars(_rating),
                         // _buildRatingStars(data.BusinessData[0].avgRating),
                         SizedBox(width: 8),
                         Text(
@@ -426,7 +437,7 @@ class ImprovedCommentSection extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Lottie.asset('assets/empty_reviews.json', width: 200),
+                    Lottie.asset('assets/business.json', width: 200),
                     SizedBox(height: 16),
                     Text(
                       'Be the first to leave a review!',
