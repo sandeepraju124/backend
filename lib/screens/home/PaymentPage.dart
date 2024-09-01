@@ -383,6 +383,7 @@ import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../provider/businessmongo_provider.dart';
 import '../../provider/commentprovider.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -610,6 +611,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               await FirebaseAuth.instance.signOut();
                               Provider.of<CommentSectionProvider>(context, listen: false).reset();
                               Provider.of<BusinessDataProvider>(context, listen: false).reset();
+                              Provider.of<ServicesProvider>(context, listen: false).reset();
                               await RemoveBusinessUid();
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(

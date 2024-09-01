@@ -39,6 +39,8 @@ class ServicesProvider extends ChangeNotifier {
     }
   }
 
+
+
   Future<bool> deleteImage(String businessUid, String imageUrl) async {
     _isLoadingDelete = true;
     notifyListeners();
@@ -171,4 +173,13 @@ Future<bool> postOperatingHours(Map<String, Map<String, dynamic>> hours, String 
       notifyListeners();
     }
   }
+  // Reset the provider state
+  void reset() {
+    _businessdata = null;
+    _isLoading = false;
+    _isLoadingDelete = false;
+    _isLoadingUpload = false;
+    notifyListeners();
+  }
+
 }
