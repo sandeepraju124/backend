@@ -77,6 +77,8 @@ void showSnackBar(BuildContext context, String message) {
 // await prefs.setString('businessUid', businessUid);
 // SharedPreferences prefs = await SharedPreferences.getInstance();
 // String? businessUid = prefs.getString('businessUid');
+// "${double.parse(data.BusinessData![0].avgRating).toStringAsFixed(1)} . (${data.BusinessData![0].totalReviews})",
+
 
 // String businessUid = await getBusinessUid(context);
 Future<String> getBusinessUid(BuildContext context) async {
@@ -148,7 +150,7 @@ Widget customStars(int rating) {
           ),
           child: Icon(
             Icons.star,
-            color: index < rating ? Colors.white : Colors.black,
+            color: index < rating ? Colors.white : Colors.grey,
             size: 12,
           ),
         ),

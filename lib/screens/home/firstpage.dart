@@ -505,7 +505,7 @@ class _HomePageState extends State<HomePage>
                       SizedBox(height: 20),
                       _buildQuickActions(),
                       SizedBox(height: 20),
-                      _buildActivityCard(commentData),
+                      _buildActivityCard(data),
                       SizedBox(height: 20),
                       _buildPostCard(),
                       SizedBox(height: 20),
@@ -601,7 +601,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _buildActivityCard(CommentSectionProvider commentData) {
+  Widget _buildActivityCard(BusinessDataProvider businessData) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -617,10 +617,11 @@ class _HomePageState extends State<HomePage>
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildActivityStat('Page Visits', '--'),
-                // _buildActivityStat('Reviews', '${commentData.getCommentsData?.reviews.length ?? 0}'),
+                _buildActivityStat('Reviews', businessData.BusinessData![0].totalReviews.toString(),
+                ),
                 // _buildActivityStat('Reviews', '0'),
-                // _buildActivityStat('Rating', '${commentData.averageRating.toStringAsFixed(1)}'),
-                _buildActivityStat('Rating', '0.0'),
+                _buildActivityStat('Rating', "${double.parse(businessData.BusinessData![0].avgRating).toStringAsFixed(1)}"),
+                // _buildActivityStat('Rating', '0.0'),
               ],
             ),
           ],

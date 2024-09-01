@@ -720,9 +720,8 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<ServicesProvider>(context);
-    var businessdata = Provider.of<BusinessDataProvider>(context);
-    // String _ratingString = Provider.of<CommentSectionProvider>(context).averageRating.toStringAsFixed(0);
-    String _ratingString = '0';
+    var businessdata = Provider.of<BusinessDataProvider>(context); // String _ratingString = '3';
+    String _ratingString = "${double.parse(businessdata.BusinessData![0].avgRating).toStringAsFixed(0)}";
     int _rating = int.parse(_ratingString);
 
     var amenities = data.BusinessData?.amenities;

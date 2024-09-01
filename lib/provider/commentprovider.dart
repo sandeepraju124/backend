@@ -253,4 +253,10 @@ class CommentSectionProvider extends ChangeNotifier {
     }
   }
 
+  void reset() {
+    _comments = [];
+    _isLoading = false;
+    notifyListeners();
+  }
+
 }

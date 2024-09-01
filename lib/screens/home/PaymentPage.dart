@@ -383,6 +383,8 @@ import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../provider/commentprovider.dart';
+
 class PaymentPage extends StatefulWidget {
   @override
   _PaymentPageState createState() => _PaymentPageState();
@@ -606,6 +608,8 @@ class _PaymentPageState extends State<PaymentPage> {
                             // color: tgLightPrimaryColor,
                             onPressed: () async {
                               await FirebaseAuth.instance.signOut();
+                              Provider.of<CommentSectionProvider>(context, listen: false).reset();
+                              Provider.of<BusinessDataProvider>(context, listen: false).reset();
                               await RemoveBusinessUid();
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(

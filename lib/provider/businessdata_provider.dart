@@ -73,4 +73,14 @@ class BusinessDataProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  void reset() {
+    _businessdata = [];
+    _isLoading = false;
+    _isLoadingPatch = false;
+    notifyListeners();
+  }
+
+
 }
