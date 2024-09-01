@@ -529,8 +529,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _checkBusiness() {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      Provider.of<BusinessDataProvider>(context, listen: false)
-          .getBusinessData("userid", user.uid);
+      Provider.of<BusinessDataProvider>(context, listen: false).getBusinessData("userid", user.uid);
+      print("user id is $user.uid");
     }
   }
 

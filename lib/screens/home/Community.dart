@@ -41,9 +41,7 @@ class _CommunityState extends State<Community> {
     String? businessUid = prefs.getString('businessUid');
     print("Business_uid = $businessUid");
     print("refreshing comments");
-    var commentsData =
-        Provider.of<CommentSectionProvider>(context, listen: false)
-            .commentSectionProvider(businessUid);
+    var commentsData = Provider.of<CommentSectionProvider>(context, listen: false).getComments(businessUid!);
     // var askCommData = Provider.of<AskCommunityProvider>(context, listen: false).fetchAskCommunityData(businessUid!);
   }
 
@@ -123,7 +121,8 @@ class _CommunityState extends State<Community> {
                   ),
                   RefreshIndicator(
                     onRefresh: _refreshComments,
-                    child: NewShowRewviewPage(),
+                    // child: NewShowRewviewPage(),
+                    child: ImprovedCommentSection(),
                   ),
                 ],
               ),

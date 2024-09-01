@@ -3,6 +3,7 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:shared_preferences/shared_preferences.dart";
+import 'package:intl/intl.dart';
 
 const Color primaryColor = Color(0xFF006491);
 const Color textColorLightTheme = Color(0xFF0D0D0E);
@@ -106,3 +107,53 @@ Future<String?> getUserId() async {
     return null;
   }
 }
+
+
+
+String formatCreatedAt(String createdAt) {
+  DateTime now = DateTime.now();
+  DateTime dateTime = DateFormat('EEE, dd MMM yyyy HH:mm:ss \'GMT\'').parseUtc(createdAt).toLocal();
+
+  Duration difference = now.difference(dateTime);
+
+  if (difference.inMinutes < 1) {
+    return 'just now';
+  } else if (difference.inMinutes < 60) {
+    return '${difference.inMinutes} min ago';
+  } else if (difference.inHours < 24) {
+    return '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago';
+  } else if (difference.inDays < 7) {
+    return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
+  } else {
+    return DateFormat('MMM d, yyyy').format(dateTime);
+  }
+}
+
+
+
+Widget customStars(int rating) {
+  return Row(
+    mainAxisSize: MainAxisSize.min,
+    children: List.generate(
+      5, // Always generate 5 stars
+          (index) => Padding(
+        padding: const EdgeInsets.only(right: 4, bottom: 7, top: 10),
+        child: Container(
+          width: 17,
+          height: 17,
+          decoration: BoxDecoration(
+            color: index < rating ? tgDarkPrimaryColor : Colors.transparent,
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: Colors.black, width: 0.3),
+          ),
+          child: Icon(
+            Icons.star,
+            color: index < rating ? Colors.white : Colors.black,
+            size: 12,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+

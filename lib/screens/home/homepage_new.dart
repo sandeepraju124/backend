@@ -535,15 +535,16 @@ class _HomePageNewState extends State<HomePageNew> {
             SizedBox(height: 8),
             Row(
               children: [
-                StarRating(
-                  rating:
-                      int.parse(commentData.averageRating.toStringAsFixed(0)),
-                  filledStarColor: tgDarkPrimaryColor,
-                  unfilledStarColor: Colors.grey,
-                ),
+                // StarRating(
+                //   rating:
+                //       int.parse(commentData.averageRating.toStringAsFixed(0)),
+                //   filledStarColor: tgDarkPrimaryColor,
+                //   unfilledStarColor: Colors.grey,
+                // ),
                 SizedBox(width: 8),
                 Text(
-                  '${commentData.getCommentsData?.reviews.length ?? 0} reviews',
+                  "4.5",
+                  // '${commentData.getCommentsData?.reviews.length ?? 0} reviews',
                   style: TextStyle(color: Colors.teal),
                 ),
               ],

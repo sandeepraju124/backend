@@ -352,7 +352,7 @@ class _BottomNavState extends State<BottomNav> {
     HomePage(),
     Insights(),
     ChatListScreen(
-      BusinessID: 'nI63HUrLNBQk77aEHYkRxNo1qD12',
+      BusinessID: 'BIZFOORESW1nD9SmSb0',
     ),
     BusinessInfoHub(),
     Community(),
@@ -388,8 +388,7 @@ class _BottomNavState extends State<BottomNav> {
 
       // Fetch other data
       await Future.wait([
-        Provider.of<CommentSectionProvider>(context, listen: false)
-            .commentSectionProvider(businessUid),
+        Provider.of<CommentSectionProvider>(context, listen: false).getComments(businessUid),
         Provider.of<AskCommunityProvider>(context, listen: false)
             .fetchAskCommunityData(businessUid),
         Provider.of<ServicesProvider>(context, listen: false)

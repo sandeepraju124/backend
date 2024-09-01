@@ -22,8 +22,8 @@ class BusinessDataProvider extends ChangeNotifier {
       List<BusinessDataModels> businessdata =
           await NetworkCalling().fetchBusinessData(uri);
       _businessdata = businessdata;
-      // print(businessdata);
-      // print("businessdata");
+      print(businessdata);
+      print("businessdata");
       return true;
     } catch (e) {
       print('Error fetching business data: $e');

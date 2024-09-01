@@ -426,8 +426,42 @@ class _PaymentPageState extends State<PaymentPage> {
     _razorpay.open(options);
   }
 
+  // void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+  //   // Payment success logic (unchanged)
+  // }
+
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    // Payment success logic (unchanged)
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isPremium', true);
+
+    setState(() {
+      isPremium = true;
+    });
+
+    // Update the database
+    // final businessId = await prefs.getString('businessUid');
+    String businessUid = await getBusinessUid(context);
+
+    if (businessUid != null) {
+      Map<String, dynamic> updatedData = {
+        'business_uid': businessUid,
+        'is_premium': true,
+        'premium_expiry':
+            DateTime.now().add(Duration(days: 10)).toIso8601String(),
+      };
+      print(updatedData);
+
+      bool response =
+          await Provider.of<BusinessDataProvider>(context, listen: false)
+              .updateBusinessData(updatedData);
+      if (response) {
+        showSnackBar(context, "Payment successful! You are now a premium user");
+        // Navigator.pop(context);
+      } else {
+        showSnackBar(
+            context, "Failed to update premium status in the database.");
+      }
+    }
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
