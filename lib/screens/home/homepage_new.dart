@@ -327,16 +327,13 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:backendapp/provider/businessdata_provider.dart';
 import 'package:backendapp/provider/businessmongo_provider.dart';
 import 'package:backendapp/provider/commentprovider.dart';
 import 'package:backendapp/screens/home/bottomnav.dart';
-import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:backendapp/widgets/rating.dart';
@@ -394,10 +391,14 @@ class _HomePageNewState extends State<HomePageNew> {
       int completedTasks = 0;
 
       if (data.BusinessData != null && data.BusinessData!.isNotEmpty) {
-        if (data.BusinessData![0].contactInformation?.isNotEmpty ?? false) completedTasks++;
-        if (data.BusinessData![0].businessEmail?.isNotEmpty ?? false) completedTasks++;
-        if (data.BusinessData![0].address?.isNotEmpty ?? false) completedTasks++;
-        if (data.BusinessData![0].businessDescription?.isNotEmpty ?? false) completedTasks++;
+        if (data.BusinessData![0].contactInformation.isNotEmpty)
+          completedTasks++;
+        if (data.BusinessData![0].businessEmail?.isNotEmpty ?? false)
+          completedTasks++;
+        if (data.BusinessData![0].address?.isNotEmpty ?? false)
+          completedTasks++;
+        if (data.BusinessData![0].businessDescription.isNotEmpty)
+          completedTasks++;
       }
 
       if (data2.BusinessData != null) {
@@ -413,29 +414,29 @@ class _HomePageNewState extends State<HomePageNew> {
       body: data.isLoading
           ? Center(child: CircularProgressIndicator(color: tgPrimaryColor))
           : CustomScrollView(
-        slivers: [
-          _buildSliverAppBar(name),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildQuickActionButtons(),
-                  SizedBox(height: 24),
-                  _buildBusinessOverview(name, commentData),
-                  SizedBox(height: 24),
-                  _buildInsightsCard(),
-                  SizedBox(height: 24),
-                  _buildQuickPostCard(),
-                  SizedBox(height: 24),
-                  _buildProfileCompletionCard(getProgress()),
-                ],
-              ),
+              slivers: [
+                _buildSliverAppBar(name),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildQuickActionButtons(),
+                        SizedBox(height: 24),
+                        _buildBusinessOverview(name, commentData),
+                        SizedBox(height: 24),
+                        _buildInsightsCard(),
+                        SizedBox(height: 24),
+                        _buildQuickPostCard(),
+                        SizedBox(height: 24),
+                        _buildProfileCompletionCard(getProgress()),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
@@ -446,16 +447,16 @@ class _HomePageNewState extends State<HomePageNew> {
       floating: false,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
-        title: Text('${getGreeting()}, $name'),
-        background: Image.network(
+          title: Text('${getGreeting()}, $name'),
+          background: Image.network(
             'https://i0.wp.com/stanzaliving.wpcomstaging.com/wp-content/uploads/2022/04/a566a-restaurants-in-hyderabad.jpg?fit=1000%2C750&ssl=1',
-          fit: BoxFit.cover,
-        )
-        // Image.asset(
-        //   "assets/restaurant_background.jpg",
-        //   fit: BoxFit.cover,
-        // ),
-      ),
+            fit: BoxFit.cover,
+          )
+          // Image.asset(
+          //   "assets/restaurant_background.jpg",
+          //   fit: BoxFit.cover,
+          // ),
+          ),
       actions: [
         IconButton(
           icon: Icon(Icons.notifications_outlined),
@@ -498,7 +499,8 @@ class _HomePageNewState extends State<HomePageNew> {
     );
   }
 
-  Widget _buildActionButton(IconData icon, String label, VoidCallback onPressed) {
+  Widget _buildActionButton(
+      IconData icon, String label, VoidCallback onPressed) {
     return Column(
       children: [
         ElevatedButton(
@@ -516,7 +518,8 @@ class _HomePageNewState extends State<HomePageNew> {
     );
   }
 
-  Widget _buildBusinessOverview(String name, CommentSectionProvider commentData) {
+  Widget _buildBusinessOverview(
+      String name, CommentSectionProvider commentData) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -533,7 +536,8 @@ class _HomePageNewState extends State<HomePageNew> {
             Row(
               children: [
                 StarRating(
-                  rating: int.parse(commentData.averageRating.toStringAsFixed(0)),
+                  rating:
+                      int.parse(commentData.averageRating.toStringAsFixed(0)),
                   filledStarColor: tgDarkPrimaryColor,
                   unfilledStarColor: Colors.grey,
                 ),
@@ -684,7 +688,8 @@ class _HomePageNewState extends State<HomePageNew> {
             SizedBox(height: 8),
             Text(
               '${(progress * 100).toInt()}% complete',
-              style: TextStyle(color: tgPrimaryColor, fontWeight: FontWeight.w500),
+              style:
+                  TextStyle(color: tgPrimaryColor, fontWeight: FontWeight.w500),
             ),
             SizedBox(height: 16),
             ElevatedButton.icon(
@@ -693,7 +698,8 @@ class _HomePageNewState extends State<HomePageNew> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => BottomNav(initialIndex: 3)),
+                  MaterialPageRoute(
+                      builder: (context) => BottomNav(initialIndex: 3)),
                 );
               },
               style: ElevatedButton.styleFrom(

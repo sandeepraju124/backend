@@ -113,66 +113,361 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
   // _sub_category = cat[1]!.trim();
   // }
 
+  // String findFullCategoryPath(String? category) {
+  //   if (category == null || category.isEmpty) return "";
+  //   for (String service in services) {
+  //     if (service.endsWith(category)) {
+  //       print("service $service");
+  //       return service;
+  //     }
+  //   }
+  //   return "";
+  // }
+
+  // void removeImage(int index) {
+  //   setState(() {
+  //     _images.removeAt(index);
+  //   });
+  // }
+
+  // Future pickImage(ImageSource source, String file) async {
+  //   final pickedFile = await ImagePicker().pickImage(source: source);
+  //   // String? path = await _ffsaiImage?.path;
+  //   // String fileName = path!.split('/').last;
+  //   // print("fileName $fileName");
+  //   // String imageName = path?.basename(imagePath);
+  //   // print("path $path");
+  //   if (pickedFile != null) {
+  //     setState(() {
+  //       switch (file) {
+  //         case "_ffsaiImage":
+  //           _ffsaiImage = File(
+  //             pickedFile.path,
+  //           );
+  //           break;
+  //         case "_aadharfront":
+  //           _aadharfront = File(
+  //             pickedFile.path,
+  //           );
+  //           break;
+  //         case "_aadharback":
+  //           _aadharback = File(
+  //             pickedFile.path,
+  //           );
+  //           break;
+  //         case "_profileimage":
+  //           _profileimage = File(
+  //             pickedFile.path,
+  //           );
+  //           break;
+  //         case "_certificationimage":
+  //           _certificationimage = File(
+  //             pickedFile.path,
+  //           );
+  //           break;
+  //       }
+  //     });
+  //   }
+  // }
+
+  // final _mapScreen = MapScreen();
+  // List<File> _images = [];
+
+  // Future<void> multiImagePick() async {
+  //   List pickedFiles = await ImagePicker().pickMultiImage();
+  //   setState(() {
+  //     _images = pickedFiles.map((file) => File(file.path)).toList();
+  //   });
+  // }
+
+  // Future<void> pickImageExtra() async {
+  //   List pickedFiles = await ImagePicker().pickMultiImage();
+  //   setState(() {
+  //     // List<File> _extraImages = [];
+  //     List<File> _extraImages =
+  //         pickedFiles.map((file) => File(file.path)).toList();
+  //     _images.addAll(_extraImages);
+  //   });
+  // }
+
+  // // ################## posting  ############################
+
+  // String generateRandomChars(int length) {
+  //   const chars =
+  //       'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  //   final random = Random();
+  //   return String.fromCharCodes(Iterable.generate(
+  //       length, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
+  // }
+
+  // String generateRandomString(String category, String subCategory) {
+  //   // Get the first 3 letters of the category and subcategory
+  //   String initialBrand = 'BIZ';
+  //   String categoryPrefix = category.substring(0, 3).toUpperCase();
+  //   String subCategoryPrefix = subCategory.substring(0, 3).toUpperCase();
+
+  //   // Generate random alphanumeric characters
+  //   String randomChars = generateRandomChars(10);
+
+  //   // Concatenate all parts to form the final string
+  //   return '$initialBrand$categoryPrefix$subCategoryPrefix$randomChars';
+  // }
+
+  // // String business_uid = generateRandomString(widget.category, widget.Subcategory);
+
+  // Future<bool> postImages() async {
+  //   try {
+  //     // String business_uid = generateRandomString(widget.category!, widget.Subcategory!);
+  //     final url2 = Uri.parse(
+  //         "https://supernova1137.azurewebsites.net/post_multiple_images");
+  //     var request = http.MultipartRequest('POST', url2);
+  //     request.fields['business_uid'] = _generated_business_uid;
+  //     print(_generated_business_uid);
+
+  //     if (_aadharfront != null) {
+  //       File aadharFrontImage = File(_aadharfront!.path);
+  //       File aadharBackImage = File(_aadharback!.path);
+  //       request.files.add(await http.MultipartFile.fromPath(
+  //           'aadhar_front', aadharFrontImage.path));
+  //       request.files.add(await http.MultipartFile.fromPath(
+  //           'aadhar_back', aadharBackImage.path));
+  //     }
+
+  //     if (_images.isNotEmpty) {
+  //       for (File image in _images) {
+  //         request.files
+  //             .add(await http.MultipartFile.fromPath('images', image.path));
+  //       }
+  //     }
+
+  //     if (_certificationimage != null) {
+  //       File certification = File(_certificationimage!.path);
+  //       request.files.add(await http.MultipartFile.fromPath(
+  //           'certificationimage', certification.path));
+  //     }
+
+  //     if (_ffsaiImage != null) {
+  //       File ffsaiImage = File(_certificationimage!.path);
+  //       request.files.add(
+  //           await http.MultipartFile.fromPath('ffsaiImage', ffsaiImage.path));
+  //     }
+
+  //     if (_profileimage != null) {
+  //       File profileimage = File(_profileimage!.path);
+  //       request.files.add(await http.MultipartFile.fromPath(
+  //           'profileimage', profileimage.path));
+  //     }
+
+  //     var response = await request.send();
+
+  //     if (response.statusCode == 200) {
+  //       final responseBody = await response.stream.bytesToString();
+  //       print(responseBody);
+
+  //       // return 'Service created successfully';
+  //       return true;
+  //     } else {
+  //       throw Exception('Failed to send images');
+  //     }
+  //   } catch (e) {
+  //     print(e.toString());
+  //     throw Exception('Failed to send images: $e');
+  //   }
+  // }
+
+  // Future<bool> postBusiness(String category, String subcategory) async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+
+  //   final user = FirebaseAuth.instance.currentUser;
+  //   final userid = user?.uid;
+  //   print(userid);
+
+  //   print("before try");
+  //   try {
+  //     print("inside try");
+  //     final url =
+  //         Uri.parse("https://supernova1137.azurewebsites.net/pg/business");
+
+  //     Map<String, String> body = {
+  //       'business_uid': _generated_business_uid,
+  //       'business_name': _businessName.text,
+  //       'business_description': _description.text,
+  //       'contact_information': _contactInfo.text,
+  //       'country': "india",
+  //       'category': category,
+  //       'sub_category': subcategory,
+  //       'address': _address.text,
+  //       'business_email': _businessEmail.text,
+  //       // 'latitude': data.registrationData['latitude'].toString(),
+  //       // 'longitude': data.registrationData['longitude'].toString(),
+  //       'userid': userid.toString(),
+  //     };
+
+  //     print(" try");
+  //     print(Random(5).nextInt(5));
+
+  //     final request = http.MultipartRequest(
+  //       'POST',
+  //       url,
+  //     )..fields.addAll(body);
+
+  //     // Conditionally add profile_image_url if it is not null
+  //     // if (data.registrationData['profile_image_url'] != null && data.registrationData['profile_image_url'].isNotEmpty) {
+  //     //   request.files.add(await http.MultipartFile.fromPath(
+  //     //     'profile_image_url', data.registrationData['profile_image_url']
+  //     //   ));
+  //     // }
+
+  //     if (_profileimage != null) {
+  //       File profileimage = File(_profileimage!.path);
+  //       request.files.add(await http.MultipartFile.fromPath(
+  //           'profileimage', profileimage.path));
+  //     }
+
+  //     // Conditionally add aadhar_front if it is not null
+
+  //     final response = await request.send();
+  //     print(response.statusCode);
+  //     print(response);
+
+  //     if (response.statusCode == 200) {
+  //       final responseBody = await response.stream.bytesToString();
+  //       print(responseBody);
+
+  //       if (widget.Subcategory == "Fullhouse") {
+  //         postHouseData().then((value) {
+  //           if (value == true) {
+  //             // navigatorPush(context, WaitingScreen());
+  //             print(value);
+
+  //             print("house data uploaded");
+  //           } else {
+  //             showSnackBar(context, "error please try again");
+  //           }
+  //         });
+  //       }
+
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+
+  //       return true;
+  //     } else {
+  //       throw Exception('Failed to create service');
+  //     }
+  //   } catch (e) {
+  //     print(e.toString());
+  //     throw Exception('Failed to create service: $e');
+  //   }
+  // }
+
+  // Future<bool> postHouseData() async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+
+  //   final user = FirebaseAuth.instance.currentUser;
+  //   final userid = user?.uid;
+  //   print(userid);
+  //   try {
+  //     print("inside try");
+  //     final url = "https://supernova1137.azurewebsites.net/pg/house";
+
+  //     Map<String, String> body = {
+  //       'business_uid': _generated_business_uid,
+  //       'house_facing': _houseFacing!,
+  //       'building_age': _buildingAge!.toString(),
+  //       'house_type': _selectedHouseType.toString(),
+  //       'price': rent.toString(),
+  //       'bedrooms': _buildingAge!.toString(),
+  //       'car_parking': carParking.toString(),
+  //       'advance': adv.toString(),
+  //       'preferred': _Preferred!,
+  //       'furnishing_level': _selectedHouseType.toString(),
+  //       // 'latitude': data.registrationData['latitude'].toString(),
+  //       // 'longitude': data.registrationData['longitude'].toString(),
+  //       // 'userid': userid.toString(),
+  //     };
+
+  //     print("housebody $body");
+
+  //     final response = await http.post(
+  //       Uri.parse(url),
+  //       body: body,
+  //     );
+  //     print(response.statusCode);
+  //     print(response);
+
+  //     if (response.statusCode == 200) {
+  //       final responseBody = await response.body;
+  //       print(responseBody);
+
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+
+  //       return true;
+  //     } else {
+  //       throw Exception('Failed to create service');
+  //     }
+  //   } catch (e) {
+  //     print(e.toString());
+  //     throw Exception('Failed to create service: $e');
+  //   }
+  // }
+
+  List<File> _images = [];
+
+  // Finds the full category path from a list of services based on a partial category name
   String findFullCategoryPath(String? category) {
-    if (category == null || category.isEmpty) return "";
+    if (category == null || category.isEmpty)
+      return ""; // Return empty if category is null or empty
     for (String service in services) {
       if (service.endsWith(category)) {
-        print("service $service");
-        return service;
+        // Check if the service ends with the category
+        print("service $service"); // Print the matching service
+        return service; // Return the matching service
       }
     }
-    return "";
+    return ""; // Return empty if no match is found
   }
 
+// Removes an image from the list of images by index
   void removeImage(int index) {
     setState(() {
-      _images.removeAt(index);
+      _images.removeAt(index); // Remove the image at the given index
     });
   }
 
+// Picks a single image based on the source and file type, and assigns it to the correct variable
   Future pickImage(ImageSource source, String file) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
-    // String? path = await _ffsaiImage?.path;
-    // String fileName = path!.split('/').last;
-    // print("fileName $fileName");
-    // String imageName = path?.basename(imagePath);
-    // print("path $path");
     if (pickedFile != null) {
       setState(() {
         switch (file) {
           case "_ffsaiImage":
-            _ffsaiImage = File(
-              pickedFile.path,
-            );
+            _ffsaiImage = File(pickedFile.path);
             break;
           case "_aadharfront":
-            _aadharfront = File(
-              pickedFile.path,
-            );
+            _aadharfront = File(pickedFile.path);
             break;
           case "_aadharback":
-            _aadharback = File(
-              pickedFile.path,
-            );
+            _aadharback = File(pickedFile.path);
             break;
           case "_profileimage":
-            _profileimage = File(
-              pickedFile.path,
-            );
+            _profileimage = File(pickedFile.path);
             break;
           case "_certificationimage":
-            _certificationimage = File(
-              pickedFile.path,
-            );
+            _certificationimage = File(pickedFile.path);
             break;
         }
       });
     }
   }
 
-  final _mapScreen = MapScreen();
-  List<File> _images = [];
-
+// Picks multiple images and stores them in the _images list
   Future<void> multiImagePick() async {
     List pickedFiles = await ImagePicker().pickMultiImage();
     setState(() {
@@ -180,18 +475,17 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     });
   }
 
+// Picks extra images and appends them to the _images list
   Future<void> pickImageExtra() async {
     List pickedFiles = await ImagePicker().pickMultiImage();
     setState(() {
-      // List<File> _extraImages = [];
       List<File> _extraImages =
           pickedFiles.map((file) => File(file.path)).toList();
-      _images.addAll(_extraImages);
+      _images.addAll(_extraImages); // Add the new images to the existing list
     });
   }
 
-  // ################## posting  ############################
-
+// Generates a random alphanumeric string of the specified length
   String generateRandomChars(int length) {
     const chars =
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -200,37 +494,28 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
         length, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
   }
 
+// Generates a unique identifier based on category, subcategory, and random characters
   String generateRandomString(String category, String subCategory) {
-    // Get the first 3 letters of the category and subcategory
     String initialBrand = 'BIZ';
     String categoryPrefix = category.substring(0, 3).toUpperCase();
     String subCategoryPrefix = subCategory.substring(0, 3).toUpperCase();
-
-    // Generate random alphanumeric characters
     String randomChars = generateRandomChars(10);
-
-    // Concatenate all parts to form the final string
     return '$initialBrand$categoryPrefix$subCategoryPrefix$randomChars';
   }
 
-  // String business_uid = generateRandomString(widget.category, widget.Subcategory);
-
+// Posts multiple images to the server
   Future<bool> postImages() async {
     try {
-      // String business_uid = generateRandomString(widget.category!, widget.Subcategory!);
       final url2 = Uri.parse(
           "https://supernova1137.azurewebsites.net/post_multiple_images");
       var request = http.MultipartRequest('POST', url2);
       request.fields['business_uid'] = _generated_business_uid;
-      print(_generated_business_uid);
 
       if (_aadharfront != null) {
-        File aadharFrontImage = File(_aadharfront!.path);
-        File aadharBackImage = File(_aadharback!.path);
         request.files.add(await http.MultipartFile.fromPath(
-            'aadhar_front', aadharFrontImage.path));
+            'aadhar_front', _aadharfront!.path));
         request.files.add(await http.MultipartFile.fromPath(
-            'aadhar_back', aadharBackImage.path));
+            'aadhar_back', _aadharback!.path));
       }
 
       if (_images.isNotEmpty) {
@@ -241,24 +526,25 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
       }
 
       if (_certificationimage != null) {
-        File certification = File(_certificationimage!.path);
         request.files.add(await http.MultipartFile.fromPath(
-            'certificationimage', certification.path));
+            'certificationimage', _certificationimage!.path));
       }
 
       if (_ffsaiImage != null) {
-        File ffsaiImage = File(_certificationimage!.path);
         request.files.add(
-            await http.MultipartFile.fromPath('ffsaiImage', ffsaiImage.path));
+            await http.MultipartFile.fromPath('ffsaiImage', _ffsaiImage!.path));
       }
+
+      // if (_profileimage != null) {
+      //   request.files.add(await http.MultipartFile.fromPath(
+      //       'profileimage', _profileimage!.path));
+      // }
 
       var response = await request.send();
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         print(responseBody);
-
-        // return 'Service created successfully';
         return true;
       } else {
         throw Exception('Failed to send images');
@@ -269,6 +555,7 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     }
   }
 
+// Posts business information to the server
   Future<bool> postBusiness(String category, String subcategory) async {
     setState(() {
       _isLoading = true;
@@ -276,11 +563,8 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
 
     final user = FirebaseAuth.instance.currentUser;
     final userid = user?.uid;
-    print(userid);
 
-    print("before try");
     try {
-      print("inside try");
       final url =
           Uri.parse("https://supernova1137.azurewebsites.net/pg/business");
 
@@ -294,48 +578,26 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
         'sub_category': subcategory,
         'address': _address.text,
         'business_email': _businessEmail.text,
-        // 'latitude': data.registrationData['latitude'].toString(),
-        // 'longitude': data.registrationData['longitude'].toString(),
         'userid': userid.toString(),
       };
 
-      print(" try");
-      print(Random(5).nextInt(5));
+      final request = http.MultipartRequest('POST', url)..fields.addAll(body);
 
-      final request = http.MultipartRequest(
-        'POST',
-        url,
-      )..fields.addAll(body);
-
-      // Conditionally add profile_image_url if it is not null
-      // if (data.registrationData['profile_image_url'] != null && data.registrationData['profile_image_url'].isNotEmpty) {
-      //   request.files.add(await http.MultipartFile.fromPath(
-      //     'profile_image_url', data.registrationData['profile_image_url']
-      //   ));
-      // }
-
+      // Add profile image if it exists
       if (_profileimage != null) {
-        File profileimage = File(_profileimage!.path);
         request.files.add(await http.MultipartFile.fromPath(
-            'profileimage', profileimage.path));
+            'profile_image_url', _profileimage!.path));
       }
 
-      // Conditionally add aadhar_front if it is not null
-
       final response = await request.send();
-      print(response.statusCode);
-      print(response);
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         print(responseBody);
 
-        if (widget.Subcategory == "Fullhouse") {
+        if (subcategory == "Fullhouse") {
           postHouseData().then((value) {
             if (value == true) {
-              // navigatorPush(context, WaitingScreen());
-              print(value);
-
               print("house data uploaded");
             } else {
               showSnackBar(context, "error please try again");
@@ -357,6 +619,7 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     }
   }
 
+// Posts house data to the server if the subcategory is "Fullhouse"
   Future<bool> postHouseData() async {
     setState(() {
       _isLoading = true;
@@ -364,9 +627,8 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
 
     final user = FirebaseAuth.instance.currentUser;
     final userid = user?.uid;
-    print(userid);
+
     try {
-      print("inside try");
       final url = "https://supernova1137.azurewebsites.net/pg/house";
 
       Map<String, String> body = {
@@ -380,19 +642,9 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
         'advance': adv.toString(),
         'preferred': _Preferred!,
         'furnishing_level': _selectedHouseType.toString(),
-        // 'latitude': data.registrationData['latitude'].toString(),
-        // 'longitude': data.registrationData['longitude'].toString(),
-        // 'userid': userid.toString(),
       };
 
-      print("housebody $body");
-
-      final response = await http.post(
-        Uri.parse(url),
-        body: body,
-      );
-      print(response.statusCode);
-      print(response);
+      final response = await http.post(Uri.parse(url), body: body);
 
       if (response.statusCode == 200) {
         final responseBody = await response.body;
@@ -1555,70 +1807,6 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     );
   }
 
-  // Widget _profilePictureUpload() {
-  //   return Column(
-  //     children: [
-  //       Align(
-  //           alignment: Alignment.topLeft,
-  //           child: Text(
-  //             "Profile picture (Optional)",
-  //             style: TextStyle(fontSize: 23),
-  //           )),
-  //       const SizedBox(
-  //         height: 2,
-  //       ),
-  //       const Align(
-  //           alignment: Alignment.topLeft,
-  //           child: Text(
-  //             "please upload a certification related your services",
-  //             style: TextStyle(color: Colors.grey),
-  //           )),
-  //       const SizedBox(
-  //         height: 8,
-  //       ),
-  //       Stack(
-  //         alignment: AlignmentDirectional.center,
-  //         children: [
-  //           DottedBorder(
-  //               // dashPattern: [1,3],
-  //               strokeWidth: 1,
-  //               color: Colors.grey,
-  //               child: Container(
-  //                 height: 120,
-  //                 // color: Colors.grey,
-  //               )),
-  //           InkWell(
-  //             onTap: () {
-  //               pickImage(ImageSource.gallery, "_profileimage");
-  //             },
-  //             child: _profileimage == null
-  //                 ? DottedBorder(
-  //                     strokeWidth: 1,
-  //                     color: Colors.grey,
-  //                     child: Container(
-  //                       color: Colors.blue[50],
-  //                       height: 75,
-  //                       width: 75,
-  //                       child: Column(
-  //                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //                           // crossAxisAlignment:CrossAxisAlignment.stretch ,
-  //                           children: const [
-  //                             Icon(Icons.camera_alt),
-  //                             Text("Add Photo"),
-  //                           ]),
-  //                     ),
-  //                   )
-  //                 : SizedBox(
-  //                     height: 75,
-  //                     width: 75,
-  //                     child: Image.file(_profileimage!, fit: BoxFit.fill),
-  //                   ),
-  //           ),
-  //         ],
-  //       ),
-  //     ],
-  //   );
-  // }
   Widget _profilePictureUpload() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1654,20 +1842,22 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
                   },
                   child: _profileimage == null
                       ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.camera_alt, size: 40, color: Colors.grey[600]),
-                      SizedBox(height: 8),
-                      Text(
-                        "Add Photo",
-                        style: TextStyle(color: Colors.grey[600]),
-                      ),
-                    ],
-                  )
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.camera_alt,
+                                size: 40, color: Colors.grey[600]),
+                            SizedBox(height: 8),
+                            Text(
+                              "Add Photo",
+                              style: TextStyle(color: Colors.grey[600]),
+                            ),
+                          ],
+                        )
                       : ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.file(_profileimage!, fit: BoxFit.cover, width: 100, height: 100),
-                  ),
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.file(_profileimage!,
+                              fit: BoxFit.cover, width: 100, height: 100),
+                        ),
                 ),
               ),
             ),
@@ -1676,6 +1866,7 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
       ],
     );
   }
+
   Widget _certificationUpload() {
     return Column(
       children: [

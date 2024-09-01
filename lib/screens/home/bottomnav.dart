@@ -351,7 +351,9 @@ class _BottomNavState extends State<BottomNav> {
   final List<Widget> _pages = [
     HomePage(),
     Insights(),
-    ChatListScreen(BusinessID: 'nI63HUrLNBQk77aEHYkRxNo1qD12',),
+    ChatListScreen(
+      BusinessID: 'nI63HUrLNBQk77aEHYkRxNo1qD12',
+    ),
     BusinessInfoHub(),
     Community(),
     PaymentPage()
@@ -397,8 +399,9 @@ class _BottomNavState extends State<BottomNav> {
         Provider.of<InsightsProvider>(context, listen: false)
             .fetchprofileVisitData(businessUid),
       ]);
-    // var chat = Provider.of<ChatProvider>(context, listen: false).fetchConversations(businessUid);
-    var chat = Provider.of<ChatProvider>(context, listen: false).fetchConversations("BIZPLUaYVJg3dqD9");
+      // var chat = Provider.of<ChatProvider>(context, listen: false).fetchConversations(businessUid);
+      var chat = Provider.of<ChatProvider>(context, listen: false)
+          .fetchConversations("BIZPLUaYVJg3dqD9");
     }
   }
 

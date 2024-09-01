@@ -128,7 +128,7 @@ class _AmenityScreenState extends State<AmenityScreen> {
   }
 
   void _showDeleteConfirmationDialog(int index) {
-    var data = Provider.of<ServicesProvider>(context,listen: false);
+    var data = Provider.of<ServicesProvider>(context, listen: false);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -144,12 +144,11 @@ class _AmenityScreenState extends State<AmenityScreen> {
             ),
             TextButton(
               child: Text('Delete'),
-              onPressed: () async{
+              onPressed: () async {
                 final amenityToRemove = data.BusinessData!.amenities![index];
                 setState(() {
                   // Remove the amenity from the list and update provider
                   data.BusinessData!.amenities!.removeAt(index);
-
                 });
                 final success = await data.postAmenities(
                   data.BusinessData!.businessUid,
@@ -167,7 +166,8 @@ class _AmenityScreenState extends State<AmenityScreen> {
                   );
                   // Revert the local change if the server update failed
                   setState(() {
-                    data.BusinessData!.amenities!.insert(index, amenityToRemove);
+                    data.BusinessData!.amenities!
+                        .insert(index, amenityToRemove);
                   });
                 }
                 Navigator.of(context).pop();

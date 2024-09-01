@@ -424,6 +424,7 @@
 //     );
 //   }
 // }
+import 'package:backendapp/screens/task_progress_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -529,7 +530,7 @@ class _HomePageState extends State<HomePage>
               style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
             GestureDetector(
-              onTap: ()async {
+              onTap: () async {
                 String businessUid = await getBusinessUid(context);
                 print(businessUid);
                 showSnackBar(context, businessUid);
@@ -683,26 +684,33 @@ class _HomePageState extends State<HomePage>
 
   Widget _buildProgressCard(BusinessDataProvider data, ServicesProvider data2) {
     double progress = _calculateProgress(data, data2);
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Profile Completion',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 16),
-            LinearProgressIndicator(
-              value: progress,
-              backgroundColor: Colors.grey[300],
-              valueColor: AlwaysStoppedAnimation<Color>(tgPrimaryColor),
-            ),
-            SizedBox(height: 8),
-            Text('${(progress * 100).toInt()}% Complete',
-                style: TextStyle(fontSize: 14, color: Colors.grey[600])),
-          ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return TasksScreen();
+        }));
+      },
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Profile Completion',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              SizedBox(height: 16),
+              LinearProgressIndicator(
+                value: progress,
+                backgroundColor: Colors.grey[300],
+                valueColor: AlwaysStoppedAnimation<Color>(tgPrimaryColor),
+              ),
+              SizedBox(height: 8),
+              Text('${(progress * 100).toInt()}% Complete',
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+            ],
+          ),
         ),
       ),
     );
