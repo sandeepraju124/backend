@@ -524,7 +524,7 @@ class _PaymentPageState extends State<PaymentPage> {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return ProfileScreen(
-                      showBackButton: true, showlogoutbutton: false);
+                      showBackButton: true, showLogoutButton: false);
                 }));
               },
             ),

@@ -37,7 +37,7 @@ class ProfileRedirect extends StatelessWidget {
             // If businessUid is not present, navigate to ProfileRedirect page
             return ProfileScreen(
               showBackButton: false,
-              showlogoutbutton: true,
+              showLogoutButton: true,
             );
           }
         }

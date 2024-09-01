@@ -58,7 +58,7 @@ class WaitingScreen extends StatelessWidget {
                           context,
                           ProfileScreen(
                             showBackButton: false,
-                            showlogoutbutton: true,
+                            showLogoutButton: true,
                           ));
                     },
                     child: Text("click"))
