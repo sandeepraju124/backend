@@ -720,9 +720,19 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<ServicesProvider>(context);
-    var businessdata = Provider.of<BusinessDataProvider>(context); // String _ratingString = '3';
-    String _ratingString = "${double.parse(businessdata.BusinessData![0].avgRating).toStringAsFixed(0)}";
-    int _rating = int.parse(_ratingString);
+    var businessdata = Provider.of<BusinessDataProvider>(context);
+    // String _ratingString = '3';
+    // String _ratingString = "${double.parse(businessdata.BusinessData![0].avgRating).toStringAsFixed(0)}";
+    // int _rating = int.parse(_ratingString);
+    String _ratingString = "0";
+    int _rating = 0;
+
+    if (businessdata.BusinessData != null &&
+        businessdata.BusinessData!.isNotEmpty &&
+        businessdata.BusinessData![0].avgRating != null) {
+      _ratingString = double.parse(businessdata.BusinessData![0].avgRating).toStringAsFixed(0);
+      _rating = int.parse(_ratingString);
+    }
 
     var amenities = data.BusinessData?.amenities;
     var operatingHours = data.BusinessData?.operatingHours;
@@ -779,7 +789,9 @@ class _BusinessInfoHubState extends State<BusinessInfoHub> {
                             operatingHours: operatingHours,
                             operatingHoursMsg: _operatingHoursMsg),
                         SizedBox(height: 20),
-                        BusinessInfoSection(businessdata: businessdata),
+                        // BusinessInfoSection(businessdata: businessdata),
+                        if (businessdata.BusinessData != null)
+                          BusinessInfoSection(businessdata: businessdata),
                       ],
                     ),
                   ),

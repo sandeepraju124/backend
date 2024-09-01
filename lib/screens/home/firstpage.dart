@@ -613,15 +613,35 @@ class _HomePageState extends State<HomePage>
             Text('Activity Overview',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             SizedBox(height: 16),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: [
+            //     _buildActivityStat('Page Visits', '--'),
+            //     _buildActivityStat('Reviews', businessData.BusinessData![0].totalReviews.toString(),
+            //     ),
+            //     // _buildActivityStat('Reviews', '0'),
+            //     _buildActivityStat('Rating', "${double.parse(businessData.BusinessData![0].avgRating).toStringAsFixed(1)}"),
+            //     // _buildActivityStat('Rating', '0.0'),
+            //   ],
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildActivityStat('Page Visits', '--'),
-                _buildActivityStat('Reviews', businessData.BusinessData![0].totalReviews.toString(),
+                _buildActivityStat(
+                    'Reviews',
+                    businessData.BusinessData?.isNotEmpty == true
+                        ? businessData.BusinessData![0].totalReviews.toString() ?? '0'
+                        : '0'
                 ),
-                // _buildActivityStat('Reviews', '0'),
-                _buildActivityStat('Rating', "${double.parse(businessData.BusinessData![0].avgRating).toStringAsFixed(1)}"),
-                // _buildActivityStat('Rating', '0.0'),
+                _buildActivityStat(
+                    'Rating',
+                    businessData.BusinessData?.isNotEmpty == true
+                        ? (businessData.BusinessData![0].avgRating != null
+                        ? double.parse(businessData.BusinessData![0].avgRating).toStringAsFixed(1)
+                        : '0.0')
+                        : '0.0'
+                ),
               ],
             ),
           ],
