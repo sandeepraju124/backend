@@ -202,6 +202,7 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
 
   String generateRandomString(String category, String subCategory) {
     // Get the first 3 letters of the category and subcategory
+    String initialBrand = 'BIZ';
     String categoryPrefix = category.substring(0, 3).toUpperCase();
     String subCategoryPrefix = subCategory.substring(0, 3).toUpperCase();
 
@@ -209,7 +210,7 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
     String randomChars = generateRandomChars(10);
 
     // Concatenate all parts to form the final string
-    return '$categoryPrefix$subCategoryPrefix$randomChars';
+    return '$initialBrand$categoryPrefix$subCategoryPrefix$randomChars';
   }
 
   // String business_uid = generateRandomString(widget.category, widget.Subcategory);
@@ -291,6 +292,8 @@ class _CustomOnboardingServiceState extends State<CustomOnboardingService> {
         'country': "india",
         'category': category,
         'sub_category': subcategory,
+        'address': _address.text,
+        'business_email': _businessEmail.text,
         // 'latitude': data.registrationData['latitude'].toString(),
         // 'longitude': data.registrationData['longitude'].toString(),
         'userid': userid.toString(),
