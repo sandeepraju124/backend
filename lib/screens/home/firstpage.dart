@@ -436,7 +436,7 @@ import 'package:backendapp/screens/redirection.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../chat.dart';
+import '../chat/chat.dart';
 import 'homepage_new.dart';
 
 class HomePage extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import '../provider/chat_provider.dart';
+import '../../provider/chat_provider.dart';
 import 'package:intl/intl.dart';
 
 // class ChatListScreen extends StatelessWidget {
@@ -143,7 +143,9 @@ class ChatListScreen extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundColor: Colors.teal,
                   backgroundImage: otherParticipantImage != null
-                      ? NetworkImage(otherParticipantImage)
+                      ?
+                  // NetworkImage(conversation['participants'][0]['user_image'])
+                  NetworkImage(otherParticipantImage)
                       : null,
                   child: otherParticipantImage == null
                       ? Text(
@@ -197,7 +199,8 @@ class ChatScreen extends StatefulWidget {
   ChatScreen({
     required this.userId,
     required this.businessId,
-    this.conversationId = 'nI63HUrLNBQk77aEHY',
+    // this.conversationId = 'nI63HUrLNBQk77aEHY',
+   required this.conversationId,
   });
 
   @override

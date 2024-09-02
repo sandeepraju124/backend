@@ -337,7 +337,7 @@ import 'package:backendapp/screens/home/bottomnav.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:backendapp/widgets/rating.dart';
-import '../chat.dart';
+import '../chat/chat.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class HomePageNew extends StatefulWidget {

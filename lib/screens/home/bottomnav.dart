@@ -335,7 +335,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../provider/chat_provider.dart';
-import '../chat.dart';
+import '../chat/chat.dart';
 
 class BottomNav extends StatefulWidget {
   final int initialIndex;
@@ -398,9 +398,8 @@ class _BottomNavState extends State<BottomNav> {
         Provider.of<InsightsProvider>(context, listen: false)
             .fetchprofileVisitData(businessUid),
       ]);
-      // var chat = Provider.of<ChatProvider>(context, listen: false).fetchConversations(businessUid);
-      var chat = Provider.of<ChatProvider>(context, listen: false)
-          .fetchConversations("BIZPLUaYVJg3dqD9");
+      var chat = Provider.of<ChatProvider>(context, listen: false).fetchConversations(businessUid);
+      // var chat = Provider.of<ChatProvider>(context, listen: false).fetchConversations("BIZPLUaYVJg3dqD9");
     }
   }
 
