@@ -424,6 +424,8 @@
 //     );
 //   }
 // }
+import 'package:backendapp/provider/insights_provider.dart';
+import 'package:backendapp/screens/home/insights_page.dart';
 import 'package:backendapp/screens/task_progress_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -566,7 +568,7 @@ class _HomePageState extends State<HomePage>
         _buildActionButton(Icons.insights, 'Insights', () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => BottomNav(initialIndex: 1)),
+            MaterialPageRoute(builder: (context) => Insights()),
           );
         }),
         _buildActionButton(Icons.storefront, 'My Business', () {
@@ -602,6 +604,7 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildActivityCard(BusinessDataProvider businessData) {
+    var data = Provider.of<InsightsProvider>(context);
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -627,21 +630,23 @@ class _HomePageState extends State<HomePage>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildActivityStat('Page Visits', '--'),
+                _buildActivityStat('Page Visits',
+                    data.profileVisitData?['total_visits'] ?? '0'),
                 _buildActivityStat(
                     'Reviews',
                     businessData.BusinessData?.isNotEmpty == true
-                        ? businessData.BusinessData![0].totalReviews.toString() ?? '0'
-                        : '0'
-                ),
+                        ? businessData.BusinessData![0].totalReviews.toString()
+                        : '0'),
                 _buildActivityStat(
                     'Rating',
                     businessData.BusinessData?.isNotEmpty == true
+                        // ignore: unnecessary_null_comparison
                         ? (businessData.BusinessData![0].avgRating != null
-                        ? double.parse(businessData.BusinessData![0].avgRating).toStringAsFixed(1)
-                        : '0.0')
-                        : '0.0'
-                ),
+                            ? double.parse(
+                                    businessData.BusinessData![0].avgRating)
+                                .toStringAsFixed(1)
+                            : '0.0')
+                        : '0.0'),
               ],
             ),
           ],
@@ -657,7 +662,7 @@ class _HomePageState extends State<HomePage>
             style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: tgPrimaryColor)),
+                color: tgDarkPrimaryColor)),
         SizedBox(height: 4),
         Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
       ],

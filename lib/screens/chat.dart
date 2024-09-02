@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:backendapp/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -92,8 +93,7 @@ import 'package:intl/intl.dart';
 //   }
 // }
 
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Import for DateFormat
+// Import for DateFormat
 
 class ChatListScreen extends StatelessWidget {
   final String BusinessID;
@@ -115,9 +115,14 @@ class ChatListScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.chat_bubble_outline, size: 80, color: Colors.grey),
+                  Icon(
+                    Icons.chat_bubble_outline,
+                    size: 40,
+                    color: tgLightPrimaryColor,
+                  ),
                   SizedBox(height: 16),
-                  Text('No conversations yet', style: TextStyle(fontSize: 18, color: Colors.grey)),
+                  Text('No conversations yet',
+                      style: TextStyle(fontSize: 13, color: Colors.grey[700])),
                 ],
               ),
             );
@@ -130,14 +135,18 @@ class ChatListScreen extends StatelessWidget {
               final conversation = provider.conversations[index];
 
               // Find the participant that is not the current user/business
-              final otherParticipant = (conversation['participants'] as List<dynamic>)
-                  .firstWhere(
-                    (participant) => (participant['user_id'] != BusinessID && participant['business_id'] != BusinessID),
+              final otherParticipant =
+                  (conversation['participants'] as List<dynamic>).firstWhere(
+                (participant) => (participant['user_id'] != BusinessID &&
+                    participant['business_id'] != BusinessID),
                 orElse: () => null,
               );
 
-              final otherParticipantName = otherParticipant?['user_name'] ?? otherParticipant?['business_name'] ?? 'Unknown';
-              final otherParticipantImage = otherParticipant?['user_image'] ?? otherParticipant?['business_image'];
+              final otherParticipantName = otherParticipant?['user_name'] ??
+                  otherParticipant?['business_name'] ??
+                  'Unknown';
+              final otherParticipantImage = otherParticipant?['user_image'] ??
+                  otherParticipant?['business_image'];
 
               return ListTile(
                 leading: CircleAvatar(
@@ -147,9 +156,9 @@ class ChatListScreen extends StatelessWidget {
                       : null,
                   child: otherParticipantImage == null
                       ? Text(
-                    otherParticipantName.substring(0, 1).toUpperCase(),
-                    style: TextStyle(color: Colors.white),
-                  )
+                          otherParticipantName.substring(0, 1).toUpperCase(),
+                          style: TextStyle(color: Colors.white),
+                        )
                       : null,
                 ),
                 title: Text(
@@ -172,7 +181,8 @@ class ChatListScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ChatScreen(
-                        businessId: otherParticipant?['business_id'] ?? '', // Use empty string if business_id is null
+                        businessId: otherParticipant?['business_id'] ??
+                            '', // Use empty string if business_id is null
                         userId: BusinessID,
                         conversationId: conversation['conversation_id'],
                       ),
@@ -187,7 +197,6 @@ class ChatListScreen extends StatelessWidget {
     );
   }
 }
-
 
 class ChatScreen extends StatefulWidget {
   final String userId;
@@ -243,7 +252,8 @@ class _ChatScreenState extends State<ChatScreen> {
     socket.on('disconnect', (_) => print('Disconnected from server'));
     socket.on('message', _handleIncomingMessage);
 
-    socket.emit('join', {'username': widget.userId, 'room': widget.conversationId});
+    socket.emit(
+        'join', {'username': widget.userId, 'room': widget.conversationId});
   }
 
   void _loadMessages() async {
@@ -254,10 +264,12 @@ class _ChatScreenState extends State<ChatScreen> {
     });
 
     // Load messages from local storage
-    String? storedMessages = _prefs.getString('messages_${widget.conversationId}');
+    String? storedMessages =
+        _prefs.getString('messages_${widget.conversationId}');
     if (storedMessages != null) {
       setState(() {
-        _messages = List<Map<String, dynamic>>.from(json.decode(storedMessages));
+        _messages =
+            List<Map<String, dynamic>>.from(json.decode(storedMessages));
       });
     }
 
@@ -271,13 +283,16 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> _fetchNewMessages() async {
-    String lastMessageTimestamp = _messages.isNotEmpty ? _messages.first['timestamp'] : '0';
+    String lastMessageTimestamp =
+        _messages.isNotEmpty ? _messages.first['timestamp'] : '0';
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:5000/api/conversations/${widget.conversationId}/messages?since=$lastMessageTimestamp'),
+      Uri.parse(
+          'http://10.0.2.2:5000/api/conversations/${widget.conversationId}/messages?since=$lastMessageTimestamp'),
     );
 
     if (response.statusCode == 200) {
-      List<Map<String, dynamic>> newMessages = List<Map<String, dynamic>>.from(json.decode(response.body));
+      List<Map<String, dynamic>> newMessages =
+          List<Map<String, dynamic>>.from(json.decode(response.body));
       setState(() {
         _messages = [...newMessages, ..._messages];
         _isNewConversation = _messages.isEmpty;
@@ -291,7 +306,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _saveMessagesToLocalStorage() {
-    _prefs.setString('messages_${widget.conversationId}', json.encode(_messages));
+    _prefs.setString(
+        'messages_${widget.conversationId}', json.encode(_messages));
   }
 
   void _handleIncomingMessage(dynamic data) {
@@ -303,8 +319,6 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     });
   }
-
-
 
   Future<Map<String, dynamic>?> _sendMessageHttp(String message) async {
     final url = Uri.parse('http://10.0.2.2:5000/api/messages');
@@ -326,13 +340,11 @@ class _ChatScreenState extends State<ChatScreen> {
     if (response.statusCode == 201) {
       print('Message sent and saved to database');
       return json.decode(response.body);
-
     } else {
       print('Failed to send message: ${response.body}');
       return null;
     }
   }
-
 
   void _sendMessage() async {
     if (_messageController.text.isNotEmpty) {
@@ -358,7 +370,9 @@ class _ChatScreenState extends State<ChatScreen> {
         _messageController.clear();
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Message sent via fallback method. It may take longer to appear.')),
+          SnackBar(
+              content: Text(
+                  'Message sent via fallback method. It may take longer to appear.')),
         );
       }
     }
@@ -381,7 +395,8 @@ class _ChatScreenState extends State<ChatScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.businessId,
+          title: Text(
+            widget.businessId,
             // style: TextStyle(fontWeight: FontWeight.bold)
           ),
           backgroundColor: Colors.teal,
@@ -393,8 +408,8 @@ class _ChatScreenState extends State<ChatScreen> {
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : _isNewConversation
-                  ? _buildNewConversationPrompt()
-                  : _buildMessageList(),
+                      ? _buildNewConversationPrompt()
+                      : _buildMessageList(),
             ),
             _buildMessageInput(),
           ],
@@ -456,7 +471,8 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             SizedBox(height: 4),
             Text(
-              DateFormat('MMM d, HH:mm').format(DateTime.parse(message['timestamp'])),
+              DateFormat('MMM d, HH:mm')
+                  .format(DateTime.parse(message['timestamp'])),
               style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
@@ -513,15 +529,18 @@ class _ChatScreenState extends State<ChatScreen> {
     });
 
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:5000/api/conversations/${widget.conversationId}/messages?page=$_page&pageSize=$_pageSize'),
+      Uri.parse(
+          'http://10.0.2.2:5000/api/conversations/${widget.conversationId}/messages?page=$_page&pageSize=$_pageSize'),
     );
 
     if (response.statusCode == 200) {
-      List<Map<String, dynamic>> newMessages = List<Map<String, dynamic>>.from(json.decode(response.body));
+      List<Map<String, dynamic>> newMessages =
+          List<Map<String, dynamic>>.from(json.decode(response.body));
       setState(() {
         // Filter out messages that are already in the list
         newMessages = newMessages.where((newMsg) {
-          return !_messages.any((existingMsg) => existingMsg['message_id'] == newMsg['message_id']);
+          return !_messages.any((existingMsg) =>
+              existingMsg['message_id'] == newMsg['message_id']);
         }).toList();
 
         _messages.addAll(newMessages);

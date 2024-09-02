@@ -5,21 +5,17 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 
 class InsightsProvider extends ChangeNotifier {
-
   Map<String, dynamic>? _reviewData;
   bool _isLoading = false;
 
   Map<String, dynamic>? get reviewData => _reviewData;
   bool get isLoading => _isLoading;
 
-
   Map<String, dynamic>? _profileVisitData;
   bool _isLoadingProfile = false;
 
   Map<String, dynamic>? get profileVisitData => _profileVisitData;
   bool get isLoadingProfile => _isLoadingProfile;
-
-
 
   Future<void> fetchReviewData(String businessUid) async {
     try {
@@ -69,4 +65,3 @@ class InsightsProvider extends ChangeNotifier {
     }
   }
 }
-
