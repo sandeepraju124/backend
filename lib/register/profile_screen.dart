@@ -279,7 +279,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -483,20 +482,6 @@ import 'package:backendapp/utils/navigators.dart';
 //   }
 // }
 
-
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:lottie/lottie.dart';
-
-import 'package:backendapp/provider/businessdata_provider.dart';
-import 'package:backendapp/register/profile_redirect.dart';
-import 'package:backendapp/register/business_selector.dart';
-import 'package:backendapp/screens/redirection.dart';
-import 'package:backendapp/utils/constants.dart';
-import 'package:backendapp/utils/navigators.dart';
-
 class ProfileScreen extends StatefulWidget {
   final bool showBackButton;
   final bool showLogoutButton;
@@ -529,7 +514,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _checkBusiness() {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      Provider.of<BusinessDataProvider>(context, listen: false).getBusinessData("userid", user.uid);
+      Provider.of<BusinessDataProvider>(context, listen: false)
+          .getBusinessData("userid", user.uid);
       print("user id is $user.uid");
     }
   }
@@ -540,20 +526,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         // backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.teal,
         leading: widget.showBackButton
             ? IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        )
+                icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+                onPressed: () => Navigator.pop(context),
+              )
             : null,
-        title: Text('Profile', style: TextStyle(color: Colors.black,
-            // fontWeight: FontWeight.bold
-        )),
+        title: Text('Profile',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500)),
         actions: [
           if (widget.showLogoutButton)
             IconButton(
-              icon: Icon(Icons.logout, color: Colors.red),
+              icon: Icon(Icons.logout, color: Colors.black54),
               onPressed: _onLogoutTap,
             ),
         ],
@@ -575,7 +561,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.all(16.0),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
-                        (context, index) => _buildBusinessCard(data.BusinessData![index], context),
+                    (context, index) =>
+                        _buildBusinessCard(data.BusinessData![index], context),
                     childCount: data.BusinessData?.length ?? 0,
                   ),
                 ),
@@ -615,7 +602,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildBusinessCard(dynamic business, BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 10,
       margin: EdgeInsets.only(bottom: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
@@ -638,7 +625,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Text(
                       business.businessName,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                     SizedBox(height: 4),
                     Text(
@@ -679,7 +667,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _onAddBusinessTap(BuildContext context) async {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => BusinessSelector()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => BusinessSelector()));
   }
 
   void _onLogoutTap() {
@@ -712,7 +701,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _performLogout() {
     FirebaseAuth.instance.signOut().then((_) {
       _removeBusinessUid();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => redirection()));
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => redirection()));
     }).catchError((error) {
       print("Error signing out: $error");
       ScaffoldMessenger.of(context).showSnackBar(

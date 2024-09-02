@@ -360,7 +360,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -372,10 +371,7 @@ import '../../provider/commentprovider.dart';
 import '../../utils/constants.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 
-
-
 class ImprovedCommentSection extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<BusinessDataProvider>(context);
@@ -385,7 +381,8 @@ class ImprovedCommentSection extends StatelessWidget {
     if (data.BusinessData != null &&
         data.BusinessData!.isNotEmpty &&
         data.BusinessData![0].avgRating != null) {
-      _ratingString = double.parse(data.BusinessData![0].avgRating).toStringAsFixed(0);
+      _ratingString =
+          double.parse(data.BusinessData![0].avgRating).toStringAsFixed(0);
       _rating = int.parse(_ratingString);
     }
 
@@ -401,7 +398,8 @@ class ImprovedCommentSection extends StatelessWidget {
                   children: [
                     Text(
                       'Reviews',
-                      // style: Theme.of(context).textTheme.headline5,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(height: 8),
                     Row(
@@ -414,9 +412,9 @@ class ImprovedCommentSection extends StatelessWidget {
                         SizedBox(width: 8),
                         Text(
                           // "5.0",
-                            "${double.parse(data.BusinessData![0].avgRating).toStringAsFixed(1)} . (${data.BusinessData![0].totalReviews})",
+                          "${double.parse(data.BusinessData![0].avgRating).toStringAsFixed(1)} . (${data.BusinessData![0].totalReviews})",
 
-                            // double.parse(data.BusinessData![0].avgRating).toStringAsFixed(1)
+                          // double.parse(data.BusinessData![0].avgRating).toStringAsFixed(1)
                           // '${provider.averageRating.toStringAsFixed(1)} (${provider.comments.length})',
                           // style: Theme.of(context).textTheme.subtitle1,
                         ),
@@ -429,30 +427,31 @@ class ImprovedCommentSection extends StatelessWidget {
             ),
             provider.isLoading
                 ? SliverFillRemaining(
-              child: Center(child: CircularProgressIndicator()),
-            )
+                    child: Center(child: CircularProgressIndicator()),
+                  )
                 : provider.comments.isEmpty
-                ? SliverFillRemaining(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Lottie.asset('assets/business.json', width: 200),
-                    SizedBox(height: 16),
-                    Text(
-                      'Be the first to leave a review!',
-                      // style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                  ],
-                ),
-              ),
-            )
-                : SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (context, index) => _buildCommentCard(context, provider.comments[index]),
-                childCount: provider.comments.length,
-              ),
-            ),
+                    ? SliverFillRemaining(
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset('assets/business.json', width: 200),
+                              SizedBox(height: 16),
+                              Text(
+                                'Be the first to leave a review!',
+                                // style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => _buildCommentCard(
+                              context, provider.comments[index]),
+                          childCount: provider.comments.length,
+                        ),
+                      ),
           ],
         );
       },
@@ -475,7 +474,7 @@ class ImprovedCommentSection extends StatelessWidget {
   Widget _buildCommentCard(BuildContext context, CommentsModels comment) {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      elevation: 2,
+      elevation: 10,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -485,7 +484,7 @@ class ImprovedCommentSection extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage:NetworkImage(comment.profileImageUrl),
+                  backgroundImage: NetworkImage(comment.profileImageUrl),
                   // Image.network(comment.profileImageUrl),
                   // CachedNetworkImageProvider(comment.profileImageUrl),
                   radius: 20,
@@ -495,33 +494,43 @@ class ImprovedCommentSection extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(comment.userName,
-                          // style: Theme.of(context).textTheme.subtitle1
+                      Text(
+                        comment.userName,
+                        // style: Theme.of(context).textTheme.subtitle1
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       Text(
-                        formatCreatedAt(comment.createdAt),
-                        // "2d ago",
-                        // DateFormat('MMM d, yyyy').format(comment.createdAt),
-                        // style: Theme.of(context).textTheme.caption,
-                      ),
+                          formatCreatedAt(
+                            comment.createdAt,
+                          ),
+                          // "2d ago",
+                          // DateFormat('MMM d, yyyy').format(comment.createdAt),
+                          style: TextStyle(
+                            fontSize: 11.2,
+                            color: Colors.grey,
+                          )),
                     ],
                   ),
                 ),
-                _buildRatingStars(comment.rating.toDouble()),
+                // _buildRatingStars(comment.rating.toDouble()),
+                customStars(comment.rating),
               ],
             ),
-            SizedBox(height: 12),
+            SizedBox(height: 17),
             Text(
               comment.comment,
-              // style: Theme.of(context).textTheme.bodyText2,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
             ),
           ],
         ),
       ),
     );
   }
-
-
 }
-
-

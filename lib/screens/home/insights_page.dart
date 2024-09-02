@@ -3,6 +3,7 @@
 import 'package:backendapp/register/select_location.dart';
 import 'package:backendapp/screens/graphs/review_insight.dart';
 import 'package:backendapp/screens/graphs/profile_visit.dart';
+import 'package:backendapp/screens/home/bottomnav.dart';
 import 'package:backendapp/utils/constants.dart';
 import 'package:backendapp/utils/navigators.dart';
 import 'package:backendapp/widgets/linechart.dart';
@@ -35,6 +36,16 @@ class _InsightsState extends State<Insights> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BottomNav(initialIndex: 0)),
+                );
+              },
+              icon: Icon(Icons.keyboard_arrow_left_rounded)),
           elevation: 7,
           backgroundColor: tgPrimaryColor,
           title: Text(
