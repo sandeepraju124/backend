@@ -8,97 +8,26 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../provider/chat_provider.dart';
 import 'package:intl/intl.dart';
 
-// class ChatListScreen extends StatelessWidget {
-//   final String BusinessID;
-//
-//   ChatListScreen({required this.BusinessID});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Conversations',
-//           // style: TextStyle(fontWeight: FontWeight.bold)
-//         ),
-//         backgroundColor: Colors.teal,
-//         elevation: 0,
-//       ),
-//       body: Consumer<ChatProvider>(
-//         builder: (context, provider, child) {
-//           if (provider.conversations.isEmpty) {
-//             return Center(
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Icon(Icons.chat_bubble_outline, size: 80, color: Colors.grey),
-//                   SizedBox(height: 16),
-//                   Text('No conversations yet', style: TextStyle(fontSize: 18, color: Colors.grey)),
-//                 ],
-//               ),
-//             );
-//           }
-//
-//           return ListView.separated(
-//
-//             itemCount: provider.conversations.length,
-//             separatorBuilder: (context, index) => Divider(height: 1),
-//             itemBuilder: (context, index) {
-//               final conversation = provider.conversations[index];
-//               String? otherParticipantId = (conversation['participants'] as List<dynamic>)
-//                   .firstWhere((id) => id != BusinessID, orElse: () => null);
-//
-//               return ListTile(
-//                 leading: CircleAvatar(
-//                   backgroundColor: Colors.teal,
-//                   child: Text(
-//                     otherParticipantId?.substring(0, 1).toUpperCase() ?? '?',
-//                     style: TextStyle(color: Colors.white),
-//                   ),
-//                 ),
-//                 title: Text(
-//                   otherParticipantId ?? 'Unknown',
-//                   // style: TextStyle(fontWeight: FontWeight.bold),
-//                 ),
-//                 subtitle: Text(
-//                   conversation['last_message'],
-//                   maxLines: 1,
-//                   overflow: TextOverflow.ellipsis,
-//                   style: TextStyle(color: Colors.grey),
-//                 ),
-//                 trailing: Text(
-//                   // '2d',
-//                   DateFormat('MMM d').format(DateTime.parse(conversation['updated_at'])),
-//                   style: TextStyle(color: Colors.grey),
-//                 ),
-//                 onTap: () {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                       builder: (context) => ChatScreen(
-//                         // businessId: otherParticipantId!,
-//                         businessId: "otherParticipantId",
-//                         userId: BusinessID,
-//                         conversationId: conversation['conversation_id'],
-//                       ),
-//                     ),
-//                   );
-//                 },
-//               );
-//             },
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
 
-// Import for DateFormat
-
-class ChatListScreen extends StatelessWidget {
+class ChatListScreen extends StatefulWidget {
   final String BusinessID;
 
   ChatListScreen({required this.BusinessID});
+
+  @override
+  _ChatListScreenState createState() => _ChatListScreenState();
+}
+
+class _ChatListScreenState extends State<ChatListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final chatProvider = Provider.of<ChatProvider>(context, listen: false);
+      chatProvider.initializeSocket(widget.BusinessID);
+      chatProvider.fetchConversations(widget.BusinessID);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +47,7 @@ class ChatListScreen extends StatelessWidget {
                   Icon(
                     Icons.chat_bubble_outline,
                     size: 40,
-                    color: tgLightPrimaryColor,
+                    color: Colors.teal,
                   ),
                   SizedBox(height: 16),
                   Text('No conversations yet',
@@ -133,12 +62,9 @@ class ChatListScreen extends StatelessWidget {
             separatorBuilder: (context, index) => Divider(height: 1),
             itemBuilder: (context, index) {
               final conversation = provider.conversations[index];
-
-              // Find the participant that is not the current user/business
-              final otherParticipant =
-                  (conversation['participants'] as List<dynamic>).firstWhere(
-                (participant) => (participant['user_id'] != BusinessID &&
-                    participant['business_id'] != BusinessID),
+              final otherParticipant = (conversation['participants'] as List<dynamic>).firstWhere(
+                    (participant) => (participant['user_id'] != widget.BusinessID &&
+                    participant['business_id'] != widget.BusinessID),
                 orElse: () => null,
               );
 
@@ -152,15 +78,13 @@ class ChatListScreen extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundColor: Colors.teal,
                   backgroundImage: otherParticipantImage != null
-                      ?
-                  // NetworkImage(conversation['participants'][0]['user_image'])
-                  NetworkImage(otherParticipantImage)
+                      ? NetworkImage(otherParticipantImage)
                       : null,
                   child: otherParticipantImage == null
                       ? Text(
-                          otherParticipantName.substring(0, 1).toUpperCase(),
-                          style: TextStyle(color: Colors.white),
-                        )
+                    otherParticipantName.substring(0, 1).toUpperCase(),
+                    style: TextStyle(color: Colors.white),
+                  )
                       : null,
                 ),
                 title: Text(
@@ -175,7 +99,9 @@ class ChatListScreen extends StatelessWidget {
                 ),
                 trailing: Text(
                   "2d",
-                  // DateFormat('MMM d').format(DateTime.parse(conversation['updated_at'])),
+
+                  // _formatTimestamp(conversation['updated_at']
+                  // ),
                   style: TextStyle(color: Colors.grey),
                 ),
                 onTap: () {
@@ -183,9 +109,8 @@ class ChatListScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ChatScreen(
-                        businessId: otherParticipant?['business_id'] ??
-                            '', // Use empty string if business_id is null
-                        userId: BusinessID,
+                        businessId: otherParticipant?['business_id'] ?? '',
+                        userId: widget.BusinessID,
                         conversationId: conversation['conversation_id'],
                       ),
                     ),
@@ -198,7 +123,25 @@ class ChatListScreen extends StatelessWidget {
       ),
     );
   }
+
+  String _formatTimestamp(String timestamp) {
+    final now = DateTime.now();
+    // final messageTime = DateTime.parse(timestamp);
+    final messageTime = DateTime.parse(timestamp).toLocal();
+    final difference = now.difference(messageTime);
+
+    if (difference.inDays > 0) {
+      return '${difference.inDays}d';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}h';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}m';
+    } else {
+      return 'Just now';
+    }
+  }
 }
+
 
 class ChatScreen extends StatefulWidget {
   final String userId;
@@ -208,8 +151,7 @@ class ChatScreen extends StatefulWidget {
   ChatScreen({
     required this.userId,
     required this.businessId,
-    // this.conversationId = 'nI63HUrLNBQk77aEHY',
-   required this.conversationId,
+    this.conversationId = 'nI63HUrLNBQk77aEHY',
   });
 
   @override
@@ -255,8 +197,7 @@ class _ChatScreenState extends State<ChatScreen> {
     socket.on('disconnect', (_) => print('Disconnected from server'));
     socket.on('message', _handleIncomingMessage);
 
-    socket.emit(
-        'join', {'username': widget.userId, 'room': widget.conversationId});
+    socket.emit('join', {'username': widget.userId, 'room': widget.conversationId});
   }
 
   void _loadMessages() async {
@@ -267,12 +208,10 @@ class _ChatScreenState extends State<ChatScreen> {
     });
 
     // Load messages from local storage
-    String? storedMessages =
-        _prefs.getString('messages_${widget.conversationId}');
+    String? storedMessages = _prefs.getString('messages_${widget.conversationId}');
     if (storedMessages != null) {
       setState(() {
-        _messages =
-            List<Map<String, dynamic>>.from(json.decode(storedMessages));
+        _messages = List<Map<String, dynamic>>.from(json.decode(storedMessages));
       });
     }
 
@@ -286,16 +225,13 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> _fetchNewMessages() async {
-    String lastMessageTimestamp =
-        _messages.isNotEmpty ? _messages.first['timestamp'] : '0';
+    String lastMessageTimestamp = _messages.isNotEmpty ? _messages.first['timestamp'] : '0';
     final response = await http.get(
-      Uri.parse(
-          'http://10.0.2.2:5000/api/conversations/${widget.conversationId}/messages?since=$lastMessageTimestamp'),
+      Uri.parse('http://10.0.2.2:5000/api/conversations/${widget.conversationId}/messages?since=$lastMessageTimestamp'),
     );
 
     if (response.statusCode == 200) {
-      List<Map<String, dynamic>> newMessages =
-          List<Map<String, dynamic>>.from(json.decode(response.body));
+      List<Map<String, dynamic>> newMessages = List<Map<String, dynamic>>.from(json.decode(response.body));
       setState(() {
         _messages = [...newMessages, ..._messages];
         _isNewConversation = _messages.isEmpty;
@@ -309,8 +245,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _saveMessagesToLocalStorage() {
-    _prefs.setString(
-        'messages_${widget.conversationId}', json.encode(_messages));
+    _prefs.setString('messages_${widget.conversationId}', json.encode(_messages));
   }
 
   void _handleIncomingMessage(dynamic data) {
@@ -322,6 +257,8 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     });
   }
+
+
 
   Future<Map<String, dynamic>?> _sendMessageHttp(String message) async {
     final url = Uri.parse('http://10.0.2.2:5000/api/messages');
@@ -343,11 +280,13 @@ class _ChatScreenState extends State<ChatScreen> {
     if (response.statusCode == 201) {
       print('Message sent and saved to database');
       return json.decode(response.body);
+
     } else {
       print('Failed to send message: ${response.body}');
       return null;
     }
   }
+
 
   void _sendMessage() async {
     if (_messageController.text.isNotEmpty) {
@@ -373,9 +312,7 @@ class _ChatScreenState extends State<ChatScreen> {
         _messageController.clear();
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-                  'Message sent via fallback method. It may take longer to appear.')),
+          SnackBar(content: Text('Message sent via fallback method. It may take longer to appear.')),
         );
       }
     }
@@ -398,8 +335,7 @@ class _ChatScreenState extends State<ChatScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            widget.businessId,
+          title: Text(widget.businessId,
             // style: TextStyle(fontWeight: FontWeight.bold)
           ),
           backgroundColor: Colors.teal,
@@ -411,8 +347,8 @@ class _ChatScreenState extends State<ChatScreen> {
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : _isNewConversation
-                      ? _buildNewConversationPrompt()
-                      : _buildMessageList(),
+                  ? _buildNewConversationPrompt()
+                  : _buildMessageList(),
             ),
             _buildMessageInput(),
           ],
@@ -474,8 +410,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             SizedBox(height: 4),
             Text(
-              DateFormat('MMM d, HH:mm')
-                  .format(DateTime.parse(message['timestamp'])),
+              DateFormat('MMM d, HH:mm').format(DateTime.parse(message['timestamp'])),
               style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
@@ -532,18 +467,15 @@ class _ChatScreenState extends State<ChatScreen> {
     });
 
     final response = await http.get(
-      Uri.parse(
-          'http://10.0.2.2:5000/api/conversations/${widget.conversationId}/messages?page=$_page&pageSize=$_pageSize'),
+      Uri.parse('http://10.0.2.2:5000/api/conversations/${widget.conversationId}/messages?page=$_page&pageSize=$_pageSize'),
     );
 
     if (response.statusCode == 200) {
-      List<Map<String, dynamic>> newMessages =
-          List<Map<String, dynamic>>.from(json.decode(response.body));
+      List<Map<String, dynamic>> newMessages = List<Map<String, dynamic>>.from(json.decode(response.body));
       setState(() {
         // Filter out messages that are already in the list
         newMessages = newMessages.where((newMsg) {
-          return !_messages.any((existingMsg) =>
-              existingMsg['message_id'] == newMsg['message_id']);
+          return !_messages.any((existingMsg) => existingMsg['message_id'] == newMsg['message_id']);
         }).toList();
 
         _messages.addAll(newMessages);
