@@ -238,7 +238,7 @@ class BusinessHeader extends StatelessWidget {
             backgroundImage:
                 profileImageUrl != null && profileImageUrl.isNotEmpty
                     ? NetworkImage(profileImageUrl)
-                    : AssetImage('assets/default_profile.png') as ImageProvider,
+                    : AssetImage('assets/defaulltdp.png') as ImageProvider,
             backgroundColor: Colors.grey[200],
           ),
         ),

@@ -151,7 +151,8 @@ class ChatScreen extends StatefulWidget {
   ChatScreen({
     required this.userId,
     required this.businessId,
-    this.conversationId = 'nI63HUrLNBQk77aEHY',
+    // this.conversationId = 'nI63HUrLNBQk77aEHY',
+    required this.conversationId,
   });
 
   @override
